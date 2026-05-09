@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefHeight="800.0" prefWidth="1400.0" styleClass="landing-bg" stylesheets="@theme-medical.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.LandingController">
+    <VBox alignment="TOP_CENTER" spacing="40" styleClass="landing-overlay">
+
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 30 20;">
+            <Label text="SHIFAA" style="-fx-text-fill: white; -fx-font-size: 32; -fx-font-weight: bold;" />
+            
+            <Region HBox.hgrow="ALWAYS" />
+            
+            
+            <HBox alignment="CENTER" spacing="15" style="-fx-padding: 0 0 0 50;">
+                <Button onAction="#goToLogin" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 8; -fx-text-fill: white; -fx-padding: 10 25; -fx-font-size: 15; -fx-cursor: hand; -fx-font-weight: bold;" text="Connexion" />
+                <Button onAction="#goToSignUp" style="-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 25; -fx-font-size: 15; -fx-cursor: hand; -fx-font-weight: bold;" text="S'inscrire" />
+            </HBox>
+        </HBox>
+
+        <!-- CENTER: Text & Buttons -->
+        <VBox alignment="CENTER" spacing="15" style="-fx-padding: 20 20;">
+            <Label text="Il est temps de prendre" style="-fx-text-fill: white; -fx-font-size: 70; -fx-font-weight: bold;" />
+            <Label text="votre santé en main." style="-fx-text-fill: white; -fx-font-size: 70; -fx-font-style: italic; -fx-font-weight: bold;" />
+            
+            <Label text="Vos dossiers médicaux et les meilleurs professionnels&#10;de santé, réunis au même endroit." textAlignment="CENTER" style="-fx-text-fill: white; -fx-font-size: 22; -fx-line-spacing: 5;" />
+            
+            <HBox alignment="CENTER" spacing="20" style="-fx-padding: 40 0 0 0;">
+                <Button onAction="#goToSignUp" style="-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 15 35; -fx-font-size: 16; -fx-cursor: hand; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(255,92,92,0.3), 10, 0, 0, 3);" text="Rejoindre Shifaa" />
+                <Button onAction="#goToLogin" style="-fx-background-color: transparent; -fx-border-color: white; -fx-border-radius: 8; -fx-text-fill: white; -fx-padding: 14 35; -fx-font-size: 16; -fx-cursor: hand; -fx-font-weight: bold;" text="J'ai déjà un compte" />
+            </HBox>
+        </VBox>
+
+
+    </VBox>
+</StackPane>

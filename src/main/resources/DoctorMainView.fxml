@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="800.0" prefWidth="1400.0" styleClass="root" stylesheets="@theme-medical.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.DoctorMainController">
+    <left>
+        <AnchorPane prefHeight="800.0" prefWidth="250.0" styleClass="sidebar">
+            <children>
+                <HBox layoutX="20.0" layoutY="30.0" spacing="10" alignment="CENTER_LEFT">
+                    <ImageView fx:id="logoView" fitHeight="35" fitWidth="35" />
+                    <Label text="SHIFAA DOCTEUR" textFill="white">
+                        <font><Font name="System Bold" size="16.0" /></font>
+                    </Label>
+                </HBox>
+
+                <VBox layoutY="100.0" alignment="TOP_CENTER" spacing="10" prefWidth="250.0">
+                    <ImageView fx:id="profileImageView" fitHeight="80" fitWidth="80" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+                        <clip><Circle radius="40" centerX="40" centerY="40" /></clip>
+                    </ImageView>
+                    <Label fx:id="userNameLabel" text="Docteur" textFill="white" style="-fx-font-size: 14; -fx-font-weight: bold;" />
+                </VBox>
+
+                <VBox layoutY="220.0" spacing="5" prefWidth="250.0">
+                    <Button onAction="#goToPatients" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="👥 Mes Patients" />
+                    <Button onAction="#goToProfile" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="👤 Mon Profil" />
+                    <Button onAction="#goToFeedbacks" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="💬 Mes Avis" />
+                    <Button onAction="#logout" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="🚪 Déconnexion" />
+                </VBox>
+            </children>
+        </AnchorPane>
+    </left>
+    <center>
+        <AnchorPane fx:id="contentContainer" prefHeight="800.0" prefWidth="1150.0" style="-fx-background-color: #F7FAFC;" />
+    </center>
+</BorderPane>

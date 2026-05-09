@@ -1,0 +1,238 @@
+/* Fond global */
+.root {
+    -fx-background-color: #F7FAFC;
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-color: #1a202c;
+}
+
+/* Boutons de la sidebar */
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #E2E8F0;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 30;
+    -fx-font-size: 14;
+    -fx-font-weight: normal;
+}
+
+.menu-button:hover {
+    -fx-background-color: #FF5C5C;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.menu-button-active {
+    -fx-background-color: #FF5C5C;
+    -fx-text-fill: white;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 30;
+}
+
+/* Champs de saisie */
+.text-field, .text-area, .password-field {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.text-field:focused, .text-area:focused, .password-field:focused {
+    -fx-border-color: #FF5C5C;
+    -fx-border-width: 2;
+}
+
+/* ComboBox */
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.combo-box:focused {
+    -fx-border-color: #FF5C5C;
+}
+
+/* Bouton principal */
+.btn-primary {
+    -fx-background-color: #FF5C5C;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #e04e4e;
+}
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Barre de défilement */
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #CBD5E0;
+    -fx-background-radius: 10;
+}
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #A0AEC0;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #2d3748;
+}
+
+/* Separator */
+.separator .line {
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1;
+}
+
+/* Cartes */
+.card {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);
+}
+
+/* Alert */
+.dialog-pane {
+    -fx-background-color: white;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #FF5C5C;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Hyperlink */
+.hyperlink {
+    -fx-text-fill: #FF5C5C;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #e04e4e;
+}
+
+/* ImageView circulaire */
+.image-view-circle {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+/* Titre SHIFAA dans la sidebar */
+.sidebar .label {
+    -fx-text-fill: white;
+}
+
+/* Nom de l'utilisateur dans la sidebar */
+#userNameLabel {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Modern List Design */
+.search-group {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);
+}
+
+.btn-search {
+    -fx-background-color: #FF5C5C;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+}
+
+.btn-new {
+    -fx-background-color: #2D3748;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+}
+
+.btn-success {
+    -fx-background-color: #38A169;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 20;
+    -fx-cursor: hand;
+}
+
+.filter-label {
+    -fx-text-fill: #A0AEC0;
+    -fx-font-size: 11;
+}
+
+.status-tag {
+    -fx-background-radius: 15;
+    -fx-padding: 2 10;
+    -fx-font-size: 10;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.status-critique { -fx-background-color: #FEB2B2; -fx-text-fill: #9B2C2C; }
+.status-amelioration { -fx-background-color: #FEEBC8; -fx-text-fill: #9C4221; }
+.status-stable { -fx-background-color: #C6F6D5; -fx-text-fill: #22543D; }
+
+.pagination-button {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 6;
+    -fx-padding: 5 10;
+    -fx-cursor: hand;
+}
+
+.pagination-button-active {
+    -fx-background-color: #FF5C5C;
+    -fx-text-fill: white;
+    -fx-border-color: #FF5C5C;
+}
+
+.landing-bg {
+    -fx-background-image: url("images/dashboard_bg.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: no-repeat;
+}
+
+.landing-overlay {
+    -fx-background-color: rgba(15, 23, 42, 0.75); /* Deep navy overlay for premium feel */
+}
+
+.landing-overlay .label {
+    -fx-text-fill: white !important; /* Force white text to override global label styles */
+}
+
+.dashboard-overlay {
+    -fx-background-color: rgba(247, 250, 252, 0.85);
+}
