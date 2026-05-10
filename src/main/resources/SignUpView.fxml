@@ -31,9 +31,9 @@
                 <Image url="@/heart.png" />
             </ImageView>
 
-            <Label text="SHIFAA" textFill="#FF8C00" style="-fx-font-size: 32; -fx-font-weight: bold;" />
+            <Label text="SHIFAA" textFill="#FF5C5C" style="-fx-font-size: 32; -fx-font-weight: bold;" />
 
-            <Label text="Inscription" textFill="#FFFFFF" style="-fx-font-size: 18;" />
+            <Label text="Inscription" textFill="#FF5C5C" style="-fx-font-size: 18;" />
 
         </VBox>
 
@@ -117,22 +117,37 @@
                         <!-- Champs DOCTEUR -->
                         <VBox fx:id="doctorFields" spacing="15" visible="false" managed="false">
                             <StackPane alignment="TOP_LEFT">
-                                <ComboBox fx:id="specialtyField" promptText="Choisir" prefWidth="250" style="-fx-padding: 8; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <ComboBox fx:id="specialtyField" promptText="Spécialité *" prefWidth="250" style="-fx-padding: 8; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
                                 <Label text=" Spécialité * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
                             </StackPane>
                             <StackPane alignment="TOP_LEFT">
-                                <TextField fx:id="orderNumberField" promptText="Ex: 12345" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <TextField fx:id="orderNumberField" promptText="Numéro d'ordre *" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
                                 <Label text=" Numéro d'ordre * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                            <StackPane alignment="TOP_LEFT">
+                                <TextField fx:id="consultationFeeField" promptText="Frais de consultation (DT) *" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Frais (DT) * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
                             </StackPane>
                         </VBox>
 
-                        <!-- Champs PHARMACIEN / ASSISTANT (simplifiés pour le diff) -->
+                        <!-- Champs PHARMACIEN -->
                         <VBox fx:id="pharmacyFields" spacing="15" visible="false" managed="false">
-                            <TextField fx:id="pharmacyNameField" promptText="Nom pharmacie" style="-fx-padding: 10;" />
-                            <TextField fx:id="licenceNumberField" promptText="Licence" style="-fx-padding: 10;" />
+                            <StackPane alignment="TOP_LEFT">
+                                <TextField fx:id="pharmacyNameField" promptText="Ex: Pharmacie de la Gare" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Nom Pharmacie * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                            <StackPane alignment="TOP_LEFT">
+                                <TextField fx:id="licenceNumberField" promptText="Ex: LIC-123456" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Numéro de Licence * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
                         </VBox>
+
+                        <!-- Champs ASSISTANT -->
                         <VBox fx:id="assistantFields" spacing="15" visible="false" managed="false">
-                            <ComboBox fx:id="doctorSelectionCombo" promptText="Choisir un médecin" prefWidth="250" style="-fx-padding: 8;" />
+                            <StackPane alignment="TOP_LEFT">
+                                <ComboBox fx:id="doctorSelectionCombo" promptText="Sélectionner..." prefWidth="250" style="-fx-padding: 8; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Médecin Référent * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
                         </VBox>
                     </VBox>
                 </HBox>
@@ -145,7 +160,6 @@
                     </HBox>
                 </VBox>
 
-                <Label fx:id="errorLabel" text="" textFill="#FF5C5C" style="-fx-font-size: 10;" />
 
                 <Button onAction="#handleSignUp" text="S'INSCRIRE" style="-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10; -fx-cursor: hand;" prefWidth="520" />
 
@@ -164,6 +178,8 @@
                 <Label fx:id="verificationText" text="Un code a été envoyé à votre adresse e-mail." style="-fx-text-fill: #718096; -fx-font-size: 14;" textAlignment="CENTER" wrapText="true" />
                 
                 <TextField fx:id="verificationCodeField" promptText="Entrez le code à 6 chiffres" style="-fx-padding: 15; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #FF5C5C; -fx-font-size: 16; -fx-alignment: center;" maxWidth="250" />
+                
+                <Label fx:id="errorLabel" text="" textFill="#FF5C5C" style="-fx-font-size: 12;" />
                 
                 <Button onAction="#handleVerifyRegistration" text="CONFIRMER L'INSCRIPTION" style="-fx-background-color: #48BB78; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 15; -fx-cursor: hand;" prefWidth="300" />
                 

@@ -26,9 +26,9 @@
                         <Image url="@/heart.png" />
                     </ImageView>
 
-                    <Label text="SHIFAA" textFill="#FF8C00" style="-fx-font-size: 36; -fx-font-weight: bold;" />
+                    <Label text="SHIFAA" textFill="#FF5C5C" style="-fx-font-size: 32; -fx-font-weight: bold;" />
 
-                    <Label text="Connexion" textFill="#FFFFFF" style="-fx-font-size: 20;" />
+                    <Label text="Connexion" textFill="#FF5C5C" style="-fx-font-size: 20;" />
 
                 </VBox>
 

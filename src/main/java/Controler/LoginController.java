@@ -41,6 +41,15 @@ public class LoginController {
             user authenticatedUser = authenticate(email, password);
 
             if (authenticatedUser != null) {
+                // --- VÉRIFICATION DU STATUT DU COMPTE ---
+                if (authenticatedUser.getAccountStatus() == user.AccountStatus.pending) {
+                    errorLabel.setText("Votre compte est en attente de validation par l'admin.");
+                    return;
+                } else if (authenticatedUser.getAccountStatus() == user.AccountStatus.blocked) {
+                    errorLabel.setText("Votre compte est bloqué. Contactez le support.");
+                    return;
+                }
+
                 String role = authenticatedUser.getRole().name();
                 Main.redirectToSpace(authenticatedUser.getUserId(), role);
             } else {

@@ -139,7 +139,6 @@ public class SignUpController {
 
     @FXML
     private void handleSignUp() {
-        // RESET ERROR
         errorLabel.setText("");
 
         if (!captchaGenerator.validate(captchaInputField.getText())) {
@@ -148,9 +147,30 @@ public class SignUpController {
             return;
         }
 
-        if (firstNameField.getText().isEmpty() || emailField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            errorLabel.setText("Veuillez remplir les champs obligatoires");
+        // --- VALIDATION DES CHAMPS OBLIGATOIRES GÉNÉRAUX ---
+        if (firstNameField.getText().isEmpty() || emailField.getText().isEmpty() || passwordField.getText().isEmpty() || roleCombo.getValue() == null) {
+            errorLabel.setText("Veuillez remplir les champs obligatoires (*)");
             return;
+        }
+
+        Role selectedRole = roleCombo.getValue();
+
+        // --- VALIDATION SPÉCIFIQUE (OBLIGATOIRE) ---
+        if (selectedRole == Role.doctor) {
+            if (specialtyField.getValue() == null || orderNumberField.getText().isEmpty() || consultationFeeField.getText().isEmpty()) {
+                errorLabel.setText("Tous les champs Docteur sont obligatoires (*)");
+                return;
+            }
+        } else if (selectedRole == Role.pharmacist) {
+            if (pharmacyNameField.getText().isEmpty() || licenceNumberField.getText().isEmpty()) {
+                errorLabel.setText("Tous les champs Pharmacie sont obligatoires (*)");
+                return;
+            }
+        } else if (selectedRole == Role.assistant) {
+            if (doctorSelectionCombo.getValue() == null) {
+                errorLabel.setText("Veuillez sélectionner un médecin référent (*)");
+                return;
+            }
         }
 
         try {
@@ -159,21 +179,44 @@ public class SignUpController {
             pendingUser.setLastName(lastNameField.getText());
             pendingUser.setEmail(emailField.getText());
             pendingUser.setPassword(passwordField.getText());
-            pendingUser.setRole(roleCombo.getValue());
+            pendingUser.setRole(selectedRole);
             pendingUser.setAge(Integer.parseInt(ageField.getText()));
             pendingUser.setGender(genderCombo.getValue());
-            pendingUser.setAccountStatus(AccountStatus.active);
             pendingUser.setUserPhoto(base64Image);
+            pendingUser.setAddress(addressArea.getText());
+            pendingUser.setPhone(phoneField.getText());
+            
+            // Gestion des champs spécifiques
+            if (selectedRole == Role.doctor) {
+                pendingUser.setSpecialty(specialtyField.getValue());
+                pendingUser.setOrderNumber(orderNumberField.getText());
+                pendingUser.setConsultationFee(Float.parseFloat(consultationFeeField.getText()));
+            } else if (selectedRole == Role.pharmacist) {
+                pendingUser.setPharmacyName(pharmacyNameField.getText());
+                pendingUser.setLicenceNumber(licenceNumberField.getText());
+            } else if (selectedRole == Role.assistant) {
+                // Associer au docteur sélectionné
+                String docName = doctorSelectionCombo.getValue();
+                user doc = allDoctors.stream()
+                        .filter(d -> ("Dr. " + d.getFirstName() + " " + d.getLastName()).equals(docName))
+                        .findFirst().orElse(null);
+                if (doc != null) pendingUser.setDoctorId(doc.getUserId());
+            }
+
+            // Les comptes professionnels sont désactivés par défaut (attente admin)
+            // Sauf les patients (auto-approuvés)
+            if (selectedRole == Role.patient) {
+                pendingUser.setAccountStatus(AccountStatus.active);
+            } else {
+                pendingUser.setAccountStatus(AccountStatus.pending); // En attente de validation Admin
+            }
 
             generatedVerificationCode = EmailService.generateVerificationCode();
             if (EmailService.sendVerificationEmail(pendingUser.getEmail(), generatedVerificationCode)) {
-                // ICI ON CACHE LE FORMULAIRE ET ON AFFICHE LA SECTION DE VÉRIFICATION
                 signUpForm.setVisible(false);
                 signUpForm.setManaged(false);
-                
                 verificationSection.setVisible(true);
                 verificationSection.setManaged(true);
-                
                 verificationText.setText("Un code a été envoyé à : " + pendingUser.getEmail());
             } else {
                 errorLabel.setText("Erreur d'envoi d'email");
@@ -190,16 +233,16 @@ public class SignUpController {
             try {
                 userService.add(pendingUser);
                 
-                // Alert de succès (dernière alerte)
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Bienvenue");
                 alert.setHeaderText(null);
-                alert.setContentText("Compte créé avec succès !");
+                alert.setContentText("Compte créé avec succès ! En attente de validation admin.");
                 alert.showAndWait();
                 
                 Main.showLoginPage();
-            } catch (SQLException e) {
-                errorLabel.setText("Erreur de sauvegarde");
+            } catch (Exception e) {
+                e.printStackTrace();
+                errorLabel.setText("Erreur : " + e.getMessage());
             }
         } else {
             errorLabel.setText("Code incorrect");

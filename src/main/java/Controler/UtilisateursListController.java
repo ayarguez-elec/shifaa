@@ -297,17 +297,34 @@ public class UtilisateursListController implements Initializable {
 
         HBox actions = new HBox(10);
         actions.setAlignment(Pos.CENTER);
-        Button editBtn = new Button("Modifier");
-        editBtn.setStyle("-fx-background-color: #4A5568; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 15; -fx-cursor: hand; -fx-font-size: 11;");
-        editBtn.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(editBtn, Priority.ALWAYS);
-        editBtn.setOnAction(e -> Main.showAdminEditUser(u));
 
-        Button deleteBtn = new Button("Supprimer");
-        deleteBtn.setStyle("-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 15; -fx-cursor: hand; -fx-font-size: 11;");
-        deleteBtn.setOnAction(e -> deleteUser(u));
-        
-        actions.getChildren().addAll(editBtn, deleteBtn);
+        if (u.getAccountStatus() == AccountStatus.pending) {
+            // --- BOUTONS DE VALIDATION ---
+            Button approveBtn = new Button("Accepter");
+            approveBtn.setStyle("-fx-background-color: #38A169; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 15; -fx-cursor: hand; -fx-font-weight: bold;");
+            approveBtn.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(approveBtn, Priority.ALWAYS);
+            approveBtn.setOnAction(e -> approveUser(u));
+
+            Button rejectBtn = new Button("Refuser");
+            rejectBtn.setStyle("-fx-background-color: #E53E3E; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 15; -fx-cursor: hand; -fx-font-weight: bold;");
+            rejectBtn.setOnAction(e -> deleteUser(u)); // Refuser = Supprimer le compte
+
+            actions.getChildren().addAll(approveBtn, rejectBtn);
+        } else {
+            // --- BOUTONS STANDARDS (MODIFIER/SUPPRIMER) ---
+            Button editBtn = new Button("Modifier");
+            editBtn.setStyle("-fx-background-color: #4A5568; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 15; -fx-cursor: hand; -fx-font-size: 11;");
+            editBtn.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(editBtn, Priority.ALWAYS);
+            editBtn.setOnAction(e -> Main.showAdminEditUser(u));
+
+            Button deleteBtn = new Button("Supprimer");
+            deleteBtn.setStyle("-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 15; -fx-cursor: hand; -fx-font-size: 11;");
+            deleteBtn.setOnAction(e -> deleteUser(u));
+            
+            actions.getChildren().addAll(editBtn, deleteBtn);
+        }
 
         card.getChildren().addAll(header, new Separator(), infoBox, actions);
         return card;
@@ -344,16 +361,28 @@ public class UtilisateursListController implements Initializable {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Confirmation");
         confirm.setHeaderText(null);
-        confirm.setContentText("Supprimer " + u.getFirstName() + " " + u.getLastName() + " ?");
+        confirm.setContentText("Voulez-vous vraiment refuser/supprimer " + u.getFirstName() + " " + u.getLastName() + " ?");
         if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             try {
                 userService.delete(u);
                 loadUsers();
-                showAlert("Succès", "Utilisateur supprimé");
+                showAlert("Succès", "Demande refusée et compte supprimé");
             } catch (SQLException e) {
                 e.printStackTrace();
-                showAlert("Erreur", "Erreur lors de la suppression");
+                showAlert("Erreur", "Erreur lors de l'opération");
             }
+        }
+    }
+
+    private void approveUser(user u) {
+        try {
+            u.setAccountStatus(AccountStatus.active);
+            userService.update(u);
+            loadUsers();
+            showAlert("Succès", "Compte approuvé ! L'utilisateur peut maintenant se connecter.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible d'approuver le compte");
         }
     }
 
