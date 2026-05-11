@@ -450,10 +450,32 @@ public class Main extends Application {
 
     // ========== ADMIN - GESTION DES UTILISATEURS ==========
 
+    public static void showAdminDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/AdminDashboardView.fxml"));
+            Parent content = loader.load();
+            updateActiveContent(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void showAdminUtilisateurs() {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("/UtilisateursListView.fxml"));
             Parent content = loader.load();
+            updateActiveContent(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showAdminPendingUsers() {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/UtilisateursListView.fxml"));
+            Parent content = loader.load();
+            UtilisateursListController controller = loader.getController();
+            controller.filterToPending();
             updateActiveContent(content);
         } catch (Exception e) {
             e.printStackTrace();

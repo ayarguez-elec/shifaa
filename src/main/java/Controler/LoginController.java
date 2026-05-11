@@ -2,6 +2,7 @@ package Controler;
 
 import entities.user;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -18,14 +19,18 @@ public class LoginController {
 
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
+    @FXML private TextField passwordVisible;
+    @FXML private Button eyeBtn;
     @FXML private Label errorLabel;
 
+    private boolean passwordShown = false;
     private userServices userService = new userServices();
 
     @FXML
     private void handleLogin() {
+        // Lire le mot de passe depuis le champ actif
         String email = emailField.getText().trim();
-        String password = passwordField.getText();
+        String password = passwordShown ? passwordVisible.getText() : passwordField.getText();
 
         if (email.isEmpty() || password.isEmpty()) {
             errorLabel.setText("Veuillez remplir tous les champs");
@@ -134,6 +139,32 @@ public class LoginController {
                 errorLabel.setText(message);
             }
         });
+    }
+
+    @FXML
+    private void togglePasswordVisibility() {
+        passwordShown = !passwordShown;
+        if (passwordShown) {
+            // Copier le texte masqué → champ visible
+            passwordVisible.setText(passwordField.getText());
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+            passwordVisible.setVisible(true);
+            passwordVisible.setManaged(true);
+            eyeBtn.setText("🙈");
+            passwordVisible.requestFocus();
+            passwordVisible.positionCaret(passwordVisible.getText().length());
+        } else {
+            // Copier le texte visible → champ masqué
+            passwordField.setText(passwordVisible.getText());
+            passwordVisible.setVisible(false);
+            passwordVisible.setManaged(false);
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
+            eyeBtn.setText("👁");
+            passwordField.requestFocus();
+            passwordField.positionCaret(passwordField.getText().length());
+        }
     }
 
     @FXML

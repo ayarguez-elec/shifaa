@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane prefWidth="1150.0" prefHeight="800.0" style="-fx-background-color: #F7FAFC;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.AdminFeedbackController">
+<AnchorPane prefWidth="1150.0" prefHeight="800.0" style="-fx-background-color: #F7FAFC;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.AdminFeedbackController">
     <VBox spacing="20" style="-fx-padding: 30;" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
         
         <HBox alignment="CENTER_LEFT" spacing="10">

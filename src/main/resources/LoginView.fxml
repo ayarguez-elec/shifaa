@@ -11,9 +11,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.LoginController">
+<ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.LoginController">
     <content>
         <AnchorPane prefHeight="800.0" prefWidth="1400.0" styleClass="root" stylesheets="@theme-medical.css">
 
@@ -43,7 +44,19 @@
 
                         <TextField fx:id="emailField" promptText="Email" style="-fx-padding: 14; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;" prefWidth="350" />
 
-                        <PasswordField fx:id="passwordField" promptText="Mot de passe" style="-fx-padding: 14; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;" prefWidth="350" />
+                        <!-- Champ mot de passe avec œil -->
+                        <StackPane prefWidth="350">
+                            <PasswordField fx:id="passwordField" promptText="Mot de passe"
+                                           style="-fx-padding: 14; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;" />
+                            <TextField fx:id="passwordVisible" promptText="Mot de passe"
+                                       visible="false" managed="false"
+                                       style="-fx-padding: 14; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #E2E8F0;" />
+                            <Button fx:id="eyeBtn" onAction="#togglePasswordVisibility"
+                                    text="👁"
+                                    style="-fx-background-color: transparent; -fx-cursor: hand;
+                                           -fx-font-size: 14; -fx-padding: 0 12 0 0;"
+                                    StackPane.alignment="CENTER_RIGHT" />
+                        </StackPane>
 
                         <Hyperlink onAction="#handleForgotPassword" text="Mot de passe oublié ?" style="-fx-text-fill: #718096; -fx-font-size: 11;" alignment="CENTER_RIGHT" prefWidth="350" />
 

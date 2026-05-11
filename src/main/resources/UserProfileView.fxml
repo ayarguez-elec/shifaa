@@ -12,13 +12,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.UserProfileController">
+<ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.UserProfileController">
     <VBox spacing="30" style="-fx-padding: 40;">
         
         <Label text="Mon Profil" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #2D3748;" />
@@ -34,10 +35,19 @@
 
                 <VBox fx:id="imageButtonsBox" spacing="12">
                     <Button onAction="#chooseImage" text="📷 Choisir une image" maxWidth="Infinity" style="-fx-background-color: #4A5568; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 12; -fx-font-weight: bold; -fx-cursor: hand;" />
+                    <Button onAction="#generateAvatarOptions" text="✨ Générer un Avatar" maxWidth="Infinity" style="-fx-background-color: #9F7AEA; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 12; -fx-font-weight: bold; -fx-cursor: hand;" />
                     <Button onAction="#removeImage" text="🗑 Supprimer image" maxWidth="Infinity" style="-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 12; -fx-font-weight: bold; -fx-cursor: hand;" />
                 </VBox>
                 
                 <Label fx:id="imageStatusLabel" text="Aucune image sélectionnée" style="-fx-text-fill: #A0AEC0; -fx-font-size: 11;" alignment="CENTER" maxWidth="Infinity" />
+
+                <!-- GALERIE D'AVATARS GÉNÉRÉS -->
+                <VBox fx:id="avatarGalleryBox" spacing="10" visible="false" managed="false" style="-fx-padding: 10; -fx-background-color: #F7FAFC; -fx-background-radius: 10; -fx-border-color: #E2E8F0; -fx-border-radius: 10;">
+                    <Label text="Choisissez votre avatar" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #4A5568;" />
+                    <ScrollPane prefHeight="150" style="-fx-background-color: transparent; -fx-background: transparent;">
+                        <FlowPane fx:id="avatarOptionsContainer" hgap="10" vgap="10" prefWrapLength="250" />
+                    </ScrollPane>
+                </VBox>
             </VBox>
 
             <!-- COLONNE DROITE: INFORMATIONS -->

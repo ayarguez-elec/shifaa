@@ -8,12 +8,14 @@ import java.util.List;
 
 public class feedbackServices implements ICrud<feedback> {
 
-    private Connection con = MyDataBase.getInstance().getConnection();
+    private Connection getCon() {
+        return MyDataBase.getInstance().getConnection();
+    }
 
     @Override
     public void add(feedback feedback) throws SQLException {
         String sql = "INSERT INTO feedback (userId, targetType, targetId, rating, comment, creationDate, isAnonyme) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement pst = con.prepareStatement(sql);
+        PreparedStatement pst = getCon().prepareStatement(sql);
         pst.setInt(1, feedback.getUserId());
         pst.setString(2, feedback.getTargetType().name());  // enum to string
         pst.setInt(3, feedback.getTargetId());
@@ -28,7 +30,7 @@ public class feedbackServices implements ICrud<feedback> {
     @Override
     public void delete(feedback feedback) throws SQLException {
         String sql = "DELETE FROM feedback WHERE feedbackId = ?";
-        PreparedStatement pst = con.prepareStatement(sql);
+        PreparedStatement pst = getCon().prepareStatement(sql);
         pst.setInt(1, feedback.getFeedbackId());
         pst.executeUpdate();
         System.out.println("Feedback deleted!");
@@ -38,7 +40,7 @@ public class feedbackServices implements ICrud<feedback> {
     public List<feedback> getAll() throws SQLException {
         List<feedback> list = new ArrayList<>();
         String sql = "SELECT * FROM feedback";
-        Statement st = con.createStatement();
+        Statement st = getCon().createStatement();
         ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
             feedback f = new feedback();
@@ -58,7 +60,7 @@ public class feedbackServices implements ICrud<feedback> {
     @Override
     public void update(feedback feedback) throws SQLException {
         String sql = "UPDATE feedback SET userId=?, targetType=?, targetId=?, rating=?, comment=?, creationDate=?, isAnonyme=? WHERE feedbackId=?";
-        PreparedStatement pst = con.prepareStatement(sql);
+        PreparedStatement pst = getCon().prepareStatement(sql);
         pst.setInt(1, feedback.getUserId());
         pst.setString(2, feedback.getTargetType().name());
         pst.setInt(3, feedback.getTargetId());

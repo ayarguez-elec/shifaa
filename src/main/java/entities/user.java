@@ -31,8 +31,11 @@ public class user
     private String pharmacyName;        // for pharmacists
     private String licenceNumber;       // for pharmacists
     private String userPhoto;
+    private String avatarUrl;           // for generated avatars
+    private String professionalDocument; // PDF for doctors/pharmacists (Base64)
     private int doctorId;               // for assistants (links to a doctor)
     private AccountStatus accountStatus;
+    private java.sql.Timestamp registrationDate;
 
     // Default constructor
     public user() {
@@ -42,7 +45,8 @@ public class user
     public user(String firstName, String lastName, String email, String password,
                 String address, Role role, int age, Gender gender, String phone,
                 String specialty, String orderNumber, float consultationFee,
-                String pharmacyName, String licenceNumber, String userPhoto, int doctorId,
+                String pharmacyName, String licenceNumber, String userPhoto, String avatarUrl,
+                String professionalDocument, int doctorId,
                 AccountStatus accountStatus) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -59,6 +63,8 @@ public class user
         this.pharmacyName = pharmacyName;
         this.licenceNumber = licenceNumber;
         this.userPhoto = userPhoto;
+        this.avatarUrl = avatarUrl;
+        this.professionalDocument = professionalDocument;
         this.doctorId = doctorId;
         this.accountStatus = accountStatus;
     }
@@ -67,7 +73,8 @@ public class user
     public user(int userId, String firstName, String lastName, String email, String password,
                 String address, Role role, int age, Gender gender, String phone,
                 String specialty, String orderNumber, float consultationFee,
-                String pharmacyName, String licenceNumber, String userPhoto, int doctorId,
+                String pharmacyName, String licenceNumber, String userPhoto, String avatarUrl,
+                String professionalDocument, int doctorId,
                 AccountStatus accountStatus) {
         this.userId = userId;
         this.firstName = firstName;
@@ -85,6 +92,8 @@ public class user
         this.pharmacyName = pharmacyName;
         this.licenceNumber = licenceNumber;
         this.userPhoto = userPhoto;
+        this.avatarUrl = avatarUrl;
+        this.professionalDocument = professionalDocument;
         this.doctorId = doctorId;
         this.accountStatus = accountStatus;
     }
@@ -218,6 +227,22 @@ public class user
         this.userPhoto = userPhoto;
     }
 
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getProfessionalDocument() {
+        return professionalDocument;
+    }
+
+    public void setProfessionalDocument(String professionalDocument) {
+        this.professionalDocument = professionalDocument;
+    }
+
     public AccountStatus getAccountStatus() {
         return accountStatus;
     }
@@ -232,6 +257,14 @@ public class user
 
     public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
+    }
+
+    public java.sql.Timestamp getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(java.sql.Timestamp registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     @Override
@@ -252,6 +285,8 @@ public class user
                 ", pharmacyName='" + pharmacyName + '\'' +
                 ", licenceNumber='" + licenceNumber + '\'' +
                 ", userPhoto='" + userPhoto + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", professionalDocument='" + professionalDocument + '\'' +
                 ", doctorId=" + doctorId +
                 ", accountStatus=" + accountStatus +
                 '}';

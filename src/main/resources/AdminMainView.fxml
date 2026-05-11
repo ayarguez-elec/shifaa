@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="800.0" prefWidth="1400.0" styleClass="root" stylesheets="@theme-medical.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.AdminMainController">
+<BorderPane prefHeight="800.0" prefWidth="1400.0" styleClass="root" stylesheets="@theme-medical.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.AdminMainController">
 
     <left>
         <AnchorPane prefHeight="800.0" prefWidth="250.0" styleClass="sidebar">
@@ -38,7 +38,9 @@
 
                 <!-- Menu -->
                 <VBox layoutY="220.0" spacing="5" prefWidth="250.0">
+                    <Button onAction="#goToDashboard" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="🏠 Tableau de Bord" style="-fx-font-weight: bold;" />
                     <Button onAction="#goToUtilisateurs" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="👥 Utilisateurs" />
+                    <Button fx:id="pendingBadgeBtn" onAction="#goToPendingUsers" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="⏳ En attente (0)" style="-fx-text-fill: #ED8936; -fx-font-weight: bold;" />
                     <Button onAction="#goToAvis" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="⭐ Avis" />
                     <Button onAction="#goToProfile" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="👤 Mon Profil" />
                     <Button onAction="#goToEvents" prefHeight="45.0" prefWidth="250.0" styleClass="menu-button" text="📅 Événements" />

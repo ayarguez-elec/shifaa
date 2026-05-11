@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="800.0" prefWidth="1400.0" styleClass="root" stylesheets="@theme-medical.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.AssistantMainController">
+<BorderPane prefHeight="800.0" prefWidth="1400.0" styleClass="root" stylesheets="@theme-medical.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.AssistantMainController">
     <left>
         <AnchorPane prefHeight="800.0" prefWidth="250.0" styleClass="sidebar">
             <children>

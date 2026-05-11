@@ -9,16 +9,17 @@ public class MyDataBase {
     private static MyDataBase instance;
     private Connection connection;
 
-    private final String URL = "jdbc:mysql://localhost:3306/shefaa?useSSL=false&serverTimezone=UTC";
+    private final String URL = "jdbc:mysql://localhost:3306/shefaa?useSSL=false&serverTimezone=UTC&autoReconnect=true&allowPublicKeyRetrieval=true";
     private final String USERNAME = "root";
     private final String PASSWORD = "";
 
     private MyDataBase() {
-        try {
-            // Charger le driver MySQL
-            Class.forName("com.mysql.cj.jdbc.Driver");
+        connect();
+    }
 
-            // Établir la connexion
+    private void connect() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             System.out.println("Connexion à la base de données établie avec succès!");
         } catch (ClassNotFoundException e) {
@@ -38,15 +39,15 @@ public class MyDataBase {
     }
 
     public Connection getConnection() {
-        // Vérifier si la connexion est encore valide
         try {
-            if (connection == null || connection.isClosed()) {
+            // isValid(5) checks if the connection is alive (timeout in seconds)
+            if (connection == null || connection.isClosed() || !connection.isValid(5)) {
                 System.out.println("Reconnexion à la base de données...");
-                instance = new MyDataBase();
-                connection = instance.getConnection();
+                connect();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Erreur lors de la vérification de la connexion: " + e.getMessage());
+            connect();
         }
         return connection;
     }

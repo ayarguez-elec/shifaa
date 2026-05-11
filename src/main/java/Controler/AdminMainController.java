@@ -3,6 +3,7 @@ package Controler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -24,6 +25,9 @@ public class AdminMainController {
     private Label userNameLabel;
 
     @FXML
+    private Button pendingBadgeBtn;
+
+    @FXML
     public void initialize() {
         try {
             Image logo = new Image(getClass().getResourceAsStream("/logo.png"));
@@ -35,7 +39,28 @@ public class AdminMainController {
         }
 
         loadUserInfo();
-        Main.showAdminUtilisateurs();
+        updatePendingBadge();
+        Main.showAdminDashboard();
+    }
+
+    public void updatePendingBadge() {
+        try {
+            services.userServices userService = new services.userServices();
+            long pendingCount = userService.getAll().stream()
+                    .filter(u -> u.getAccountStatus() == entities.user.AccountStatus.pending)
+                    .count();
+            if (pendingBadgeBtn != null) {
+                if (pendingCount > 0) {
+                    pendingBadgeBtn.setText("⏳ En attente (" + pendingCount + ")");
+                    pendingBadgeBtn.setStyle("-fx-text-fill: white; -fx-background-color: #ED8936; -fx-font-weight: bold;");
+                } else {
+                    pendingBadgeBtn.setText("⏳ En attente (0)");
+                    pendingBadgeBtn.setStyle("-fx-text-fill: #718096; -fx-font-weight: normal;");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadUserInfo() {
@@ -45,10 +70,17 @@ public class AdminMainController {
             for (entities.user u : userService.getAll()) {
                 if (u.getUserId() == userId) {
                     userNameLabel.setText(u.getFirstName() + " " + u.getLastName());
-                    // Charger la photo
-                    if (u.getUserPhoto() != null && !u.getUserPhoto().isEmpty()) {
+                    // Charger la photo (Priorité Avatar, sinon Photo Réelle)
+                    String photoBase64 = (u.getAvatarUrl() != null && !u.getAvatarUrl().isEmpty()) ? u.getAvatarUrl() : u.getUserPhoto();
+
+                    // Protection legacy
+                    if (photoBase64 != null && photoBase64.startsWith("generated_")) {
+                        photoBase64 = u.getUserPhoto();
+                    }
+
+                    if (photoBase64 != null && !photoBase64.isEmpty()) {
                         try {
-                            String cleanBase64 = u.getUserPhoto().trim().replaceAll("\\s+", "").replaceAll("\\n", "").replaceAll("\\r", "");
+                            String cleanBase64 = photoBase64.trim().replaceAll("[^A-Za-z0-9+/=]", "");
                             byte[] imageBytes = java.util.Base64.getDecoder().decode(cleanBase64);
                             Image image = new Image(new java.io.ByteArrayInputStream(imageBytes));
                             profileImageView.setImage(image);
@@ -91,6 +123,16 @@ public class AdminMainController {
     @FXML
     private void goToUtilisateurs() {
         Main.showAdminUtilisateurs();
+    }
+
+    @FXML
+    private void goToDashboard() {
+        Main.showAdminDashboard();
+    }
+
+    @FXML
+    private void goToPendingUsers() {
+        Main.showAdminPendingUsers();
     }
 
     @FXML

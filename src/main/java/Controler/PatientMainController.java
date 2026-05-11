@@ -54,9 +54,15 @@ public class PatientMainController implements Initializable {
             for (user u : userService.getAll()) {
                 if (u.getUserId() == userId) {
                     userNameLabel.setText(u.getFirstName() + " " + u.getLastName());
-                    if (u.getUserPhoto() != null && !u.getUserPhoto().isEmpty()) {
+                    String photoBase64 = (u.getAvatarUrl() != null && !u.getAvatarUrl().isEmpty()) ? u.getAvatarUrl() : u.getUserPhoto();
+                    
+                    if (photoBase64 != null && photoBase64.startsWith("generated_")) {
+                        photoBase64 = u.getUserPhoto();
+                    }
+
+                    if (photoBase64 != null && !photoBase64.isEmpty()) {
                         try {
-                            String cleanBase64 = u.getUserPhoto().trim().replaceAll("\\s+", "").replaceAll("\\n", "").replaceAll("\\r", "");
+                            String cleanBase64 = photoBase64.trim().replaceAll("[^A-Za-z0-9+/=]", "");
                             byte[] imageBytes = Base64.getDecoder().decode(cleanBase64);
                             Image image = new Image(new ByteArrayInputStream(imageBytes));
                             profileImageView.setImage(image);

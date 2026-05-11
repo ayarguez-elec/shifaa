@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-<VBox fx:id="chatRoot" prefHeight="480.0" prefWidth="320.0" spacing="0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-border-color: #F1F5F9; -fx-border-radius: 20; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.ChatbotController">
+<VBox fx:id="chatRoot" prefHeight="480.0" prefWidth="320.0" spacing="0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-border-color: #F1F5F9; -fx-border-radius: 20; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.ChatbotController">
     
     <!-- HEADER FRIENDLY & COMPACT -->
     <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #F8FAFC; -fx-padding: 15; -fx-background-radius: 20 20 0 0; -fx-border-color: #EDF2F7; -fx-border-width: 0 0 1 0;">

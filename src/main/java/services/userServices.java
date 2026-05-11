@@ -8,12 +8,61 @@ import java.util.List;
 
 public class userServices implements ICrud<user> {
 
-    private Connection con = MyDataBase.getInstance().getConnection();
+    private Connection getCon() {
+        return MyDataBase.getInstance().getConnection();
+    }
+
+    public userServices() {
+        checkAndAddColumns();
+    }
+
+    private void checkAndAddColumns() {
+        Connection conn = getCon();
+        if (conn == null) {
+            System.err.println("Impossible de vérifier les colonnes : la connexion est nulle.");
+            return;
+        }
+        try {
+            DatabaseMetaData meta = conn.getMetaData();
+            
+            // Check avatar_url
+            ResultSet rs = meta.getColumns(null, null, "user", "avatar_url");
+            if (!rs.next()) {
+                conn.createStatement().execute("ALTER TABLE `user` ADD COLUMN `avatar_url` LONGTEXT DEFAULT NULL");
+                System.out.println("Colonne avatar_url ajoutée en LONGTEXT.");
+            } else {
+                // S'assure que la colonne existante est assez large (au cas où elle était en VARCHAR)
+                conn.createStatement().execute("ALTER TABLE `user` MODIFY COLUMN `avatar_url` LONGTEXT DEFAULT NULL");
+            }
+            
+            // Check professional_document
+            // Check professional_document
+            rs = meta.getColumns(null, null, "user", "professional_document");
+            if (!rs.next()) {
+                conn.createStatement().execute("ALTER TABLE `user` ADD COLUMN `professional_document` LONGTEXT DEFAULT NULL");
+                System.out.println("Colonne professional_document ajoutée avec succès.");
+            }
+            
+            // Check registration_date
+            rs = meta.getColumns(null, null, "user", "registration_date");
+            if (!rs.next()) {
+                conn.createStatement().execute("ALTER TABLE `user` ADD COLUMN `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+                System.out.println("Colonne registration_date ajoutée avec succès.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la vérification/ajout des colonnes : " + e.getMessage());
+        }
+    }
 
     @Override
     public void add(user user) throws SQLException {
-        String sql = "INSERT INTO `user` (`firstName`, `lastName`, `email`, `password`, `address`, `role`, `age`, `gender`, `phone`, `specialty`, `orderNumber`, `consultationFee`, `pharmacyName`, `licenceNumber`, `userPhoto`, `accountStatus`, `doctorId`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement pst = con.prepareStatement(sql);
+        Connection conn = getCon();
+        if (conn == null) {
+            System.err.println("Échec de l'ajout : connexion DB nulle.");
+            return;
+        }
+        String sql = "INSERT INTO `user` (`firstName`, `lastName`, `email`, `password`, `address`, `role`, `age`, `gender`, `phone`, `specialty`, `orderNumber`, `consultationFee`, `pharmacyName`, `licenceNumber`, `userPhoto`, `avatar_url`, `professional_document`, `accountStatus`, `doctorId`, `registration_date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, user.getFirstName());
         pst.setString(2, user.getLastName());
         pst.setString(3, user.getEmail());
@@ -29,16 +78,21 @@ public class userServices implements ICrud<user> {
         pst.setString(13, user.getPharmacyName() != null ? user.getPharmacyName() : "");
         pst.setString(14, user.getLicenceNumber() != null ? user.getLicenceNumber() : "");
         pst.setString(15, user.getUserPhoto() != null ? user.getUserPhoto() : "");
-        pst.setString(16, user.getAccountStatus().name());
-        pst.setInt(17, user.getDoctorId());
+        pst.setString(16, user.getAvatarUrl() != null ? user.getAvatarUrl() : "");
+        pst.setString(17, user.getProfessionalDocument() != null ? user.getProfessionalDocument() : "");
+        pst.setString(18, user.getAccountStatus().name());
+        pst.setInt(19, user.getDoctorId());
+        pst.setTimestamp(20, new java.sql.Timestamp(System.currentTimeMillis()));
         pst.executeUpdate();
         System.out.println("Utilisateur ajouté avec succès !");
     }
 
     @Override
     public void delete(user user) throws SQLException {
+        Connection conn = getCon();
+        if (conn == null) return;
         String sql = "DELETE FROM `user` WHERE `userId` = ?";
-        PreparedStatement pst = con.prepareStatement(sql);
+        PreparedStatement pst = conn.prepareStatement(sql);
         pst.setInt(1, user.getUserId());
         pst.executeUpdate();
         System.out.println("Utilisateur supprimé !");
@@ -47,8 +101,10 @@ public class userServices implements ICrud<user> {
     @Override
     public List<user> getAll() throws SQLException {
         List<user> users = new ArrayList<>();
+        Connection conn = getCon();
+        if (conn == null) return users;
         String sql = "SELECT * FROM `user`";
-        Statement st = con.createStatement();
+        Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
         while (rs.next()) {
             user u = new user();
@@ -76,6 +132,19 @@ public class userServices implements ICrud<user> {
             u.setPharmacyName(rs.getString("pharmacyName"));
             u.setLicenceNumber(rs.getString("licenceNumber"));
             u.setUserPhoto(rs.getString("userPhoto"));
+            
+            try {
+                u.setAvatarUrl(rs.getString("avatar_url"));
+            } catch (SQLException e) {
+                u.setAvatarUrl(null);
+            }
+
+            try {
+                u.setProfessionalDocument(rs.getString("professional_document"));
+            } catch (SQLException e) {
+                u.setProfessionalDocument(null);
+            }
+
             String statusStr = rs.getString("accountStatus");
             if (statusStr != null) {
                 try {
@@ -88,8 +157,13 @@ public class userServices implements ICrud<user> {
             try {
                 u.setDoctorId(rs.getInt("doctorId"));
             } catch (SQLException e) {
-                // Column might not exist yet
                 u.setDoctorId(0);
+            }
+            
+            try {
+                u.setRegistrationDate(rs.getTimestamp("registration_date"));
+            } catch (SQLException e) {
+                u.setRegistrationDate(null);
             }
             
             users.add(u);
@@ -99,8 +173,10 @@ public class userServices implements ICrud<user> {
 
     @Override
     public void update(user user) throws SQLException {
-        String sql = "UPDATE `user` SET `firstName`=?, `lastName`=?, `email`=?, `password`=?, `address`=?, `role`=?, `age`=?, `gender`=?, `phone`=?, `specialty`=?, `orderNumber`=?, `consultationFee`=?, `pharmacyName`=?, `licenceNumber`=?, `userPhoto`=?, `accountStatus`=?, `doctorId`=? WHERE `userId`=?";
-        PreparedStatement pst = con.prepareStatement(sql);
+        Connection conn = getCon();
+        if (conn == null) return;
+        String sql = "UPDATE `user` SET `firstName`=?, `lastName`=?, `email`=?, `password`=?, `address`=?, `role`=?, `age`=?, `gender`=?, `phone`=?, `specialty`=?, `orderNumber`=?, `consultationFee`=?, `pharmacyName`=?, `licenceNumber`=?, `userPhoto`=?, `avatar_url`=?, `professional_document`=?, `accountStatus`=?, `doctorId`=? WHERE `userId`=?";
+        PreparedStatement pst = conn.prepareStatement(sql);
         pst.setString(1, user.getFirstName());
         pst.setString(2, user.getLastName());
         pst.setString(3, user.getEmail());
@@ -116,9 +192,11 @@ public class userServices implements ICrud<user> {
         pst.setString(13, user.getPharmacyName() != null ? user.getPharmacyName() : "");
         pst.setString(14, user.getLicenceNumber() != null ? user.getLicenceNumber() : "");
         pst.setString(15, user.getUserPhoto() != null ? user.getUserPhoto() : "");
-        pst.setString(16, user.getAccountStatus().name());
-        pst.setInt(17, user.getDoctorId());
-        pst.setInt(18, user.getUserId());
+        pst.setString(16, user.getAvatarUrl() != null ? user.getAvatarUrl() : "");
+        pst.setString(17, user.getProfessionalDocument() != null ? user.getProfessionalDocument() : "");
+        pst.setString(18, user.getAccountStatus().name());
+        pst.setInt(19, user.getDoctorId());
+        pst.setInt(20, user.getUserId());
         pst.executeUpdate();
         System.out.println("Utilisateur mis à jour !");
     }

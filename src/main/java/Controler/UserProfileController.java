@@ -7,8 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 import services.userServices;
+import services.AvatarService;
 import tests.Main;
 
 import java.io.ByteArrayInputStream;
@@ -51,9 +53,14 @@ public class UserProfileController {
     @FXML private PasswordField confirmNewPasswordField;
     @FXML private HBox actionButtonsBox;
 
+    @FXML private VBox avatarGalleryBox;
+    @FXML private FlowPane avatarOptionsContainer;
+
     private user currentUser;
     private userServices userService = new userServices();
+    private AvatarService avatarService = new AvatarService();
     private String base64Image = null;
+    private String selectedAvatarUrl = null;
 
     @FXML
     public void initialize() {
@@ -80,6 +87,7 @@ public class UserProfileController {
                 addressArea.setText(currentUser.getAddress());
                 
                 base64Image = currentUser.getUserPhoto();
+                selectedAvatarUrl = currentUser.getAvatarUrl();
                 loadProfileImage();
                 setupRoleSpecificFields();
                 toggleEditMode(false); // Mode lecture seule par défaut
@@ -138,6 +146,8 @@ public class UserProfileController {
         if (!enable) {
             newPasswordField.clear();
             confirmNewPasswordField.clear();
+            avatarGalleryBox.setVisible(false);
+            avatarGalleryBox.setManaged(false);
         }
     }
 
@@ -183,19 +193,27 @@ public class UserProfileController {
     }
 
     private void loadProfileImage() {
-        if (base64Image != null && !base64Image.trim().isEmpty()) {
+        String photoToLoad = (selectedAvatarUrl != null && !selectedAvatarUrl.isEmpty()) ? selectedAvatarUrl : base64Image;
+
+        // Protection contre les anciennes données de test (contenant 'generated_')
+        if (photoToLoad != null && photoToLoad.startsWith("generated_")) {
+            photoToLoad = (base64Image != null && !base64Image.startsWith("generated_")) ? base64Image : null;
+        }
+
+        if (photoToLoad != null && !photoToLoad.trim().isEmpty()) {
             try {
-                String clean = base64Image.trim().replaceAll("\\s+", "");
+                // Nettoyage rigoureux de la chaîne Base64
+                String clean = photoToLoad.trim().replaceAll("[^A-Za-z0-9+/=]", "");
                 byte[] bytes = Base64.getDecoder().decode(clean);
                 profileImageView.setImage(new Image(new ByteArrayInputStream(bytes)));
-                imageStatusLabel.setText("Image chargée");
+                imageStatusLabel.setText(selectedAvatarUrl != null && !selectedAvatarUrl.isEmpty() ? "Avatar 3D chargé" : "Photo réelle chargée");
                 return;
             } catch (Exception e) {
-                System.err.println("Erreur image: " + e.getMessage());
+                System.err.println("Erreur décodage image: " + e.getMessage());
             }
         }
         profileImageView.setImage(new Image("https://cdn-icons-png.flaticon.com/512/149/149071.png"));
-        imageStatusLabel.setText("Aucune image sélectionnée");
+        imageStatusLabel.setText("Aucune image");
     }
 
     @FXML
@@ -253,10 +271,49 @@ public class UserProfileController {
     @FXML
     private void removeImage() {
         base64Image = "";
+        selectedAvatarUrl = "";
         profileImageView.setImage(new Image("https://cdn-icons-png.flaticon.com/512/149/149071.png"));
         imageStatusLabel.setText("Image supprimée");
     }
 
+    @FXML
+    private void generateAvatarOptions() {
+        if (currentUser == null) {
+            showAlert("Erreur", "Données utilisateur non chargées. Veuillez vérifier votre connexion base de données.");
+            return;
+        }
+
+        avatarGalleryBox.setVisible(true);
+        avatarGalleryBox.setManaged(true);
+        avatarOptionsContainer.getChildren().clear();
+
+        try {
+            String seed = currentUser.getEmail() != null ? currentUser.getEmail() : "default_seed";
+            java.util.List<String> options = avatarService.generateAvatarOptions(seed, 6);
+            for (String base64 : options) {
+                if (base64 == null || base64.isEmpty()) continue;
+                
+                ImageView optionView = new ImageView(new Image(new ByteArrayInputStream(Base64.getDecoder().decode(base64))));
+                optionView.setFitHeight(100);
+                optionView.setFitWidth(100);
+                optionView.setCursor(javafx.scene.Cursor.HAND);
+                optionView.setStyle("-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5); -fx-background-radius: 10;");
+                
+                optionView.setOnMouseClicked(e -> {
+                    // On garde la vraie photo intacte (base64Image) pour le Face ID
+                    // On n'enregistre l'avatar que dans selectedAvatarUrl pour l'affichage
+                    selectedAvatarUrl = base64; 
+                    profileImageView.setImage(optionView.getImage());
+                    imageStatusLabel.setText("Avatar 3D sélectionné (L'avatar sera affiché, mais votre photo réelle reste active pour le Face ID)");
+                });
+
+                avatarOptionsContainer.getChildren().add(optionView);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible de générer les avatars : " + e.getMessage());
+        }
+    }
     @FXML
     private void saveProfile() {
         try {
@@ -279,6 +336,7 @@ public class UserProfileController {
             currentUser.setGender(genderCombo.getValue().equals("Homme") ? user.Gender.M : user.Gender.F);
             currentUser.setAddress(addressArea.getText());
             currentUser.setUserPhoto(base64Image);
+            currentUser.setAvatarUrl(selectedAvatarUrl);
 
             if (currentUser.getRole() == user.Role.doctor) {
                 currentUser.setSpecialty(specialtyField.getText());

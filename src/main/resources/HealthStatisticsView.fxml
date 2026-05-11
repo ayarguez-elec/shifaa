@@ -5,7 +5,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1100.0" style="-fx-background-color: #F8FAFC;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.HealthStatisticsController">
+<AnchorPane prefHeight="750.0" prefWidth="1100.0" style="-fx-background-color: #F8FAFC;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.HealthStatisticsController">
     <children>
         <VBox spacing="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>

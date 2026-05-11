@@ -52,7 +52,7 @@ public class UtilisateursListController implements Initializable {
         statusFilter.setItems(FXCollections.observableArrayList("Tous", "Actif", "En attente", "Suspendu", "Bloqué"));
         statusFilter.setValue("Tous");
 
-        sortComboBox.setItems(FXCollections.observableArrayList("Ordre alphabétique", "A - Z", "Z - A"));
+        sortComboBox.setItems(FXCollections.observableArrayList("Ordre alphabétique", "A - Z", "Z - A", "Plus récents"));
         sortComboBox.setValue("Ordre alphabétique");
 
         loadUsers();
@@ -139,6 +139,12 @@ public class UtilisateursListController implements Initializable {
             filtered.sort((u1, u2) -> (u1.getFirstName() + u1.getLastName()).compareToIgnoreCase(u2.getFirstName() + u2.getLastName()));
         } else if ("Z - A".equals(sortOrder)) {
             filtered.sort((u1, u2) -> (u2.getFirstName() + u2.getLastName()).compareToIgnoreCase(u1.getFirstName() + u1.getLastName()));
+        } else if ("Plus récents".equals(sortOrder)) {
+            filtered.sort((u1, u2) -> {
+                if (u1.getRegistrationDate() == null) return 1;
+                if (u2.getRegistrationDate() == null) return -1;
+                return u2.getRegistrationDate().compareTo(u1.getRegistrationDate());
+            });
         }
 
         filteredUsersList.setAll(filtered);
@@ -151,7 +157,16 @@ public class UtilisateursListController implements Initializable {
     private void resetFilters() {
         roleFilter.setValue("Tous");
         statusFilter.setValue("Tous");
+        sortComboBox.setValue("Ordre alphabétique");
         searchField.clear();
+        currentPage = 1;
+        filterUsers();
+    }
+
+    /** Called from Main.showAdminPendingUsers() to pre-filter to pending accounts **/
+    public void filterToPending() {
+        statusFilter.setValue("En attente");
+        sortComboBox.setValue("Plus récents");
         currentPage = 1;
         filterUsers();
     }
@@ -310,7 +325,23 @@ public class UtilisateursListController implements Initializable {
             rejectBtn.setStyle("-fx-background-color: #E53E3E; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 15; -fx-cursor: hand; -fx-font-weight: bold;");
             rejectBtn.setOnAction(e -> deleteUser(u)); // Refuser = Supprimer le compte
 
-            actions.getChildren().addAll(approveBtn, rejectBtn);
+            HBox pendingActions = new HBox(10);
+            pendingActions.setAlignment(Pos.CENTER);
+            pendingActions.getChildren().addAll(approveBtn, rejectBtn);
+
+            VBox pendingContainer = new VBox(10);
+            pendingContainer.setAlignment(Pos.CENTER);
+            
+            if (u.getProfessionalDocument() != null && !u.getProfessionalDocument().isEmpty()) {
+                Button viewDocBtn = new Button("👁 Voir Document (PDF)");
+                viewDocBtn.setStyle("-fx-background-color: #4A5568; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8; -fx-cursor: hand; -fx-font-size: 11;");
+                viewDocBtn.setMaxWidth(Double.MAX_VALUE);
+                viewDocBtn.setOnAction(e -> viewDocument(u));
+                pendingContainer.getChildren().add(viewDocBtn);
+            }
+            
+            pendingContainer.getChildren().add(pendingActions);
+            actions.getChildren().add(pendingContainer);
         } else {
             // --- BOUTONS STANDARDS (MODIFIER/SUPPRIMER) ---
             Button editBtn = new Button("Modifier");
@@ -366,6 +397,7 @@ public class UtilisateursListController implements Initializable {
             try {
                 userService.delete(u);
                 loadUsers();
+                refreshAdminBadge();
                 showAlert("Succès", "Demande refusée et compte supprimé");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -374,11 +406,31 @@ public class UtilisateursListController implements Initializable {
         }
     }
 
+    private void viewDocument(user u) {
+        if (u.getProfessionalDocument() == null || u.getProfessionalDocument().isEmpty()) return;
+
+        try {
+            byte[] pdfBytes = Base64.getDecoder().decode(u.getProfessionalDocument());
+            java.io.File tempFile = java.io.File.createTempFile("doc_" + u.getFirstName() + "_", ".pdf");
+            java.nio.file.Files.write(tempFile.toPath(), pdfBytes);
+            
+            if (java.awt.Desktop.isDesktopSupported()) {
+                java.awt.Desktop.getDesktop().open(tempFile);
+            } else {
+                showAlert("Erreur", "L'ouverture de fichiers n'est pas supportée sur ce système");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Impossible d'ouvrir le document PDF");
+        }
+    }
+
     private void approveUser(user u) {
         try {
             u.setAccountStatus(AccountStatus.active);
             userService.update(u);
             loadUsers();
+            refreshAdminBadge();
             showAlert("Succès", "Compte approuvé ! L'utilisateur peut maintenant se connecter.");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -389,6 +441,33 @@ public class UtilisateursListController implements Initializable {
     @FXML
     private void goToAddUser() {
         Main.showAdminAddUser();
+    }
+
+    private void refreshAdminBadge() {
+        // Rafraîchit le badge dans la sidebar admin
+        javafx.scene.Scene scene = cardsContainer.getScene();
+        if (scene != null) {
+            javafx.scene.Node root = scene.getRoot();
+            if (root != null) {
+                javafx.scene.control.Button btn = (javafx.scene.control.Button) root.lookup("#pendingBadgeBtn");
+                if (btn != null) {
+                    try {
+                        long pendingCount = userService.getAll().stream()
+                                .filter(u -> u.getAccountStatus() == AccountStatus.pending)
+                                .count();
+                        if (pendingCount > 0) {
+                            btn.setText("⏳ En attente (" + pendingCount + ")");
+                            btn.setStyle("-fx-text-fill: white; -fx-background-color: #ED8936; -fx-font-weight: bold;");
+                        } else {
+                            btn.setText("⏳ En attente (0)");
+                            btn.setStyle("-fx-text-fill: #718096; -fx-font-weight: normal;");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 
     private String getRoleText(Role role) {

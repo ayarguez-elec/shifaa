@@ -6,6 +6,6 @@ public class Config {
     public static final String GOOGLE_CLIENT_SECRET = "VOTRE_SECRET_GOOGLE";
 
     // Configuration Email (Gmail)
-    public static final String EMAIL_USERNAME = "VOTRE_EMAIL_ICI";
-    public static final String EMAIL_PASSWORD = "VOTRE_MOT_DE_PASSE_D_APPLICATION";
+    public static final String EMAIL_USERNAME = "shifaa.health.app@gmail.com";
+    public static final String EMAIL_PASSWORD = "yokmuajgsfcabhkx";
 }

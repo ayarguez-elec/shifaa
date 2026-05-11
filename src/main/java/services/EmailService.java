@@ -20,10 +20,12 @@ public class EmailService {
         // Paramètres pour le serveur SMTP de Gmail
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.port", "465");
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
+        System.out.println("Tentative d'envoi d'e-mail avec : " + Config.EMAIL_USERNAME);
         // Authentification
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
@@ -59,9 +61,10 @@ public class EmailService {
     public static boolean sendResetPasswordEmail(String toEmail, String code) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.port", "465");
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
         Session session = Session.getInstance(props, new Authenticator() {
             @Override

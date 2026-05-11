@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="800.0" prefWidth="1400.0" styleClass="landing-bg" stylesheets="@theme-medical.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.LandingController">
+<StackPane prefHeight="800.0" prefWidth="1400.0" styleClass="landing-bg" stylesheets="@theme-medical.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.LandingController">
     <VBox alignment="TOP_CENTER" spacing="40" styleClass="landing-overlay">
 
         <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 30 20;">

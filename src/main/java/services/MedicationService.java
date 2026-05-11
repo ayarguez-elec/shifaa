@@ -8,7 +8,9 @@ import java.util.List;
 
 public class MedicationService {
 
-    private Connection con = MyDataBase.getInstance().getConnection();
+    private Connection getCon() {
+        return MyDataBase.getInstance().getConnection();
+    }
 
     public MedicationService() {
         createTableIfNotExists();
@@ -25,7 +27,7 @@ public class MedicationService {
                 "FOREIGN KEY (userId) REFERENCES user(userId) ON DELETE CASCADE" +
                 ")";
         try {
-            Statement st = con.createStatement();
+            Statement st = getCon().createStatement();
             st.execute(sql);
         } catch (SQLException e) {
             System.err.println("Erreur creation table medication_reminder : " + e.getMessage());
@@ -34,7 +36,7 @@ public class MedicationService {
 
     public void add(MedicationReminder m) throws SQLException {
         String sql = "INSERT INTO `medication_reminder` (`userId`, `medName`, `dosage`, `time`, `taken`) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement pst = con.prepareStatement(sql);
+        PreparedStatement pst = getCon().prepareStatement(sql);
         pst.setInt(1, m.getUserId());
         pst.setString(2, m.getMedName());
         pst.setString(3, m.getDosage());
@@ -45,7 +47,7 @@ public class MedicationService {
 
     public void updateStatus(int id, boolean taken) throws SQLException {
         String sql = "UPDATE `medication_reminder` SET `taken` = ? WHERE `id` = ?";
-        PreparedStatement pst = con.prepareStatement(sql);
+        PreparedStatement pst = getCon().prepareStatement(sql);
         pst.setBoolean(1, taken);
         pst.setInt(2, id);
         pst.executeUpdate();
@@ -53,7 +55,7 @@ public class MedicationService {
 
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM `medication_reminder` WHERE `id` = ?";
-        PreparedStatement pst = con.prepareStatement(sql);
+        PreparedStatement pst = getCon().prepareStatement(sql);
         pst.setInt(1, id);
         pst.executeUpdate();
     }
@@ -61,7 +63,7 @@ public class MedicationService {
     public List<MedicationReminder> getByUserId(int userId) throws SQLException {
         List<MedicationReminder> list = new ArrayList<>();
         String sql = "SELECT * FROM `medication_reminder` WHERE `userId` = ? ORDER BY `time` ASC";
-        PreparedStatement pst = con.prepareStatement(sql);
+        PreparedStatement pst = getCon().prepareStatement(sql);
         pst.setInt(1, userId);
         ResultSet rs = pst.executeQuery();
         while (rs.next()) {

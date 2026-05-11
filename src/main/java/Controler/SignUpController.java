@@ -37,12 +37,17 @@ public class SignUpController {
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
+    @FXML private TextField passwordVisible;
+    @FXML private TextField confirmPasswordVisible;
+    private boolean passwordShown = false;
+    private boolean confirmPasswordShown = false;
     @FXML private TextField phoneField;
     @FXML private TextField ageField;
     @FXML private ComboBox<Gender> genderCombo;
     @FXML private TextArea addressArea;
     @FXML private ComboBox<Role> roleCombo;
     @FXML private Label errorLabel;
+    @FXML private Label errorLabelSignUp;
 
     @FXML private ImageView profileImageView;
     @FXML private Label photoStatus;
@@ -61,6 +66,9 @@ public class SignUpController {
     @FXML private VBox pharmacyFields;
     @FXML private TextField pharmacyNameField;
     @FXML private TextField licenceNumberField;
+    @FXML private Label documentStatus;
+    @FXML private Label documentStatusPharma;
+    private String base64Document = "";
 
     @FXML private VBox assistantFields;
     @FXML private ComboBox<String> doctorSelectionCombo;
@@ -124,6 +132,7 @@ public class SignUpController {
 
     @FXML private void choosePhoto() {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
             try {
@@ -137,19 +146,79 @@ public class SignUpController {
         }
     }
 
+    @FXML private void chooseDocument() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir un document PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Documents", "*.pdf"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try {
+                byte[] fileContent = java.nio.file.Files.readAllBytes(selectedFile.toPath());
+                base64Document = Base64.getEncoder().encodeToString(fileContent);
+                String fileName = selectedFile.getName();
+                if (documentStatus != null) documentStatus.setText(fileName);
+                if (documentStatusPharma != null) documentStatusPharma.setText(fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+                errorLabel.setText("Erreur lors de la lecture du fichier");
+            }
+        }
+    }
+
+    @FXML
+    private void togglePasswordVisibility() {
+        passwordShown = !passwordShown;
+        if (passwordShown) {
+            passwordVisible.setText(passwordField.getText());
+            passwordField.setVisible(false);  passwordField.setManaged(false);
+            passwordVisible.setVisible(true); passwordVisible.setManaged(true);
+            passwordVisible.requestFocus();
+            passwordVisible.positionCaret(passwordVisible.getText().length());
+        } else {
+            passwordField.setText(passwordVisible.getText());
+            passwordVisible.setVisible(false); passwordVisible.setManaged(false);
+            passwordField.setVisible(true);    passwordField.setManaged(true);
+            passwordField.requestFocus();
+            passwordField.positionCaret(passwordField.getText().length());
+        }
+    }
+
+    @FXML
+    private void toggleConfirmPasswordVisibility() {
+        confirmPasswordShown = !confirmPasswordShown;
+        if (confirmPasswordShown) {
+            confirmPasswordVisible.setText(confirmPasswordField.getText());
+            confirmPasswordField.setVisible(false);  confirmPasswordField.setManaged(false);
+            confirmPasswordVisible.setVisible(true);  confirmPasswordVisible.setManaged(true);
+            confirmPasswordVisible.requestFocus();
+            confirmPasswordVisible.positionCaret(confirmPasswordVisible.getText().length());
+        } else {
+            confirmPasswordField.setText(confirmPasswordVisible.getText());
+            confirmPasswordVisible.setVisible(false); confirmPasswordVisible.setManaged(false);
+            confirmPasswordField.setVisible(true);    confirmPasswordField.setManaged(true);
+            confirmPasswordField.requestFocus();
+            confirmPasswordField.positionCaret(confirmPasswordField.getText().length());
+        }
+    }
+
     @FXML
     private void handleSignUp() {
         errorLabel.setText("");
+        errorLabelSignUp.setText("");
+
+        // Synchroniser les champs visibles → masqués avant validation
+        if (passwordShown) passwordField.setText(passwordVisible.getText());
+        if (confirmPasswordShown) confirmPasswordField.setText(confirmPasswordVisible.getText());
 
         if (!captchaGenerator.validate(captchaInputField.getText())) {
-            errorLabel.setText("Captcha incorrect");
+            errorLabelSignUp.setText("Captcha incorrect");
             refreshCaptcha();
             return;
         }
 
         // --- VALIDATION DES CHAMPS OBLIGATOIRES GÉNÉRAUX ---
         if (firstNameField.getText().isEmpty() || emailField.getText().isEmpty() || passwordField.getText().isEmpty() || roleCombo.getValue() == null) {
-            errorLabel.setText("Veuillez remplir les champs obligatoires (*)");
+            errorLabelSignUp.setText("Veuillez remplir les champs obligatoires (*)");
             return;
         }
 
@@ -158,17 +227,25 @@ public class SignUpController {
         // --- VALIDATION SPÉCIFIQUE (OBLIGATOIRE) ---
         if (selectedRole == Role.doctor) {
             if (specialtyField.getValue() == null || orderNumberField.getText().isEmpty() || consultationFeeField.getText().isEmpty()) {
-                errorLabel.setText("Tous les champs Docteur sont obligatoires (*)");
+                errorLabelSignUp.setText("Tous les champs Docteur sont obligatoires (*)");
+                return;
+            }
+            if (base64Document.isEmpty()) {
+                errorLabelSignUp.setText("Veuillez importer votre diplôme (PDF)");
                 return;
             }
         } else if (selectedRole == Role.pharmacist) {
             if (pharmacyNameField.getText().isEmpty() || licenceNumberField.getText().isEmpty()) {
-                errorLabel.setText("Tous les champs Pharmacie sont obligatoires (*)");
+                errorLabelSignUp.setText("Tous les champs Pharmacie sont obligatoires (*)");
+                return;
+            }
+            if (base64Document.isEmpty()) {
+                errorLabelSignUp.setText("Veuillez importer votre licence (PDF)");
                 return;
             }
         } else if (selectedRole == Role.assistant) {
             if (doctorSelectionCombo.getValue() == null) {
-                errorLabel.setText("Veuillez sélectionner un médecin référent (*)");
+                errorLabelSignUp.setText("Veuillez sélectionner un médecin référent (*)");
                 return;
             }
         }
@@ -180,7 +257,17 @@ public class SignUpController {
             pendingUser.setEmail(emailField.getText());
             pendingUser.setPassword(passwordField.getText());
             pendingUser.setRole(selectedRole);
-            pendingUser.setAge(Integer.parseInt(ageField.getText()));
+            
+            int age = 0;
+            if (!ageField.getText().isEmpty()) {
+                try {
+                    age = Integer.parseInt(ageField.getText());
+                } catch (NumberFormatException e) {
+                    errorLabelSignUp.setText("L'âge doit être un nombre");
+                    return;
+                }
+            }
+            pendingUser.setAge(age);
             pendingUser.setGender(genderCombo.getValue());
             pendingUser.setUserPhoto(base64Image);
             pendingUser.setAddress(addressArea.getText());
@@ -203,6 +290,10 @@ public class SignUpController {
                 if (doc != null) pendingUser.setDoctorId(doc.getUserId());
             }
 
+            if (selectedRole == Role.doctor || selectedRole == Role.pharmacist) {
+                pendingUser.setProfessionalDocument(base64Document);
+            }
+
             // Les comptes professionnels sont désactivés par défaut (attente admin)
             // Sauf les patients (auto-approuvés)
             if (selectedRole == Role.patient) {
@@ -219,10 +310,11 @@ public class SignUpController {
                 verificationSection.setManaged(true);
                 verificationText.setText("Un code a été envoyé à : " + pendingUser.getEmail());
             } else {
-                errorLabel.setText("Erreur d'envoi d'email");
+                errorLabelSignUp.setText("Erreur d'envoi d'email");
             }
         } catch (Exception e) {
-            errorLabel.setText("Données invalides (Vérifiez l'âge)");
+            e.printStackTrace();
+            errorLabelSignUp.setText("Erreur : " + e.getMessage());
         }
     }
 
