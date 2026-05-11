@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="800.0" prefWidth="1300.0" styleClass="root" stylesheets="@style.css" 
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="Controler.AjoutermedicalFile">
+
+    <!-- ================= SIDEBAR ================= -->
+    <left>
+        <VBox prefWidth="260.0" styleClass="sidebar">
+            <children>
+                <!-- App Logo -->
+                <HBox alignment="CENTER" spacing="10.0" style="-fx-padding: 0 0 40 0;">
+                    <children>
+                        <Label styleClass="sidebar-logo" text="SHIFAA" />
+                        <Label style="-fx-text-fill: #FF5C5C; -fx-font-weight: bold; -fx-font-size: 22;" text="+" />
+                    </children>
+                </HBox>
+
+                <!-- Doctor Profile -->
+                <VBox alignment="CENTER" spacing="15.0" style="-fx-padding: 0 0 50 0;">
+                    <children>
+                        <StackPane maxWidth="120.0">
+                            <children>
+                                <Circle fx:id="circleImage" fill="#2D3748" radius="60.0" stroke="#4A5568" strokeType="INSIDE" strokeWidth="2.0" />
+                                <ImageView fx:id="imgDoctor" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                                    <clip>
+                                        <Circle centerX="60.0" centerY="60.0" radius="60.0" />
+                                    </clip>
+                                </ImageView>
+                            </children>
+                        </StackPane>
+                        <Label fx:id="lblDoctorName" styleClass="sidebar-patient-name" text="Dr. Saif Gharbi" />
+                    </children>
+                </VBox>
+
+                <!-- Navigation Menu -->
+                <VBox spacing="5.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="menu-item">
+                            <children>
+                                <Label style="-fx-font-size: 18;" text="🏠" />
+                                <Label text="Tableau de bord" />
+                            </children>
+                        </HBox>
+                        
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#allerGererPatients" spacing="15.0" styleClass="menu-item, menu-item-active">
+                            <children>
+                                <Label style="-fx-font-size: 18;" text="👥" />
+                                <Label text="Gérer les Patients" />
+                            </children>
+                        </HBox>
+                        
+                        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="menu-item">
+                            <children>
+                                <Label style="-fx-font-size: 18;" text="💊" />
+                                <Label text="Gérer les Prescriptions" />
+                            </children>
+                        </HBox>
+
+                        <Region VBox.vgrow="ALWAYS" />
+                        
+                        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="menu-item" style="-fx-padding: 30 25 30 25;">
+                            <children>
+                                <Label style="-fx-font-size: 18;" text="🚪" />
+                                <Label text="Déconnexion" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </left>
+
+    <!-- ================= MAIN CONTENT AREA ================= -->
+    <center>
+        <VBox spacing="25.0" style="-fx-background-color: #F7FAFC; -fx-padding: 30;">
+            <children>
+                <!-- Header -->
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <Button onAction="#retour" styleClass="btn-secondary" text="← Retour" />
+                        <Label style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Nouveau Dossier Médical" />
+                    </children>
+                </HBox>
+
+                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #F7FAFC;" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="25.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+                            <children>
+                                
+                                <!-- Identity Section -->
+                                <VBox spacing="15.0">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C; -fx-font-size: 16;" text="1. Sélection du Patient" />
+                                    <VBox spacing="8.0">
+                                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A5568;" text="Nom ou prénom du patient * :" />
+                                        <HBox spacing="10.0">
+                                            <children>
+                                                <TextField fx:id="searchPatient" prefHeight="45.0" promptText="Tapez pour rechercher un patient..." style="-fx-background-radius: 10;" HBox.hgrow="ALWAYS" />
+                                                <Button onAction="#handleVoiceInput" prefHeight="45.0" style="-fx-background-color: #EDF2F7; -fx-background-radius: 10;" text="🎙" userData="searchPatient" />
+                                            </children>
+                                        </HBox>
+                                        <ListView fx:id="listPatients" prefHeight="120.0" visible="false" style="-fx-background-radius: 10;" />
+                                    </VBox>
+                                </VBox>
+
+                                <Separator />
+
+                                <!-- Admin Section -->
+                                <VBox spacing="15.0">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C; -fx-font-size: 16;" text="2. Informations Administratives" />
+                                    <GridPane hgap="30.0" vgap="20.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints percentWidth="50.0" />
+                                            <ColumnConstraints percentWidth="50.0" />
+                                        </columnConstraints>
+                                        <children>
+                                            <VBox spacing="8.0" GridPane.columnIndex="0">
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #4A5568;" text="Date de Création * :" />
+                                                <DatePicker fx:id="creationdate" maxWidth="Infinity" prefHeight="45.0" style="-fx-background-radius: 10;" />
+                                            </VBox>
+                                            <VBox spacing="8.0" GridPane.columnIndex="1">
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #4A5568;" text="Statut du Patient * :" />
+                                                <ComboBox fx:id="patientstatus" maxWidth="Infinity" prefHeight="45.0" promptText="Sélectionner un statut" style="-fx-background-radius: 10;" />
+                                            </VBox>
+                                        </children>
+                              <rowConstraints>
+                                 <RowConstraints />
+                              </rowConstraints>
+                                    </GridPane>
+                                </VBox>
+
+                                <Separator />
+
+                                <!-- Medical Section -->
+                                <VBox spacing="15.0">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C; -fx-font-size: 16;" text="3. Détails Médicaux" />
+                                    <GridPane hgap="30.0" vgap="25.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints percentWidth="50.0" />
+                                            <ColumnConstraints percentWidth="50.0" />
+                                        </columnConstraints>
+                                        <children>
+                                            <VBox spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #4A5568;" text="Historique Général * :" />
+                                                <HBox spacing="10.0">
+                                                    <children>
+                                                        <TextArea fx:id="generalhistory" prefHeight="120.0" promptText="Résumé de l'état général..." style="-fx-background-radius: 10;" wrapText="true" HBox.hgrow="ALWAYS" />
+                                                        <Button onAction="#handleVoiceInput" prefHeight="45.0" style="-fx-background-color: #EDF2F7; -fx-background-radius: 10;" text="🎙" userData="generalhistory" />
+                                                    </children>
+                                                </HBox>
+                                            </VBox>
+                                            <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #4A5568;" text="Antécédents Médicaux :" />
+                                                <HBox spacing="10.0">
+                                                    <children>
+                                                        <TextArea fx:id="antecedents" prefHeight="120.0" promptText="Maladies passées, chirurgies..." style="-fx-background-radius: 10;" wrapText="true" HBox.hgrow="ALWAYS" />
+                                                        <Button onAction="#handleVoiceInput" prefHeight="45.0" style="-fx-background-color: #EDF2F7; -fx-background-radius: 10;" text="🎙" userData="antecedents" />
+                                                    </children>
+                                                </HBox>
+                                            </VBox>
+                                            <VBox spacing="8.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #4A5568;" text="Allergies connues :" />
+                                                <HBox spacing="10.0">
+                                                    <children>
+                                                        <TextArea fx:id="allergies" prefHeight="120.0" promptText="Médicamenteuses, alimentaires..." style="-fx-background-radius: 10;" wrapText="true" HBox.hgrow="ALWAYS" />
+                                                        <Button onAction="#handleVoiceInput" prefHeight="45.0" style="-fx-background-color: #EDF2F7; -fx-background-radius: 10;" text="🎙" userData="allergies" />
+                                                    </children>
+                                                </HBox>
+                                            </VBox>
+                                            <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #4A5568;" text="Suivi Médical Spécifique :" />
+                                                <HBox spacing="10.0">
+                                                    <children>
+                                                        <TextArea fx:id="followup" prefHeight="120.0" promptText="Traitements en cours, précautions..." style="-fx-background-radius: 10;" wrapText="true" HBox.hgrow="ALWAYS" />
+                                                        <Button onAction="#handleVoiceInput" prefHeight="45.0" style="-fx-background-color: #EDF2F7; -fx-background-radius: 10;" text="🎙" userData="followup" />
+                                                    </children>
+                                                </HBox>
+                                            </VBox>
+                                        </children>
+                              <rowConstraints>
+                                 <RowConstraints />
+                                 <RowConstraints />
+                              </rowConstraints>
+                                    </GridPane>
+                                </VBox>
+
+                                <Separator />
+
+                                <VBox spacing="8.0">
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #4A5568;" text="Dernière Visite (Optionnel) :" />
+                                    <DatePicker fx:id="lastvisit" prefHeight="45.0" prefWidth="300.0" style="-fx-background-radius: 10;" />
+                                </VBox>
+
+                                <HBox alignment="CENTER_RIGHT" spacing="20.0" style="-fx-padding: 30 0 0 0;">
+                                    <Button onAction="#ajoutds" prefHeight="55.0" prefWidth="250.0" style="-fx-background-color: #009929;" styleClass="btn-primary" text="✅ Enregistrer le Dossier" />
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

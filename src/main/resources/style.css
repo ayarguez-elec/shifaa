@@ -1,0 +1,270 @@
+/* Fond global */
+.root {
+    -fx-background-color: #F7FAFC;
+}
+
+/* Sidebar - Dark Navy Premium */
+.sidebar {
+    -fx-background-color: #1A202C; /* Navy très sombre */
+    -fx-padding: 30 0 0 0;
+}
+
+/* Éléments de la sidebar */
+.sidebar-logo {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+}
+
+.sidebar-patient-name {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-padding: 15 25 15 25;
+    -fx-alignment: CENTER_LEFT;
+    -fx-cursor: hand;
+}
+
+.menu-item Label {
+    -fx-text-fill: white;
+}
+
+.menu-item:hover {
+    -fx-background-color: #2D3748;
+    -fx-text-fill: white;
+}
+
+.menu-item-active {
+    -fx-background-color: #2D3748;
+    -fx-text-fill: white;
+    -fx-border-color: transparent transparent transparent #FF5C5C;
+    -fx-border-width: 0 0 0 4;
+}
+
+/* Photo circulaire dans la sidebar */
+.profile-pic-container {
+    -fx-background-color: #2D3748;
+    -fx-background-radius: 100;
+    -fx-border-color: #4A5568;
+    -fx-border-radius: 100;
+    -fx-border-width: 2;
+}
+
+/* Champs de saisie */
+.text-field, .text-area {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* Focus sur les champs */
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #4A5568;
+}
+
+.error-field {
+    -fx-border-color: #E53E3E;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+}
+
+.combo-box.error-field, .date-picker.error-field {
+    -fx-border-color: #E53E3E;
+    -fx-border-width: 2;
+}
+
+.error-field:focused, .combo-box.error-field:focused, .date-picker.error-field:focused {
+    -fx-border-color: #E53E3E;
+}
+
+/* Bouton principal Corail */
+.btn-primary {
+    -fx-background-color: #FF5C5C;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+/* ================= CARTES PATIENTS ================= */
+.patient-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);
+}
+
+.card-badge {
+    -fx-background-color: #EDF2F7;
+    -fx-text-fill: #4A5568;
+    -fx-font-size: 11px;
+    -fx-padding: 4 10 4 10;
+    -fx-background-radius: 15;
+    -fx-font-weight: bold;
+}
+
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2D3748;
+}
+
+.btn-card-action {
+    -fx-background-color: transparent;
+    -fx-border-color: #CBD5E0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #4A5568;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-padding: 5 12 5 12;
+}
+.btn-card-action:hover {
+    -fx-background-color: #F7FAFC;
+    -fx-border-color: #4A5568;
+}
+
+.btn-card-delete {
+    -fx-background-color: transparent;
+    -fx-border-color: #FC8181;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #FC8181;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-padding: 5 10 5 10;
+}
+.btn-card-delete:hover {
+    -fx-background-color: #FFF5F5;
+    -fx-border-color: #E53E3E;
+}
+
+.btn-secondary {
+    -fx-background-color: #4A5568;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+/* ================= FILTRES (ComboBox & DatePicker) ================= */
+.combo-box, .date-picker {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1;
+}
+
+.combo-box:focused, .date-picker:focused {
+    -fx-border-color: #4A5568;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: white;
+    -fx-text-fill: #4A5568;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #F7FAFC;
+}
+
+.date-picker > .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: #EDF2F7;
+    -fx-background-radius: 0 8 8 0;
+}
+
+.date-picker > .arrow-button > .arrow {
+    -fx-background-color: #4A5568;
+}
+
+/* ================= PAGINATION ================= */
+.pagination {
+    -fx-page-information-visible: false;
+}
+
+.pagination .pagination-control {
+    -fx-background-color: transparent;
+}
+
+.pagination .control-box {
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
+}
+
+.pagination .button {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-min-width: 40;
+    -fx-min-height: 40;
+    -fx-cursor: hand;
+}
+
+.pagination .button:hover {
+    -fx-background-color: #F7FAFC;
+    -fx-border-color: #CBD5E0;
+}
+
+.pagination .toggle-button {
+    -fx-background-color: white;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-min-width: 40;
+    -fx-min-height: 40;
+    -fx-text-fill: #4A5568;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.pagination .toggle-button:selected {
+    -fx-background-color: #FF5C5C;
+    -fx-border-color: #FF5C5C;
+    -fx-text-fill: white;
+}
+
+.pagination .toggle-button:hover {
+    -fx-background-color: #F7FAFC;
+}
+
+.pagination .toggle-button:selected:hover {
+    -fx-background-color: #E53E3E;
+}
+
+/* ================= PRESCRIPTION THEME (GREEN #009929) ================= */
+.prescription-theme .btn-primary {
+    -fx-background-color: #009929;
+}
+
+.prescription-theme .btn-primary:hover {
+    -fx-background-color: #007A20;
+}
+
+.prescription-theme .pagination .toggle-button:selected {
+    -fx-background-color: #009929;
+    -fx-border-color: #009929;
+}
+
+.prescription-theme .pagination .toggle-button:selected:hover {
+    -fx-background-color: #007A20;
+}
+
+.prescription-theme .section-title {
+    -fx-text-fill: #009929;
+}

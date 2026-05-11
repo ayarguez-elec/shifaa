@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" styleClass="root" stylesheets="@style.css" 
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="Controler.ConsultationPrescriptionPatientController">
+
+    <children>
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="30.0" spacing="20.0">
+            <children>
+                <Button onAction="#retourner" styleClass="btn-secondary" text="← Retour" />
+                <Label style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Détails de l'ordonnance" />
+            </children>
+        </HBox>
+
+        <VBox layoutX="100.0" layoutY="120.0" spacing="25.0" prefWidth="800.0" 
+              style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 40; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+            <children>
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <Label fx:id="lblPrescriptionId" style="-fx-font-size: 18; -fx-text-fill: #FF5C5C; -fx-font-weight: bold;" text="Ordonnance #000" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lblDate" styleClass="card-badge" text="Date" />
+                        <Button onAction="#exporterPDF" prefHeight="40.0" prefWidth="170.0" style="-fx-background-color: #009929;" styleClass="btn-primary" text="Exporter PDF" />
+                    </children>
+                </HBox>
+                
+                <Separator />
+                
+                <GridPane vgap="20.0" hgap="30.0">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="150" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+                    <children>
+                        <Label text="TRAITEMENT POUR :" style="-fx-font-weight: bold; -fx-text-fill: #718096;" />
+                        <Label fx:id="lblPatientName" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748;" GridPane.columnIndex="1" />
+                        
+                        <Label text="DURÉE PRÉVUE :" style="-fx-font-weight: bold; -fx-text-fill: #718096;" GridPane.rowIndex="1" />
+                        <Label fx:id="lblDuration" style="-fx-font-size: 16; -fx-text-fill: #2D3748;" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                    </children>
+                </GridPane>
+                
+                <VBox spacing="10.0">
+                    <children>
+                        <Label text="MÉDICAMENTS ET POSOLOGIE :" style="-fx-font-weight: bold; -fx-text-fill: #718096;" />
+                        <ScrollPane fitToWidth="true" prefHeight="200.0" style="-fx-background-color: #F8FAFC; -fx-background-radius: 10;">
+                            <content>
+                                <Label fx:id="lblDetails" wrapText="true" style="-fx-padding: 15; -fx-font-size: 15; -fx-line-spacing: 5;" text="Contenu de la prescription..." />
+                            </content>
+                        </ScrollPane>
+                    </children>
+                </VBox>
+                
+                <HBox alignment="CENTER_RIGHT" spacing="15.0" style="-fx-padding: 20 0 0 0;">
+                    <children>
+                        <Button onAction="#envoyerSMS" prefHeight="40.0" prefWidth="180.0" style="-fx-background-color: #4A5568;" styleClass="btn-primary" text="📱 Envoyer par SMS" />
+                        <Button onAction="#ajouterAGoogleCalendar" prefHeight="40.0" prefWidth="250.0" styleClass="btn-primary" text="🌐 Ajouter à mon Google Calendar" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

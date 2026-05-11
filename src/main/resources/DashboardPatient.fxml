@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0"
+            styleClass="root"
+            stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controler.DashboardPatientController">
+
+    <children>
+        <Label layoutX="50.0" layoutY="50.0"
+               style="-fx-font-size: 24; -fx-font-weight: bold;"
+               text="Bienvenue sur votre espace patient"
+               textFill="#2d3748" />
+
+        <Label layoutX="50.0" layoutY="100.0"
+               fx:id="lblNomPatient"
+               style="-fx-font-size: 16;"
+               text="" />
+
+        <Button layoutX="50.0" layoutY="150.0"
+                prefWidth="250.0" prefHeight="50.0"
+                text="📋 Consulter mon dossier médical"
+                onAction="#consulterDossier"
+                styleClass="btn-primary" />
+
+        <Button layoutX="50.0" layoutY="220.0"
+                prefWidth="250.0" prefHeight="50.0"
+                text="📅 Voir mes rendez-vous"
+                onAction="#voirRendezVous"
+                styleClass="btn-secondary" />
+
+        <Button layoutX="50.0" layoutY="290.0"
+                prefWidth="250.0" prefHeight="50.0"
+                text="💬 Contacter le support"
+                onAction="#contacterSupport"
+                styleClass="btn-secondary" />
+
+        <Button layoutX="50.0" layoutY="360.0"
+                prefWidth="250.0" prefHeight="50.0"
+                text="🔒 Déconnexion"
+                onAction="#deconnexion"
+                styleClass="btn-danger" />
+    </children>
+</AnchorPane>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="900.0"
+            styleClass="root"
+            stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controler.MonDossierController">
+
+    <children>
+
+        <!-- ================= SIDEBAR ================= -->
+        <AnchorPane prefHeight="650.0" prefWidth="220.0" styleClass="sidebar">
+            <children>
+                <Label layoutX="30.0" layoutY="40.0" text="SHIFAA" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+
+                <Button layoutY="120.0" prefHeight="50.0" prefWidth="220.0"
+                        styleClass="menu-button"
+                        text="Tableau de bord" />
+
+                <Button layoutY="170.0" prefHeight="50.0" prefWidth="220.0"
+                        styleClass="menu-button-active"
+                        text="Mon dossier médical" />
+
+                <Button layoutY="220.0" prefHeight="50.0" prefWidth="220.0"
+                        styleClass="menu-button"
+                        text="Déconnexion"
+                        onAction="#deconnexion" />
+            </children>
+        </AnchorPane>
+
+        <!-- ================= HEADER ================= -->
+        <Label layoutX="250.0" layoutY="30.0"
+               style="-fx-font-size: 22; -fx-font-weight: bold;"
+               text="Mon dossier médical"
+               textFill="#2d3748" />
+
+        <!-- 🔙 Bouton retour au dashboard -->
+        <Button layoutX="800.0" layoutY="30.0"
+                prefWidth="80.0" prefHeight="30.0"
+                text="Retour"
+                onAction="#retourDashboard"
+                styleClass="btn-secondary" />
+
+        <!-- ================= INFORMATIONS PATIENT ================= -->
+        <Label layoutX="250.0" layoutY="80.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;"
+               text="Informations personnelles" />
+
+        <Label layoutX="250.0" layoutY="110.0" text="Nom :" />
+        <TextField fx:id="txtNom"
+                   layoutX="250.0" layoutY="130.0"
+                   prefWidth="250.0"
+                   editable="false" />
+
+        <Label layoutX="550.0" layoutY="110.0" text="Prénom :" />
+        <TextField fx:id="txtPrenom"
+                   layoutX="550.0" layoutY="130.0"
+                   prefWidth="250.0"
+                   editable="false" />
+
+        <Label layoutX="250.0" layoutY="170.0" text="ID Patient :" />
+        <TextField fx:id="txtPatientId"
+                   layoutX="250.0" layoutY="190.0"
+                   prefWidth="250.0"
+                   editable="false" />
+
+        <Label layoutX="550.0" layoutY="170.0" text="ID Dossier :" />
+        <TextField fx:id="txtIdFile"
+                   layoutX="550.0" layoutY="190.0"
+                   prefWidth="250.0"
+                   editable="false" />
+
+        <!-- ================= GESTION ADMINISTRATIVE ================= -->
+        <Label layoutX="250.0" layoutY="240.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;"
+               text="Gestion administrative" />
+
+        <Label layoutX="250.0" layoutY="270.0" text="Date de création :" />
+        <TextField fx:id="txtCreationDate"
+                   layoutX="250.0" layoutY="290.0"
+                   prefWidth="250.0"
+                   editable="false" />
+
+        <Label layoutX="550.0" layoutY="270.0" text="Dernière visite :" />
+        <TextField fx:id="txtLastVisit"
+                   layoutX="550.0" layoutY="290.0"
+                   prefWidth="250.0"
+                   editable="false" />
+
+        <Label layoutX="250.0" layoutY="330.0" text="Statut patient :" />
+        <TextField fx:id="txtStatus"
+                   layoutX="250.0" layoutY="350.0"
+                   prefWidth="250.0"
+                   editable="false" />
+
+        <!-- ================= DÉTAILS MÉDICAUX ================= -->
+        <Label layoutX="250.0" layoutY="400.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;"
+               text="Détails médicaux" />
+
+        <Label layoutX="250.0" layoutY="430.0" text="Historique général :" />
+        <TextArea fx:id="txtGeneralHistory"
+                  layoutX="250.0" layoutY="450.0"
+                  prefWidth="600.0"
+                  prefHeight="70.0"
+                  editable="false"
+                  wrapText="true" />
+
+        <Label layoutX="250.0" layoutY="530.0" text="Antécédents :" />
+        <TextArea fx:id="txtAntecedents"
+                  layoutX="250.0" layoutY="550.0"
+                  prefWidth="600.0"
+                  prefHeight="70.0"
+                  editable="false"
+                  wrapText="true" />
+
+        <!-- ================= ALLERGIES ================= -->
+        <Label layoutX="250.0" layoutY="630.0" text="Allergies :" />
+        <TextArea fx:id="txtAllergies"
+                  layoutX="250.0" layoutY="650.0"
+                  prefWidth="600.0"
+                  prefHeight="70.0"
+                  editable="false"
+                  wrapText="true" />
+
+    </children>
+</AnchorPane>

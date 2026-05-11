@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="800.0" prefWidth="1300.0" styleClass="root" stylesheets="@style.css" 
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="Controler.StatistiquesController">
+
+    <!-- ================= SIDEBAR ================= -->
+    <left>
+        <VBox prefWidth="260.0" styleClass="sidebar">
+            <children>
+                <HBox alignment="CENTER" spacing="10.0" style="-fx-padding: 0 0 40 0;">
+                    <children>
+                        <Label styleClass="sidebar-logo" text="SHIFAA" />
+                        <Label style="-fx-text-fill: #FF5C5C; -fx-font-weight: bold; -fx-font-size: 22;" text="+" />
+                    </children>
+                </HBox>
+
+                <VBox alignment="CENTER" spacing="15.0" style="-fx-padding: 0 0 50 0;">
+                    <children>
+                        <StackPane maxWidth="120.0">
+                            <children>
+                                <Circle fx:id="circleImage" fill="#2D3748" radius="60.0" stroke="#4A5568" strokeType="INSIDE" strokeWidth="2.0" />
+                                <ImageView fx:id="imgDoctor" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                                    <clip>
+                                        <Circle centerX="60.0" centerY="60.0" radius="60.0" />
+                                    </clip>
+                                </ImageView>
+                            </children>
+                        </StackPane>
+                        <Label fx:id="lblDoctorName" styleClass="sidebar-patient-name" text="Dr. Saif Gharbi" />
+                    </children>
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="menu-item, menu-item-active">
+                            <children>
+                                <Label style="-fx-font-size: 18;" text="📊" />
+                                <Label text="Mes Statistiques" />
+                            </children>
+                        </HBox>
+                        
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#allerGererPatients" spacing="15.0" styleClass="menu-item">
+                            <children>
+                                <Label style="-fx-font-size: 18;" text="👥" />
+                                <Label text="Gérer les Patients" />
+                            </children>
+                        </HBox>
+                        
+                        <HBox alignment="CENTER_LEFT" onMouseClicked="#allerPrescriptions" spacing="15.0" styleClass="menu-item">
+                            <children>
+                                <Label style="-fx-font-size: 18;" text="💊" />
+                                <Label text="Gérer les Prescriptions" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </left>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <center>
+        <VBox spacing="30.0" style="-fx-background-color: #F7FAFC; -fx-padding: 40;">
+            <children>
+                <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Mes Statistiques" />
+                
+                <!-- Stats Cards -->
+                <HBox spacing="25.0">
+                    <children>
+                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5); -fx-padding: 20;">
+                            <children>
+                                <Label style="-fx-text-fill: #718096; -fx-font-size: 14;" text="Nombre total des dossiers" />
+                                <Label fx:id="lblTotalDossiers" style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="0" />
+                            </children>
+                        </VBox>
+                        
+                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5); -fx-padding: 20;">
+                            <children>
+                                <Label style="-fx-text-fill: #718096; -fx-font-size: 14;" text="Nombre de patients" />
+                                <Label fx:id="lblTotalPatients" style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #4A5568;" text="0" />
+                            </children>
+                        </VBox>
+                        
+                        <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5); -fx-padding: 20;">
+                            <children>
+                                <Label style="-fx-text-fill: #718096; -fx-font-size: 14;" text="Nouveaux ce mois" />
+                                <Label fx:id="lblNouveauxCeMois" style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #009929;" text="0" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Chart Area -->
+                <VBox spacing="15.0" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                    <children>
+                        <Label style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Activité médicale par période" />
+                        <LineChart fx:id="lineChartActivite" animated="true" createSymbols="true" legendVisible="false" prefHeight="300.0" maxHeight="300.0">
+                            <xAxis>
+                                <CategoryAxis fx:id="xAxis" label="Mois" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="yAxis" label="Nouveaux dossiers" />
+                            </yAxis>
+                        </LineChart>
+                        <Label style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Répartition par état des patients" />
+                        <PieChart fx:id="pieChartStatus" labelsVisible="true" legendVisible="true" prefHeight="260.0" maxHeight="260.0" />
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
