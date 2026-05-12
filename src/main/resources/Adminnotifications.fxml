@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<!--
+  adminnotifications.fxml
+
+  fx:id contract (must match AdminNotificationsController @FXML fields):
+    notifList       → VBox populated by controller
+    lblUnreadBadge  → red badge (unread count)
+    cmbTrier        → sort ComboBox
+
+  onAction handlers:
+    #handleMarkAllRead
+    #goToDashboard
+    #goToReclamations
+    #goToNotifications
+-->
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.AdminNotificationsController"
+      stylesheets="@style.css"
+      styleClass="app-root"
+      prefWidth="1280" prefHeight="820">
+
+    <!-- ══════════════════════════════════════════ SIDEBAR -->
+    <VBox styleClass="sidebar" prefWidth="220" spacing="4">
+        <padding><Insets top="28" left="16" bottom="24" right="16"/></padding>
+
+        <Label text="💊 SHIFAA" styleClass="sidebar-logo"/>
+
+        <Region VBox.vgrow="NEVER" prefHeight="24"/>
+
+        <Button text="📊  Tableau de bord"
+                styleClass="sidebar-button"
+                maxWidth="Infinity"
+                onAction="#goToDashboard"/>
+
+        <Button text="📋  Réclamations"
+                styleClass="sidebar-button"
+                maxWidth="Infinity"
+                onAction="#goToReclamations"/>
+
+        <Button text="🔔  Notifications"
+                styleClass="sidebar-button-active"
+                maxWidth="Infinity"
+                onAction="#goToNotifications"/>
+
+        <Region VBox.vgrow="ALWAYS"/>
+        <Label text="Admin · SHIFAA"
+               style="-fx-text-fill:#9aabb5; -fx-font-size:11px;"/>
+    </VBox>
+
+    <!-- ══════════════════════════════════════════ MAIN AREA -->
+    <VBox HBox.hgrow="ALWAYS"
+          style="-fx-background-color:#f4f8fc;">
+        <padding><Insets top="32" left="36" right="36" bottom="24"/></padding>
+        <spacing>20</spacing>
+
+        <!-- ── Page header ──────────────────────────────────────────────── -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <VBox spacing="2">
+                <Label text="Notifications" styleClass="page-title"/>
+                <Label text="Toutes les alertes et mises à jour du système"
+                       style="-fx-font-size:13px; -fx-text-fill:#5d6f91;"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Unread badge -->
+            <Label fx:id="lblUnreadBadge"
+                   text="0"
+                   visible="false"
+                   managed="false"
+                   style="-fx-background-color:#E24B4A;
+                          -fx-text-fill:white;
+                          -fx-font-size:12px;
+                          -fx-font-weight:bold;
+                          -fx-padding:2 8 2 8;
+                          -fx-background-radius:12;"/>
+
+            <!-- Sort ComboBox -->
+            <ComboBox fx:id="cmbTrier"
+                      prefWidth="200"
+                      style="-fx-font-size:12px;"/>
+
+            <!-- Mark all read -->
+            <Button text="✓ Tout marquer lu"
+                    styleClass="btn-reset"
+                    onAction="#handleMarkAllRead"/>
+        </HBox>
+
+        <!-- ── Notification list ─────────────────────────────────────────── -->
+        <ScrollPane fitToWidth="true"
+                    VBox.vgrow="ALWAYS"
+                    styleClass="clean-scroll">
+            <VBox fx:id="notifList" spacing="10">
+                <padding><Insets top="4" bottom="8"/></padding>
+            </VBox>
+        </ScrollPane>
+
+    </VBox>
+</HBox>

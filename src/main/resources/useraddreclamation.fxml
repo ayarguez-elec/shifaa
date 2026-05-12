@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  FIXED useraddreclamation.fxml
+  - Small centered popup dialog (NO sidebar)
+  - No "Réponse" button
+  - Matches the style of userescalade.fxml
+  - Width ~500, Height ~450 — compact and centered
+-->
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.UserAddReclamationController"
+      spacing="18"
+      styleClass="form-card"
+      style="-fx-padding:28; -fx-background-color:white; -fx-background-radius:16;"
+      prefWidth="500"
+      maxWidth="500">
+
+    <!-- Title -->
+    <Label text="➕ Ajouter une Réclamation"
+           style="-fx-font-size:18px; -fx-font-weight:bold; -fx-text-fill:#0b1f44;"/>
+
+    <Separator/>
+
+    <!-- Subject -->
+    <VBox spacing="6">
+        <Label text="Sujet *" style="-fx-font-size:12px; -fx-font-weight:bold; -fx-text-fill:#5d6f91;"/>
+        <TextField fx:id="subjectField"
+                   promptText="Sujet de la réclamation"
+                   style="-fx-pref-height:36; -fx-font-size:13px;"/>
+    </VBox>
+
+    <!-- Description -->
+    <VBox spacing="6">
+        <Label text="Description *" style="-fx-font-size:12px; -fx-font-weight:bold; -fx-text-fill:#5d6f91;"/>
+        <TextArea fx:id="descriptionField"
+                  promptText="Description détaillée..."
+                  prefRowCount="5"
+                  wrapText="true"
+                  style="-fx-font-size:13px;"/>
+    </VBox>
+
+    <!-- Priority -->
+    <VBox spacing="6">
+        <Label text="Priorité *" style="-fx-font-size:12px; -fx-font-weight:bold; -fx-text-fill:#5d6f91;"/>
+        <ComboBox fx:id="priorityCombo" prefWidth="200" style="-fx-font-size:13px;"/>
+    </VBox>
+
+    <!-- Message label -->
+    <Label fx:id="messageLabel" wrapText="true"
+           style="-fx-font-size:12px; -fx-text-fill:#E24B4A;"/>
+
+    <!-- Buttons -->
+    <HBox spacing="12" alignment="CENTER_RIGHT">
+        <Button text="Annuler"
+                onAction="#annuler"
+                style="-fx-background-color:#f0f4fa; -fx-text-fill:#5d6f91;
+                       -fx-font-size:13px; -fx-background-radius:8;
+                       -fx-padding:8 18 8 18; -fx-cursor:hand;"/>
+        <Button text="Ajouter la réclamation"
+                onAction="#ajouterReclamation"
+                style="-fx-background-color:#E24B4A; -fx-text-fill:white;
+                       -fx-font-size:13px; -fx-font-weight:bold;
+                       -fx-background-radius:8;
+                       -fx-padding:8 18 8 18; -fx-cursor:hand;"/>
+    </HBox>
+    <Button fx:id="btnAddAttachment" text="📎 Ajouter pièce jointe" />
+    <FlowPane fx:id="attachmentsPreview" hgap="10" vgap="8" />
+
+</VBox>

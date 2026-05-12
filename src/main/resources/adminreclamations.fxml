@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  FIXED adminreclamations.fxml
+  - Sidebar now matches admindashboard.f EXACTLY
+  - Added Notifications button with badge
+  - Same structure, same style classes
+-->
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.AdminReclamationController"
+            prefWidth="1400"
+            prefHeight="900"
+            stylesheets="@style.css"
+            styleClass="app-root">
+
+    <!-- ══ SIDEBAR — NOW IDENTICAL TO admindashboard.fxml ═══════════════════ -->
+    <left>
+        <VBox prefWidth="270" styleClass="sidebar">
+            <Label text="💊 SHIFAA ADMIN" styleClass="sidebar-logo"/>
+            <VBox spacing="18" styleClass="sidebar-menu">
+
+                <Button text="Accueil"
+                        onAction="#ouvrirAdminDashboard"
+                        styleClass="sidebar-button"/>
+
+                <Button text="Réclamations"
+                        onAction="#ouvrirAdminReclamations"
+                        styleClass="sidebar-button-active"/>
+
+                <!-- Notifications button + unread badge (SAME as dashboard) -->
+                <HBox alignment="CENTER_LEFT" spacing="4">
+                    <Button text="🔔  Notifications"
+                            styleClass="sidebar-button"
+                            maxWidth="Infinity"
+                            HBox.hgrow="ALWAYS"
+                            onAction="#goToNotifications"/>
+                    <Label fx:id="lblNotifBadge"
+                           text="0"
+                           visible="false"
+                           managed="false"
+                           style="-fx-background-color:#E24B4A;
+                                  -fx-text-fill:white;
+                                  -fx-font-size:10px;
+                                  -fx-font-weight:bold;
+                                  -fx-padding:1 5 1 5;
+                                  -fx-background-radius:8;"/>
+                </HBox>
+
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- ══ MAIN CONTENT ══════════════════════════════════════════════════════ -->
+    <center>
+        <VBox spacing="0" styleClass="page-container">
+
+            <!-- Page Title -->
+            <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-padding:0 0 20 0;">
+                <Label text="✉ Gestion des Réclamations" styleClass="page-title"/>
+            </HBox>
+
+            <!-- Filter Bar -->
+            <VBox styleClass="form-card" spacing="14" style="-fx-margin-bottom:20px;">
+                <Label text="Rechercher une réclamation" styleClass="form-section-title"/>
+
+                <TextField fx:id="searchField"
+                           promptText="Rechercher par sujet, utilisateur, statut, priorité, catégorie..."
+                           styleClass="search-field"
+                           onKeyReleased="#applyFilters"/>
+
+                <HBox spacing="16" alignment="CENTER_LEFT">
+                    <VBox spacing="5">
+                        <Label text="Statut" styleClass="label-title"/>
+                        <ComboBox fx:id="comboStatut"
+                                  promptText="Tous les statuts"
+                                  styleClass="combo-box"
+                                  prefWidth="200"
+                                  onAction="#applyFilters"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="Priorité" styleClass="label-title"/>
+                        <ComboBox fx:id="comboPriorite"
+                                  promptText="Toutes les priorités"
+                                  styleClass="combo-box"
+                                  prefWidth="200"
+                                  onAction="#applyFilters"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="↺ Réinitialiser"
+                            onAction="#reinitialiserFiltres"
+                            styleClass="btn-reset"
+                            style="-fx-alignment:BOTTOM_CENTER;"/>
+                </HBox>
+            </VBox>
+
+            <!-- List Header -->
+            <HBox spacing="12" alignment="CENTER_LEFT" style="-fx-padding:0 0 12 0;">
+                <Label text="Liste des réclamations reçues" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblTotal" text="Total : 0 réclamations" styleClass="total-label"/>
+            </HBox>
+
+            <!-- Cards Container -->
+            <ScrollPane fitToWidth="true" styleClass="clean-scroll" VBox.vgrow="ALWAYS">
+                <VBox fx:id="cardsContainer" spacing="14" styleClass="cards-zone"/>
+            </ScrollPane>
+
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.UserNotificationsController"
+      stylesheets="@style.css"
+      prefWidth="1280" prefHeight="820">
+
+    <!-- ══════════════════════════════════════════ SIDEBAR -->
+    <VBox styleClass="sidebar" prefWidth="220" spacing="4">
+        <padding><Insets top="28" left="16" bottom="24" right="16"/></padding>
+
+        <Label text="SHIFAA" styleClass="sidebar-logo"/>
+        <Region VBox.vgrow="NEVER" prefHeight="24"/>
+
+        <Button fx:id="btnDashboard" text="🏠  Mon tableau de bord"
+                styleClass="sidebar-button"
+                maxWidth="Infinity" onAction="#goToDashboard"/>
+        <Button fx:id="btnMesReclamations" text="📋  Mes réclamations"
+                styleClass="sidebar-button"
+                maxWidth="Infinity" onAction="#goToMesReclamations"/>
+        <Button fx:id="btnNotifications" text="🔔  Notifications"
+                styleClass="sidebar-button"
+                maxWidth="Infinity" onAction="#goToNotifications"/>
+
+        <Region VBox.vgrow="ALWAYS"/>
+        <Label text="Patient · SHIFAA" style="-fx-text-fill:#9aabb5; -fx-font-size:11px;"/>
+    </VBox>
+
+    <!-- ══════════════════════════════════════════ MAIN AREA -->
+    <VBox HBox.hgrow="ALWAYS" style="-fx-background-color:#f4f8fc;">
+        <padding><Insets top="32" left="36" right="36" bottom="24"/></padding>
+        <spacing>20</spacing>
+
+        <!-- Page header -->
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <VBox>
+                <Label text="Mes notifications" styleClass="page-title"/>
+                <Label text="Réponses reçues, changements de statut et escalades"
+                       styleClass="page-subtitle"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="lblUnreadBadge" text="0"
+                   visible="false" managed="false"
+                   style="-fx-background-color:#E24B4A; -fx-text-fill:white;
+                          -fx-font-size:12px; -fx-font-weight:bold;
+                          -fx-padding:2 8 2 8; -fx-background-radius:12;"/>
+            <Button fx:id="btnMarkAllRead" text="✓ Tout marquer lu"
+                    styleClass="btn-reset"
+                    onAction="#handleMarkAllRead"/>
+        </HBox>
+
+        <!-- List -->
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS"
+                    styleClass="clean-scroll">
+            <VBox fx:id="notifList" spacing="10">
+                <padding><Insets top="4" bottom="8"/></padding>
+            </VBox>
+        </ScrollPane>
+
+        <!-- Empty state -->
+        <Label fx:id="lblEmpty"
+               text="🔔  Aucune notification pour le moment."
+               visible="false" managed="false"
+               style="-fx-font-size:15px; -fx-text-fill:#9aabb5;
+                      -fx-padding:40; -fx-alignment:center;"/>
+    </VBox>
+</HBox>

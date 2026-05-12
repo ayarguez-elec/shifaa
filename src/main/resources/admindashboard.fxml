@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.AdminDashboardController"
+            prefWidth="1536"
+            prefHeight="900"
+            stylesheets="@style.css"
+            styleClass="app-root">
+
+    <!-- ══ SIDEBAR ══════════════════════════════════════════════════════════ -->
+    <left>
+        <VBox prefWidth="270" styleClass="sidebar">
+            <Label text="💊 SHIFAA ADMIN" styleClass="sidebar-logo"/>
+            <VBox spacing="18" styleClass="sidebar-menu">
+
+                <Button text="Accueil"
+                        onAction="#ouvrirAdminDashboard"
+                        styleClass="sidebar-button-active"/>
+
+                <Button text="Réclamations"
+                        onAction="#ouvrirAdminReclamations"
+                        styleClass="sidebar-button"/>
+
+                <!-- ── Notifications button + unread badge ── -->
+                <HBox alignment="CENTER_LEFT" spacing="4">
+                    <Button text="🔔  Notifications"
+                            styleClass="sidebar-button"
+                            maxWidth="Infinity"
+                            HBox.hgrow="ALWAYS"
+                            onAction="#goToNotifications"/>
+                    <Label fx:id="lblNotifBadge"
+                           text="0"
+                           visible="false"
+                           managed="false"
+                           style="-fx-background-color:#E24B4A;
+                                  -fx-text-fill:white;
+                                  -fx-font-size:10px;
+                                  -fx-font-weight:bold;
+                                  -fx-padding:1 5 1 5;
+                                  -fx-background-radius:8;"/>
+                </HBox>
+
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- ══ MAIN CONTENT ══════════════════════════════════════════════════════ -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="clean-scroll">
+            <VBox spacing="20" styleClass="page-container">
+
+                <!-- ── TOP BAR ─────────────────────────────────────────── -->
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Label text="Tableau de Bord Administrateur" styleClass="page-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="lblEscaladesBadge"
+                           text="● 0 escaladees"
+                           styleClass="badge-danger-label"
+                           visible="false"/>
+                    <Button fx:id="btnRefresh"
+                            text="🔄 Actualiser"
+                            onAction="#refreshDashboard"
+                            styleClass="btn-reset"/>
+                </HBox>
+
+                <!-- ── ROW 1 : 4 KPI CARDS ─────────────────────────────── -->
+                <HBox spacing="16">
+
+                    <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                        <Label text="📊 Total Réclamations" styleClass="kpi-label"/>
+                        <Label fx:id="lblTotalReclamations" text="0" styleClass="kpi-value"/>
+                        <Label fx:id="lblTotalTrend" text="" styleClass="kpi-trend-up"/>
+                    </VBox>
+
+                    <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                        <Label text="⏱ Temps Moyen Réponse" styleClass="kpi-label"/>
+                        <Label fx:id="lblAvgResponseTime" text="0.0 j" styleClass="kpi-value"/>
+                        <Label fx:id="lblAvgTrend" text="" styleClass="kpi-trend-down"/>
+                    </VBox>
+
+                    <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                        <Label text="⏳ En Attente" styleClass="kpi-label"/>
+                        <Label fx:id="lblEnAttente" text="0" styleClass="kpi-value"/>
+                        <Label fx:id="lblEnAttentePct" text="" styleClass="kpi-trend-down"/>
+                    </VBox>
+
+                    <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                        <Label text="🔥 Urgentes Non Répondues" styleClass="kpi-label"/>
+                        <Label fx:id="lblUrgentesNonRep" text="0" styleClass="kpi-value-danger"/>
+                        <Label fx:id="lblEscaladesCount" text="" styleClass="kpi-trend-down"/>
+                    </VBox>
+
+                </HBox>
+
+                <!-- ── ROW 2 : PIE CHART + LINE CHART ──────────────────── -->
+                <HBox spacing="16">
+
+                    <!-- Pie + Priority row -->
+                    <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS" prefWidth="390" spacing="10">
+                        <Label text="Répartition par Statut" styleClass="section-title"/>
+                        <PieChart fx:id="statusPieChart"
+                                  prefHeight="220"
+                                  labelsVisible="true"
+                                  legendVisible="true"/>
+                        <HBox spacing="0" styleClass="priority-row">
+                            <VBox styleClass="priority-cell-red"
+                                  HBox.hgrow="ALWAYS"
+                                  alignment="CENTER"
+                                  spacing="2">
+                                <Label text="Urgente" styleClass="prio-lbl"/>
+                                <Label fx:id="lblUrgente" text="0" styleClass="prio-val"/>
+                            </VBox>
+                            <VBox styleClass="priority-cell-amber"
+                                  HBox.hgrow="ALWAYS"
+                                  alignment="CENTER"
+                                  spacing="2">
+                                <Label text="Moyenne" styleClass="prio-lbl"/>
+                                <Label fx:id="lblMoyenne" text="0" styleClass="prio-val"/>
+                            </VBox>
+                            <VBox styleClass="priority-cell-green"
+                                  HBox.hgrow="ALWAYS"
+                                  alignment="CENTER"
+                                  spacing="2">
+                                <Label text="Faible" styleClass="prio-lbl"/>
+                                <Label fx:id="lblFaible" text="0" styleClass="prio-val"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Line chart 7 jours -->
+                    <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS" spacing="10">
+                        <Label text="Tendance — 7 Derniers Jours" styleClass="section-title"/>
+                        <LineChart fx:id="trendLineChart"
+                                   prefHeight="300"
+                                   legendVisible="true"
+                                   VBox.vgrow="ALWAYS">
+                            <xAxis>
+                                <CategoryAxis fx:id="trendXAxis" label=""/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="trendYAxis"
+                                            label=""
+                                            minorTickVisible="false"
+                                            tickUnit="1"/>
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
+
+                </HBox>
+
+                <!-- ── ROW 3 : CATEGORIES + ESCALADES + NOTIFICATIONS ───── -->
+                <HBox spacing="16">
+
+                    <VBox styleClass="dashboard-card" prefWidth="310" spacing="12">
+                        <Label text="🏷 Catégories Fréquentes" styleClass="section-title"/>
+                        <VBox fx:id="categoriesBox" spacing="10"/>
+                        <VBox styleClass="suggest-card" spacing="6">
+                            <Label text="Suggestion Auto-Catégorisation"
+                                   styleClass="suggest-title"/>
+                            <Label fx:id="lblSuggestKeywords"
+                                   text="Mots-clés: —"
+                                   styleClass="suggest-body"
+                                   wrapText="true"/>
+                            <Label fx:id="lblSuggestCategory"
+                                   text="→ Catégorie suggérée: —"
+                                   styleClass="suggest-result"
+                                   wrapText="true"/>
+                        </VBox>
+                    </VBox>
+
+                    <VBox styleClass="dashboard-card" prefWidth="330" spacing="8">
+                        <Label text="⚠ Escalades &amp; Alertes" styleClass="section-title"/>
+                        <ScrollPane fitToWidth="true"
+                                    prefHeight="320"
+                                    styleClass="clean-scroll">
+                            <VBox fx:id="escaladeBox" spacing="8" style="-fx-padding:4;"/>
+                        </ScrollPane>
+                    </VBox>
+
+                    <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS" spacing="8">
+                        <Label text="🔔 Notifications Récentes" styleClass="section-title"/>
+                        <ScrollPane fitToWidth="true"
+                                    prefHeight="320"
+                                    styleClass="clean-scroll">
+                            <VBox fx:id="notifBox" spacing="4" style="-fx-padding:4;"/>
+                        </ScrollPane>
+                    </VBox>
+
+                </HBox>
+
+                <!-- ── ROW 4 : TABLE RÉCLAMATIONS RÉCENTES ──────────────── -->
+                <VBox styleClass="dashboard-card" spacing="10">
+                    <Label text="📋 Réclamations Récentes — 7 Derniers Jours"
+                           styleClass="section-title"/>
+                    <TableView fx:id="recentTable"
+                               prefHeight="220"
+                               styleClass="clean-table"
+                               VBox.vgrow="NEVER">
+                        <columns>
+                            <TableColumn fx:id="colId"
+                                         text="ID"
+                                         prefWidth="60"/>
+                            <TableColumn fx:id="colSubject"
+                                         text="Sujet"
+                                         prefWidth="260"/>
+                            <TableColumn fx:id="colCategory"
+                                         text="Catégorie"
+                                         prefWidth="120"/>
+                            <TableColumn fx:id="colPriority"
+                                         text="Priorité"
+                                         prefWidth="100"/>
+                            <TableColumn fx:id="colStatus"
+                                         text="Statut"
+                                         prefWidth="120"/>
+                            <TableColumn fx:id="colDate"
+                                         text="Date"
+                                         prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

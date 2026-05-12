@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  adminajouterreponse.fxml
+  Opened as a MODAL DIALOG (Modality.APPLICATION_MODAL) — not a full page.
+  Data is injected by AdminAjouterReponseController.initData().
+
+  fx:id names here MUST match @FXML fields in AdminAjouterReponseController:
+    lblAvatar, lblUserName, lblRecInfo, lblRecSubject, taContent, lblMessage
+  onAction handlers:
+    #enregistrerReponse, #annuler
+-->
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.AdminAjouterReponseController"
+      prefWidth="560"
+      prefHeight="460"
+      spacing="0"
+      stylesheets="@style.css"
+      styleClass="app-root"
+      style="-fx-background-color:#f4f8fc; -fx-padding:32;">
+
+    <!-- ── Title ──────────────────────────────────────────────────────────── -->
+    <HBox alignment="CENTER_LEFT" spacing="14"
+          style="-fx-padding:0 0 20 0;">
+        <Label text="Répondre à la réclamation"
+               styleClass="page-title"/>
+    </HBox>
+
+    <!-- ── Form card ──────────────────────────────────────────────────────── -->
+    <VBox styleClass="form-card" spacing="18">
+
+        <Label text="Informations de la réclamation"
+               styleClass="form-section-title"/>
+
+        <!-- Reclamation info block — filled by initData() -->
+        <VBox styleClass="rec-info-block" spacing="8"
+              style="-fx-background-color:#f0f4fa;
+                     -fx-background-radius:8;
+                     -fx-padding:12;
+                     -fx-border-color:#dce5f0;
+                     -fx-border-radius:8;">
+
+            <!-- Row 1: avatar + name + meta -->
+            <HBox spacing="12" alignment="CENTER_LEFT">
+
+                <!-- Avatar circle -->
+                <Label fx:id="lblAvatar"
+                       text="?"
+                       style="-fx-background-color:#378ADD;
+                              -fx-text-fill:white;
+                              -fx-font-size:18px;
+                              -fx-font-weight:bold;
+                              -fx-pref-width:42;
+                              -fx-pref-height:42;
+                              -fx-alignment:center;
+                              -fx-background-radius:21;"/>
+
+                <VBox spacing="3">
+                    <!-- User full name -->
+                    <Label fx:id="lblUserName"
+                           text="Utilisateur"
+                           style="-fx-font-size:14px;
+                                  -fx-font-weight:bold;
+                                  -fx-text-fill:#0b1f44;"/>
+                    <!-- REC ID · date · Priorité · Statut -->
+                    <Label fx:id="lblRecInfo"
+                           text="REC #? · — · — · —"
+                           style="-fx-font-size:11px;
+                                  -fx-text-fill:#5d6f91;"/>
+                </VBox>
+            </HBox>
+
+            <!-- Subject in italic -->
+            <Label fx:id="lblRecSubject"
+                   text="Sujet de la réclamation…"
+                   wrapText="true"
+                   style="-fx-font-size:13px;
+                          -fx-text-fill:#0b1f44;
+                          -fx-font-style:italic;"/>
+        </VBox>
+
+        <!-- ── Response textarea ──────────────────────────────────────── -->
+        <VBox spacing="6">
+            <Label text="Votre réponse"
+                   style="-fx-font-size:13px;
+                          -fx-font-weight:bold;
+                          -fx-text-fill:#0b1f44;"/>
+            <TextArea fx:id="taContent"
+                      promptText="Écrire la réponse médicale officielle…"
+                      prefRowCount="5"
+                      wrapText="true"
+                      styleClass="text-area"/>
+        </VBox>
+
+        <!-- ── Action buttons ─────────────────────────────────────────── -->
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button text="Enregistrer la réponse"
+                    onAction="#enregistrerReponse"
+                    styleClass="btn-red"/>
+            <Button text="Annuler"
+                    onAction="#annuler"
+                    styleClass="btn-dark"/>
+        </HBox>
+
+        <!-- ── Feedback label (shown after save attempt) ──────────────── -->
+        <Label fx:id="lblMessage"
+               text=""
+               wrapText="true"
+               style="-fx-font-size:12px;"/>
+
+    </VBox>
+</VBox>

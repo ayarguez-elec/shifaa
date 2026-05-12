@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.UserDeleteReclamationController"
+            prefWidth="1530"
+            prefHeight="860"
+            stylesheets="@style.css"
+            styleClass="app-root">
+
+    <left>
+        <VBox prefWidth="270" styleClass="sidebar">
+            <Label text="💊 SHIFAA USER" styleClass="sidebar-logo"/>
+
+            <VBox spacing="18" styleClass="sidebar-menu">
+                <Button text="Accueil" onAction="#ouvrirUserDashboard" styleClass="sidebar-button"/>
+                <Button text="Mes Réclamations" onAction="#ouvrirUserReclamations" styleClass="sidebar-button-active"/>
+                <Button text="Mes Réponses" onAction="#ouvrirUserReponses" styleClass="sidebar-button"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="24" styleClass="page-container">
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="Supprimer une Réclamation" styleClass="page-title"/>
+                <Button text="← Retour" onAction="#retourUserReclamations" styleClass="btn-dark"/>
+            </HBox>
+
+            <VBox spacing="18" styleClass="form-card" prefWidth="620" maxWidth="620">
+
+                <Label text="Voulez-vous vraiment supprimer cette réclamation ?" styleClass="form-section-title"/>
+
+                <HBox spacing="10">
+                    <Label text="ID Réclamation :" styleClass="label-title"/>
+                    <Label fx:id="idLabel" styleClass="label-title"/>
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Sujet :" styleClass="label-title"/>
+                    <Label fx:id="subjectLabel" styleClass="label-title"/>
+                </HBox>
+
+                <Button text="Supprimer la réclamation" onAction="#supprimerReclamation" styleClass="btn-red"/>
+
+                <Label fx:id="messageLabel" styleClass="message-label"/>
+
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
