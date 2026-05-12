@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1000.0"
+            styleClass="root" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controler.UpdateAppointment">
+    <children>
+        <!-- Sidebar -->
+        <AnchorPane prefHeight="650.0" prefWidth="220.0" styleClass="sidebar">
+            <children>
+                <Label layoutX="30.0" layoutY="40.0" text="SHIFAA" textFill="WHITE">
+                    <font><Font name="System Bold" size="24.0"/></font>
+                </Label>
+                <Button layoutY="120.0" prefHeight="50.0" prefWidth="220.0" styleClass="menu-button" text="Tableau de bord"/>
+                <Button layoutY="170.0" prefHeight="50.0" prefWidth="220.0" styleClass="menu-button-active" text="Rendez-vous"/>
+                <Button layoutY="220.0" prefHeight="50.0" prefWidth="220.0" styleClass="menu-button" text="Disponibilités"/>
+            </children>
+        </AnchorPane>
+
+        <Label layoutX="260.0" layoutY="30.0"
+               style="-fx-font-size: 22; -fx-font-weight: bold;"
+               text="Modification du Rendez-vous" textFill="#2d3748"/>
+
+        <!-- Search -->
+        <Label layoutX="260.0" layoutY="80.0" text="Rechercher par ID rendez-vous :"/>
+        <TextField fx:id="searchId" layoutX="260.0" layoutY="100.0" prefWidth="200.0" promptText="ID"/>
+        <Button layoutX="475.0" layoutY="100.0"
+                prefHeight="30.0" prefWidth="110.0"
+                styleClass="btn-primary" text="Rechercher"
+                onAction="#rechercherRdv"/>
+
+        <!-- Identification -->
+        <Label layoutX="260.0" layoutY="150.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Identification"/>
+
+        <Label layoutX="260.0" layoutY="178.0" text="ID Patient :"/>
+        <TextField fx:id="patientId" layoutX="260.0" layoutY="196.0" prefWidth="160.0"/>
+
+        <Label layoutX="450.0" layoutY="178.0" text="ID Médecin :"/>
+        <TextField fx:id="doctorId" layoutX="450.0" layoutY="196.0" prefWidth="160.0"/>
+
+        <!-- Détails -->
+        <Label layoutX="260.0" layoutY="245.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Détails du Rendez-vous"/>
+
+        <Label layoutX="260.0" layoutY="273.0" text="Date :"/>
+        <DatePicker fx:id="appointmentDate" layoutX="260.0" layoutY="291.0" prefWidth="160.0"/>
+
+        <Label layoutX="450.0" layoutY="273.0" text="Heure :"/>
+        <TextField fx:id="appointmentTime" layoutX="450.0" layoutY="291.0"
+                   prefWidth="160.0" promptText="HH:mm:ss"/>
+
+        <Label layoutX="640.0" layoutY="273.0" text="Type :"/>
+        <ComboBox fx:id="type" layoutX="640.0" layoutY="291.0" prefWidth="160.0"/>
+
+        <!-- Paiement -->
+        <Label layoutX="260.0" layoutY="345.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Paiement"/>
+
+        <Label layoutX="260.0" layoutY="373.0" text="Méthode :"/>
+        <ComboBox fx:id="paymentMethod" layoutX="260.0" layoutY="391.0" prefWidth="200.0"/>
+
+        <!-- Raison -->
+        <Label layoutX="260.0" layoutY="440.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Informations complémentaires"/>
+        <Label layoutX="260.0" layoutY="468.0" text="Raison :"/>
+        <TextArea fx:id="reason" layoutX="260.0" layoutY="486.0"
+                  prefHeight="80.0" prefWidth="540.0"/>
+
+        <Label fx:id="messageLabel" layoutX="260.0" layoutY="578.0"
+               style="-fx-text-fill: #38A169;"/>
+
+        <Button layoutX="690.0" layoutY="600.0"
+                prefHeight="40.0" prefWidth="120.0"
+                styleClass="btn-primary" text="Modifier"
+                onAction="#modifierRdv"/>
+    </children>
+</AnchorPane>

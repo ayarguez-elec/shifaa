@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1200.0"
+            styleClass="root" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controler.DashboardAppointment">
+
+    <children>
+        <!-- ================= SIDEBAR ================= -->
+        <VBox prefHeight="700.0" prefWidth="250.0" styleClass="sidebar"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <padding><Insets top="30" bottom="30"/></padding>
+            <children>
+                <!-- Logo -->
+                <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 0 0 30 20;">
+                    <children>
+                        <Label text="❤️" style="-fx-font-size: 24px;"/>
+                        <VBox>
+                            <Label text="SHIFAA" styleClass="sidebar-title"/>
+                            <Label text="Espace assistante" styleClass="sidebar-subtitle"/>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- User Profile Section (MOVED TO TOP) -->
+                <VBox styleClass="sidebar-profile">
+                    <children>
+                        <ImageView fitWidth="80" fitHeight="80" preserveRatio="false" smooth="true" styleClass="sidebar-profile-img">
+                            <image><Image url="@avatar_assistant.png"/></image>
+                            <clip><Circle radius="40" centerX="40" centerY="40"/></clip>
+                        </ImageView>
+                        <VBox alignment="CENTER" spacing="2">
+                            <Label fx:id="sidebarUserName" text="Sara Amira" styleClass="sidebar-profile-name"/>
+                            <Label fx:id="sidebarUserRole" text="Assistante médicale" styleClass="sidebar-profile-role"/>
+                        </VBox>
+
+                    </children>
+                </VBox>
+
+                <Label text="GESTION" styleClass="menu-section-title"/>
+                <Button fx:id="btnNavRdv" prefWidth="250.0" styleClass="menu-button-active"
+                        text="📅 Rendez-vous" alignment="BASELINE_LEFT"/>
+                <Button fx:id="btnNavDispo" prefWidth="250.0" styleClass="menu-button"
+                        text="🕒 Disponibilités" alignment="BASELINE_LEFT" onAction="#goToDisponibilites"/>
+
+                <Region VBox.vgrow="ALWAYS"/>
+            </children>
+        </VBox>
+
+        <!-- ================= MAIN CONTENT ================= -->
+        <VBox layoutX="250.0" prefHeight="700.0" prefWidth="950.0"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+              styleClass="main-content">
+
+            <!-- COLORED HEADER STRIP (Button removed) -->
+            <HBox styleClass="page-header-strip" alignment="CENTER_LEFT">
+                <children>
+                    <VBox HBox.hgrow="ALWAYS">
+                        <Label text="Rendez-vous" styleClass="page-title-white"/>
+                        <Label text="Gestion des appointments — vue assistante" styleClass="page-subtitle-white"/>
+                    </VBox>
+                </children>
+            </HBox>
+
+            <VBox VBox.vgrow="ALWAYS" style="-fx-padding: 25 40 30 40;" spacing="0">
+                <children>
+
+                    <!-- TABS (pill style) -->
+                    <HBox alignment="CENTER_LEFT" spacing="8" style="-fx-padding: 0 0 20 0;">
+                        <children>
+                            <Button fx:id="tabListe"     text="Liste"      styleClass="nav-tab-active" onAction="#showListePane"/>
+                            <Button fx:id="tabStats"     text="Statistiques" styleClass="nav-tab"      onAction="#showStatsPane"/>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button fx:id="tabAjouter"   text="+ Nouveau Rendez-vous" styleClass="btn-add-highlight" onAction="#showAjouterPane"/>
+                        </children>
+                    </HBox>
+
+                    <!-- NOTIFICATION MESSAGE -->
+                    <Label fx:id="messageLabel" style="-fx-padding: 0 0 10 0;" visible="false"/>
+
+                    <!-- ================= PANES CONTAINER ================= -->
+                    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+                        <content>
+                            <StackPane>
+
+                            <!-- PANE: LISTE -->
+                            <VBox fx:id="paneListe" spacing="16">
+                                <children>
+                                    <!-- STATS CARDS — COLORÉES -->
+                                    <HBox spacing="16">
+                                        <VBox styleClass="stat-box-coral" HBox.hgrow="ALWAYS">
+                                            <Label text="TOTAL RDV"   styleClass="stat-title-white"/>
+                                            <Label fx:id="statTotal" text="0" styleClass="stat-value-white"/>
+                                            <Label text="Tous les statuts"    styleClass="stat-subtitle-white"/>
+                                        </VBox>
+                                        <VBox styleClass="stat-box-green" HBox.hgrow="ALWAYS">
+                                            <Label text="CONFIRMÉS"  styleClass="stat-title-white"/>
+                                            <Label fx:id="statToday" text="0" styleClass="stat-value-white"/>
+                                            <Label text="Total validés"    styleClass="stat-subtitle-white"/>
+                                        </VBox>
+                                    </HBox>
+
+
+
+                                    <!-- LIST CARD -->
+                                    <!-- LIST CONTAINER (Grid View) -->
+                                    <VBox VBox.vgrow="ALWAYS" style="-fx-spacing: 20;">
+                                        <children>
+                                            <FlowPane fx:id="listContainer" hgap="20" vgap="20" prefWrapLength="900" style="-fx-padding: 10;">
+                                                <!-- Cards will be added here -->
+                                            </FlowPane>
+                                        </children>
+                                    </VBox>
+
+                                </children>
+                            </VBox>
+
+                            <!-- PANE: STATISTIQUES -->
+                            <VBox fx:id="paneStats" spacing="25" visible="false">
+                                <children>
+                                    <HBox spacing="25">
+                                        <children>
+                                            <!-- Performance des Médecins -->
+                                            <VBox styleClass="stats-card" HBox.hgrow="ALWAYS" prefWidth="450">
+                                                <children>
+                                                    <Label text="Performance des Médecins" styleClass="stats-header-title"/>
+                                                    <VBox fx:id="doctorPerformanceVBox" spacing="15">
+                                                        <!-- Progress bars added dynamically -->
+                                                    </VBox>
+                                                </children>
+                                            </VBox>
+
+                                            <!-- Insights & Recommandations -->
+                                            <VBox styleClass="stats-card" HBox.hgrow="ALWAYS" prefWidth="450" spacing="15">
+                                                <children>
+                                                    <Label text="Insights &amp; Recommandations" styleClass="stats-header-title"/>
+                                                    
+                                                    <!-- Insight: Fill Rate -->
+                                                    <HBox styleClass="insight-card, insight-card-green">
+                                                        <children>
+                                                            <VBox styleClass="insight-icon-container, insight-icon-green">
+                                                                <Label text="📈" style="-fx-text-fill: white; -fx-font-size: 18;"/>
+                                                            </VBox>
+                                                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                                                <Label text="Taux d'occupation" styleClass="insight-title"/>
+                                                                <Label fx:id="insightFillRate" text="Chargement..." styleClass="insight-desc"/>
+                                                            </VBox>
+                                                        </children>
+                                                    </HBox>
+
+                                                    <!-- Insight: Optimal Slots -->
+                                                    <HBox styleClass="insight-card, insight-card-blue">
+                                                        <children>
+                                                            <VBox styleClass="insight-icon-container, insight-icon-blue">
+                                                                <Label text="🕒" style="-fx-text-fill: white; -fx-font-size: 18;"/>
+                                                            </VBox>
+                                                            <VBox spacing="4" HBox.hgrow="ALWAYS">
+                                                                <Label text="Heures de pointe" styleClass="insight-title"/>
+                                                                <Label fx:id="insightOptimalSlots" text="Chargement..." styleClass="insight-desc"/>
+                                                            </VBox>
+                                                        </children>
+                                                    </HBox>
+
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </HBox>
+
+
+                                    <!-- Bottom: Pie Chart (Répartition par Type) -->
+                                    <VBox styleClass="stats-card">
+                                        <children>
+                                            <Label text="Répartition par Type de Rendez-vous" styleClass="stats-header-title"/>
+                                            <HBox alignment="CENTER" styleClass="chart-container">
+                                                <children>
+                                                    <javafx.scene.chart.PieChart fx:id="typePieChart" prefHeight="350" prefWidth="600" />
+                                                </children>
+                                            </HBox>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </VBox>
+
+                            <!-- PANE: AJOUTER -->
+                            <VBox fx:id="paneAjouter" spacing="20" visible="false">
+                                <children>
+                                    <VBox styleClass="form-card" spacing="20">
+                                        <children>
+                                            <Label text="IDENTIFICATION" styleClass="form-section-title"/>
+                                            <!-- Doctor Selector -->
+                                            <HBox spacing="15">
+                                                <VBox spacing="6" prefWidth="210">
+                                                    <Label text="Spécialité du médecin" styleClass="form-label"/>
+                                                    <ComboBox fx:id="addDoctorSpec" prefWidth="210" promptText="Choisir spécialité" onAction="#handleSpecChangeAdd"/>
+                                                </VBox>
+                                                <VBox spacing="6" prefWidth="225">
+                                                    <Label text="Nom du médecin" styleClass="form-label"/>
+                                                    <ComboBox fx:id="addDoctorName" prefWidth="225" promptText="Choisir médecin"/>
+                                                </VBox>
+                                            </HBox>
+
+                                            <HBox spacing="40">
+                                                <VBox spacing="6" prefWidth="200">
+                                                    <Label text="Nom et Prénom Patient" styleClass="form-label"/>
+                                                    <ComboBox fx:id="addPatientId" prefWidth="200" promptText="Choisir le patient"/>
+                                                </VBox>
+                                            </HBox>
+
+                                            <Label text="DÉTAILS DU RENDEZ-VOUS" styleClass="form-section-title" style="-fx-padding: 10 0 5 0;"/>
+
+                                            <HBox spacing="40">
+                                                <VBox spacing="6" prefWidth="150">
+                                                    <Label text="Date"  styleClass="form-label"/>
+                                                    <DatePicker fx:id="addDate" styleClass="date-picker"/>
+                                                </VBox>
+                                                <VBox spacing="6" prefWidth="150">
+                                                    <Label text="Heure" styleClass="form-label"/>
+                                                    <TextField fx:id="addTime" promptText="HH:mm:ss" styleClass="text-field"/>
+                                                </VBox>
+                                                <VBox spacing="6" prefWidth="150">
+                                                    <Label text="Type"  styleClass="form-label"/>
+                                                    <ComboBox fx:id="addType" styleClass="combo-box" prefWidth="150"/>
+                                                </VBox>
+                                                <VBox spacing="6" prefWidth="150">
+                                                    <Label text="Mode"  styleClass="form-label"/>
+                                                    <ComboBox fx:id="addMode" styleClass="combo-box" prefWidth="150" promptText="Choisir mode"/>
+                                                </VBox>
+                                            </HBox>
+
+                                            <Label text="PAIEMENT" styleClass="form-section-title" style="-fx-padding: 10 0 5 0;"/>
+                                            <VBox spacing="6" prefWidth="200">
+                                                <Label text="Méthode" styleClass="form-label"/>
+                                                <ComboBox fx:id="addPayment" styleClass="combo-box" prefWidth="200"/>
+                                            </VBox>
+
+                                            <Label text="INFORMATIONS COMPLÉMENTAIRES" styleClass="form-section-title" style="-fx-padding: 10 0 5 0;"/>
+                                            <VBox spacing="6">
+                                                <Label text="Raison (max 100 caractères)" styleClass="form-label"/>
+                                                <TextArea fx:id="addReason" promptText="Motif de la consultation..." styleClass="text-area" prefHeight="70"/>
+                                            </VBox>
+
+                                            <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10 0 0 0;">
+                                                <Button text="Annuler"                       styleClass="btn-secondary" onAction="#showListePane"/>
+                                                <Button text="✓  Enregistrer le rendez-vous" styleClass="btn-primary"   onAction="#handleAdd"/>
+                                            </HBox>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </VBox>
+
+                            <!-- PANE: MODIFIER (Updated with Date Search) -->
+                            <VBox fx:id="paneModifier" spacing="20" visible="false">
+                                <children>
+                                    <VBox styleClass="form-card" spacing="20">
+                                        <children>
+                                            <Label text="RECHERCHER PAR DATE" styleClass="form-section-title"/>
+                                            <HBox spacing="16" alignment="CENTER_LEFT">
+                                                <children>
+                                                    <Label text="Choisir une date :" styleClass="form-label"/>
+                                                    <DatePicker fx:id="updDatePicker" onAction="#handleSearchByDateUpd"/>
+                                                    <Button text="🔍 Rechercher" styleClass="btn-secondary" onAction="#handleSearchByDateUpd"/>
+                                                </children>
+                                            </HBox>
+
+                                            <VBox fx:id="updResultsContainer" spacing="10">
+                                                <!-- Clickable results will appear here -->
+                                            </VBox>
+
+                                            <VBox fx:id="updFormContainer" spacing="20" visible="false" style="-fx-padding: 20 0 0 0;">
+                                                <Label text="MODIFIER LES CHAMPS" styleClass="form-section-title" style="-fx-padding: 10 0 5 0;"/>
+                                                <!-- Doctor Selector Update -->
+                                            <HBox spacing="15">
+                                                <VBox spacing="6" prefWidth="210">
+                                                    <Label text="Spécialité" styleClass="form-label"/>
+                                                    <ComboBox fx:id="updDoctorSpec" prefWidth="210" onAction="#handleSpecChangeUpd"/>
+                                                </VBox>
+                                                <VBox spacing="6" prefWidth="225">
+                                                    <Label text="Médecin" styleClass="form-label"/>
+                                                    <ComboBox fx:id="updDoctorName" prefWidth="225"/>
+                                                </VBox>
+                                            </HBox>
+
+                                            <HBox spacing="40">
+                                                <VBox spacing="6" prefWidth="200">
+                                                    <Label text="Nom et Prénom Patient" styleClass="form-label"/>
+                                                    <ComboBox fx:id="updPatientId" prefWidth="200" promptText="Choisir le patient"/>
+                                                </VBox>
+                                            </HBox>
+                                                <HBox spacing="40">
+                                                    <VBox spacing="6" prefWidth="150">
+                                                        <Label text="Date"  styleClass="form-label"/>
+                                                        <DatePicker fx:id="updDate" styleClass="date-picker"/>
+                                                    </VBox>
+                                                    <VBox spacing="6" prefWidth="150">
+                                                        <Label text="Heure" styleClass="form-label"/>
+                                                        <TextField fx:id="updTime" styleClass="text-field"/>
+                                                    </VBox>
+                                                    <VBox spacing="6" prefWidth="150">
+                                                        <Label text="Type"  styleClass="form-label"/>
+                                                        <ComboBox fx:id="updType" styleClass="combo-box" prefWidth="150"/>
+                                                    </VBox>
+                                                    <VBox spacing="6" prefWidth="150">
+                                                        <Label text="Mode"  styleClass="form-label"/>
+                                                        <ComboBox fx:id="updMode" styleClass="combo-box" prefWidth="150" promptText="Choisir mode"/>
+                                                    </VBox>
+                                                </HBox>
+                                                <VBox spacing="6" prefWidth="200">
+                                                    <Label text="Paiement" styleClass="form-label"/>
+                                                    <ComboBox fx:id="updPayment" styleClass="combo-box" prefWidth="200"/>
+                                                </VBox>
+                                                <VBox spacing="6">
+                                                    <Label text="Raison" styleClass="form-label"/>
+                                                    <TextArea fx:id="updReason" styleClass="text-area" prefHeight="70"/>
+                                                </VBox>
+                                                <HBox alignment="CENTER_RIGHT" spacing="10">
+                                                    <Button text="Annuler"       styleClass="btn-secondary" onAction="#showListePane"/>
+                                                    <Button text="✓ Mettre à jour" styleClass="btn-primary"   onAction="#handleUpdate"/>
+                                                </HBox>
+                                            </VBox>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </VBox>
+
+                            <!-- PANE: SUPPRIMER -->
+                            <VBox fx:id="paneSupprimer" spacing="20" visible="false">
+                                <children>
+                                    <VBox styleClass="form-card" spacing="20">
+                                        <children>
+                                            <Label text="SUPPRIMER PAR DATE" styleClass="form-section-title"/>
+                                            <HBox spacing="15" alignment="CENTER_LEFT">
+                                                <children>
+                                                    <Label text="Choisir une date :" styleClass="form-label"/>
+                                                    <DatePicker fx:id="delDatePicker" onAction="#handleSearchByDate"/>
+                                                    <Button text="🔍 Rechercher" styleClass="btn-secondary" onAction="#handleSearchByDate"/>
+                                                </children>
+                                            </HBox>
+
+                                            <VBox fx:id="delResultsContainer" spacing="10">
+                                                <!-- Les rendez-vous de la journée s'afficheront ici -->
+                                            </VBox>
+
+                                            <VBox fx:id="delInfoContainer" spacing="20" visible="false" style="-fx-background-color: #F8FAFC; -fx-padding: 20; -fx-background-radius: 12; -fx-border-color: #E2E8F0; -fx-border-radius: 12;">
+                                                <children>
+                                                    <Label text="Voulez-vous vraiment supprimer ce rendez-vous ?" style="-fx-font-weight: bold; -fx-text-fill: #1E293B;"/>
+                                                    <Label fx:id="delDetailsLabel" wrapText="true" style="-fx-text-fill: #64748B;"/>
+                                                    <HBox spacing="10">
+                                                        <Button text="Annuler" styleClass="btn-secondary" onAction="#showListePane"/>
+                                                        <Button text="🗑 Supprimer Définitivement" styleClass="btn-primary" style="-fx-background-color: #EF4444;" onAction="#handleDelete"/>
+                                                    </HBox>
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </VBox>
+
+                            </StackPane>
+                        </content>
+                    </ScrollPane>
+                </children>
+            </VBox>
+        </VBox>
+    </children>
+</AnchorPane>

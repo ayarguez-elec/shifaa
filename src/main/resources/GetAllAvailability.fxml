@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1100.0"
+            styleClass="root" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controler.GetAllAvailability">
+    <children>
+        <!-- Sidebar -->
+        <AnchorPane prefHeight="650.0" prefWidth="220.0" styleClass="sidebar">
+            <children>
+                <Label layoutX="30.0" layoutY="40.0" text="SHIFAA" textFill="WHITE">
+                    <font><Font name="System Bold" size="24.0"/></font>
+                </Label>
+                <Button layoutY="120.0" prefHeight="50.0" prefWidth="220.0"
+                        styleClass="menu-button" text="Tableau de bord"/>
+                <Button layoutY="170.0" prefHeight="50.0" prefWidth="220.0"
+                        styleClass="menu-button" text="Rendez-vous"/>
+                <Button layoutY="220.0" prefHeight="50.0" prefWidth="220.0"
+                        styleClass="menu-button-active" text="Disponibilités"/>
+            </children>
+        </AnchorPane>
+
+        <Label layoutX="260.0" layoutY="30.0"
+               style="-fx-font-size: 22; -fx-font-weight: bold;"
+               text="Liste des Disponibilités" textFill="#2d3748"/>
+
+        <Button layoutX="820.0" layoutY="30.0"
+                prefHeight="36.0" prefWidth="130.0"
+                styleClass="btn-primary" text="Actualiser"
+                onAction="#loadDisponibilites"/>
+
+        <!-- ✅ fx:id correspond exactement aux @FXML du contrôleur -->
+        <TableView fx:id="tableAvailability" layoutX="260.0" layoutY="80.0"
+                   prefHeight="510.0" prefWidth="800.0">
+            <columns>
+                <TableColumn fx:id="colId"     text="ID"          prefWidth="60"/>
+                <TableColumn fx:id="colDate"   text="Date"        prefWidth="130"/>
+                <TableColumn fx:id="colTime"   text="Heure"       prefWidth="110"/>
+                <TableColumn fx:id="colStatus" text="Statut"      prefWidth="110"/>
+                <TableColumn fx:id="colDoctor" text="Médecin ID"  prefWidth="100"/>
+            </columns>
+        </TableView>
+
+        <Label fx:id="messageLabel" layoutX="260.0" layoutY="605.0"
+               style="-fx-text-fill: #38A169;"/>
+    </children>
+</AnchorPane>

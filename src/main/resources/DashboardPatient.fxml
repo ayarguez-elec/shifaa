@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<HBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controler.DashboardPatient"
+      prefWidth="1280" prefHeight="780"
+      styleClass="root"
+      stylesheets="@/style.css, @/calendrier.css">
+
+    <!-- ═══════════════════════════════════════
+         SIDEBAR
+    ══════════════════════════════════════════ -->
+    <VBox styleClass="sidebar" prefWidth="230" minWidth="230">
+
+        <!-- Logo -->
+        <VBox styleClass="sidebar-profile" alignment="CENTER" spacing="4">
+            <padding><Insets top="20" bottom="10"/></padding>
+            <Label text="🏥 SHIFAA" styleClass="sidebar-title"/>
+            <Label text="Espace Patient" styleClass="sidebar-subtitle"/>
+        </VBox>
+
+        <!-- Avatar Patient -->
+        <VBox styleClass="sidebar-profile" alignment="CENTER" spacing="8">
+            <padding><Insets top="10" bottom="16"/></padding>
+            <ImageView fx:id="patientAvatar" fitWidth="72" fitHeight="72" preserveRatio="true">
+                <clip>
+                    <Circle centerX="36" centerY="36" radius="36"/>
+                </clip>
+            </ImageView>
+            <Label fx:id="patientNameLabel" text="Aya Nguez" styleClass="sidebar-profile-name"/>
+            <Label fx:id="patientIdLabel"   text="ID: 14"   styleClass="sidebar-profile-role"/>
+        </VBox>
+
+        <Separator opacity="0.15"/>
+
+        <Label text="MES SERVICES" styleClass="menu-section-title"/>
+
+        <!-- Nav -->
+        <Button fx:id="tabListe"   text="📋  Mes Rendez-vous"   styleClass="menu-button-active"
+                onAction="#showListePane"   prefWidth="210" maxWidth="210"/>
+        <Button fx:id="tabAjouter" text="➕  Nouvelle demande"   styleClass="menu-button"
+                onAction="#showAjouterPane" prefWidth="210" maxWidth="210"/>
+
+        <Region VBox.vgrow="ALWAYS"/>
+
+        <Label text="v1.0 — SHIFAA" styleClass="sidebar-subtitle"
+               style="-fx-padding: 0 0 14 20; -fx-text-fill: #374151;"/>
+    </VBox>
+
+    <!-- ═══════════════════════════════════════
+         MAIN CONTENT
+    ══════════════════════════════════════════ -->
+    <VBox VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS" styleClass="main-content" spacing="0">
+
+        <!-- PAGE HEADER -->
+        <VBox styleClass="page-header-strip" spacing="4">
+            <Label text="Mes Rendez-vous" styleClass="page-title-white"/>
+            <Label text="Gérer vos demandes de consultation" styleClass="page-subtitle-white"/>
+        </VBox>
+
+        <!-- MESSAGE LABEL -->
+        <Label fx:id="messageLabel" visible="false" managed="false" wrapText="true"
+               style="-fx-padding: 8 20 8 20;"/>
+
+        <!-- ─── PANE LISTE ─────────────────────────── -->
+        <VBox fx:id="paneListe" VBox.vgrow="ALWAYS" spacing="0" visible="true">
+
+            <!-- Sub-nav bar -->
+            <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-padding: 14 24 10 24; -fx-background-color: white; -fx-border-color: #E5E7EB; -fx-border-width: 0 0 1 0;">
+                <Button text="📋 Mes demandes" styleClass="nav-tab-active" onAction="#showListePane"/>
+                <Button text="➕ Nouvelle demande" styleClass="nav-tab" onAction="#showAjouterPane"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: #F0F4F8; -fx-border-color: transparent;">
+                <VBox spacing="16" style="-fx-padding: 20 24 20 24;">
+                    <FlowPane fx:id="listContainer" hgap="16" vgap="16"/>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+
+        <!-- ─── PANE AJOUTER ──────────────────────────
+             Layout : Calendar (left) + Form (right)
+        ─────────────────────────────────────────────── -->
+        <VBox fx:id="paneAjouter" VBox.vgrow="ALWAYS" spacing="0" visible="false" managed="false">
+
+            <!-- Sub-nav bar -->
+            <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-padding: 14 24 10 24; -fx-background-color: white; -fx-border-color: #E5E7EB; -fx-border-width: 0 0 1 0;">
+                <Button text="📋 Mes demandes" styleClass="nav-tab" onAction="#showListePane"/>
+                <Button text="➕ Nouvelle demande" styleClass="nav-tab-active" onAction="#showAjouterPane"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: #F0F4F8; -fx-border-color: transparent;">
+                <HBox spacing="16" style="-fx-padding: 20 24 20 24;" alignment="TOP_LEFT">
+
+                    <!-- ── LEFT : Doctor Selection List ─────────────────── -->
+                    <VBox spacing="10" prefWidth="320" minWidth="320">
+                        <Label text="Choisissez un médecin" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1E293B;"/>
+                        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                            <VBox fx:id="doctorCardsContainer" spacing="10" style="-fx-padding: 0 5 0 0;">
+                                <!-- Cards will be dynamically added here -->
+                            </VBox>
+                        </ScrollPane>
+                    </VBox>
+
+                    <!-- ── RIGHT : Calendar & Form ─────────── -->
+                    <VBox spacing="16" HBox.hgrow="ALWAYS">
+
+                        <!-- Calendar Card -->
+                        <VBox fx:id="calendarCard" styleClass="form-card" spacing="14" visible="false" managed="false">
+                            <HBox alignment="CENTER_LEFT">
+                                <Label fx:id="calendarTitleLabel" text="Disponibilités" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1E293B;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <HBox alignment="CENTER" spacing="0">
+                                    <Button fx:id="btnPrevMonth" text="‹"
+                                            style="-fx-background-color: transparent; -fx-font-size:18px; -fx-cursor:hand; -fx-text-fill: #374151;"
+                                            onAction="#handlePrevMonth"/>
+                                    <Label fx:id="calendarMonthLabel" text="Mai 2026"
+                                           style="-fx-font-size:14px; -fx-font-weight:bold; -fx-text-fill:#1E293B; -fx-padding: 0 10 0 10;"/>
+                                    <Button fx:id="btnNextMonth" text="›"
+                                            style="-fx-background-color: transparent; -fx-font-size:18px; -fx-cursor:hand; -fx-text-fill: #374151;"
+                                            onAction="#handleNextMonth"/>
+                                </HBox>
+                            </HBox>
+
+                            <!-- Legend -->
+                            <HBox spacing="14" alignment="CENTER">
+                                <Circle radius="6" fill="#10B981"/>
+                                <Label text="Libre" styleClass="form-sublabel"/>
+                                <Circle radius="6" fill="#EF4444"/>
+                                <Label text="Occupé" styleClass="form-sublabel"/>
+                                <Circle radius="6" fill="#8B5CF6"/>
+                                <Label text="Sélectionné" styleClass="form-sublabel"/>
+                            </HBox>
+
+                            <!-- Calendar Grid -->
+                            <GridPane fx:id="calendarGrid" hgap="4" vgap="4" alignment="CENTER">
+                                <!-- Header row: day names -->
+                                <Label text="Lun" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="calendar-day-header"/>
+                                <Label text="Mar" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="calendar-day-header"/>
+                                <Label text="Mer" GridPane.columnIndex="2" GridPane.rowIndex="0" styleClass="calendar-day-header"/>
+                                <Label text="Jeu" GridPane.columnIndex="3" GridPane.rowIndex="0" styleClass="calendar-day-header"/>
+                                <Label text="Ven" GridPane.columnIndex="4" GridPane.rowIndex="0" styleClass="calendar-day-header"/>
+                                <Label text="Sam" GridPane.columnIndex="5" GridPane.rowIndex="0" styleClass="calendar-day-header"/>
+                                <Label text="Dim" GridPane.columnIndex="6" GridPane.rowIndex="0" styleClass="calendar-day-header"/>
+                            </GridPane>
+
+                            <!-- Selected date + slots -->
+                            <Label fx:id="selectedDateLabel" text="Sélectionnez une date disponible"
+                                   style="-fx-font-size:13px; -fx-text-fill:#6B7280; -fx-font-style:italic;"/>
+                            <VBox fx:id="timeSlotsContainer" spacing="8"/>
+                        </VBox>
+
+                        <!-- Form Card -->
+                        <VBox fx:id="addFormContainer" styleClass="form-card" spacing="14" visible="false" managed="false">
+
+                            <Label text="📝  DÉTAILS DE LA DEMANDE" styleClass="form-section-title"/>
+
+                            <!-- Note: Doctor Name and Spec are no longer needed here as they are selected on the left -->
+                            <Label fx:id="addFormDoctorLabel" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1E293B;"/>
+
+                            <!-- Date + Time -->
+                            <GridPane hgap="12" vgap="10">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                                </columnConstraints>
+                                <Label text="Date souhaitée"  styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <Label text="Heure (HH:mm)"   styleClass="form-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                <DatePicker fx:id="addDate" promptText="jj/mm/aaaa" disable="true"
+                                            maxWidth="Infinity" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <TextField  fx:id="addTime" promptText="ex: 09:00" disable="true"
+                                            maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                            </GridPane>
+
+                            <!-- Type + Payment + Mode -->
+                            <GridPane hgap="12" vgap="10">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                                    <ColumnConstraints hgrow="ALWAYS" percentWidth="34"/>
+                                </columnConstraints>
+                                <Label text="Type"      styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <Label text="Paiement"  styleClass="form-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                <Label text="Mode"      styleClass="form-label" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                                <ComboBox fx:id="addType"    promptText="Choisir"  maxWidth="Infinity" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                <ComboBox fx:id="addPayment" promptText="Choisir"  maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <ComboBox fx:id="addMode"    promptText="Choisir"  maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                            </GridPane>
+
+                            <!-- Reason -->
+                            <Label text="Motif de la visite" styleClass="form-label"/>
+                            <TextArea fx:id="addReason" promptText="Décrivez brièvement le motif..."
+                                      prefRowCount="3" wrapText="true"/>
+
+                            <!-- Submit -->
+                            <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10 0 0 0;">
+                                <Button text="Annuler" styleClass="btn-secondary" onAction="#handleCancelAdd"/>
+                                <Button text="✓  Envoyer la demande" styleClass="btn-primary" onAction="#handleAdd"/>
+                            </HBox>
+
+                        </VBox>
+                    </VBox>
+                </HBox>
+            </ScrollPane>
+        </VBox>
+
+        <!-- ─── PANE MODIFIER ─────────────────────────── -->
+        <VBox fx:id="paneModifier" VBox.vgrow="ALWAYS" spacing="0" visible="false" managed="false">
+
+            <HBox spacing="8" alignment="CENTER_LEFT" style="-fx-padding: 14 24 10 24; -fx-background-color: white; -fx-border-color: #E5E7EB; -fx-border-width: 0 0 1 0;">
+                <Button text="← Retour" styleClass="nav-tab" onAction="#showListePane"/>
+                <Label text="Modifier une demande" style="-fx-font-size:15px; -fx-font-weight:bold; -fx-text-fill:#1E293B; -fx-padding: 0 0 0 10;"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: #F0F4F8; -fx-border-color: transparent;">
+                <VBox spacing="16" style="-fx-padding: 20 24 20 24;">
+
+                    <!-- Search by date -->
+                    <VBox styleClass="form-card" spacing="12">
+                        <Label text="🔍  RECHERCHER PAR DATE" styleClass="form-section-title"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <DatePicker fx:id="updDatePicker" promptText="Choisir une date"/>
+                            <Button text="Rechercher" styleClass="btn-primary" onAction="#handleSearchByDateUpd"/>
+                        </HBox>
+                        <VBox fx:id="updResultsContainer" spacing="8"/>
+                    </VBox>
+
+                    <!-- Edit form -->
+                    <VBox fx:id="updFormContainer" styleClass="form-card" spacing="14" visible="false">
+                        <Label text="✏️  MODIFIER LA DEMANDE" styleClass="form-section-title"/>
+
+                        <GridPane hgap="12" vgap="10">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            </columnConstraints>
+                            <Label text="Spécialité" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label text="Médecin"    styleClass="form-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                            <ComboBox fx:id="updDoctorSpec" maxWidth="Infinity" GridPane.columnIndex="0" GridPane.rowIndex="1" onAction="#handleSpecChangeUpd"/>
+                            <ComboBox fx:id="updDoctorName" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        </GridPane>
+
+                        <GridPane hgap="12" vgap="10">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="50"/>
+                            </columnConstraints>
+                            <Label text="Date"  styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label text="Heure" styleClass="form-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                            <DatePicker fx:id="updDate" maxWidth="Infinity" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <TextField  fx:id="updTime" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        </GridPane>
+
+                        <GridPane hgap="12" vgap="10">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="33"/>
+                                <ColumnConstraints hgrow="ALWAYS" percentWidth="34"/>
+                            </columnConstraints>
+                            <Label text="Type"     styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label text="Paiement" styleClass="form-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                            <Label text="Mode"     styleClass="form-label" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                            <ComboBox fx:id="updType"    maxWidth="Infinity" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <ComboBox fx:id="updPayment" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                            <ComboBox fx:id="updMode"    maxWidth="Infinity" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        </GridPane>
+
+                        <Label text="Motif" styleClass="form-label"/>
+                        <TextArea fx:id="updReason" prefRowCount="3" wrapText="true"/>
+
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <Button text="Annuler" styleClass="btn-secondary" onAction="#showListePane"/>
+                            <Button text="✓  Enregistrer les modifications" styleClass="btn-primary" onAction="#handleUpdate"/>
+                        </HBox>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </VBox>
+
+    </VBox>
+</HBox>

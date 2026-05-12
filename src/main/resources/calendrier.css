@@ -1,0 +1,110 @@
+/* ═══════════════════════════════════════════════════════════
+   AJOUTS CSS — Calendrier de disponibilités (DashboardPatient)
+   À ajouter dans style.css (ou dans un fichier séparé)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── En-têtes jours (Lun, Mar, ...) ── */
+.calendar-day-header {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #9CA3AF;
+    -fx-alignment: CENTER;
+    -fx-min-width: 40;
+    -fx-min-height: 28;
+    -fx-max-width: 40;
+    -fx-max-height: 28;
+    -fx-padding: 0;
+}
+
+/* ── Base de chaque cellule jour ── */
+.calendar-day {
+    -fx-font-size: 13px;
+    -fx-font-weight: normal;
+    -fx-background-radius: 50%;
+    -fx-text-fill: #374151;
+    -fx-alignment: CENTER;
+}
+
+/* Jour passé : grisé, non cliquable */
+.calendar-day-past {
+    -fx-text-fill: #D1D5DB;
+    -fx-background-color: transparent;
+}
+
+/* Jour libre : vert → cliquable */
+.calendar-day-free {
+    -fx-background-color: #D1FAE5;
+    -fx-text-fill: #065F46;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.20), 4, 0, 0, 1);
+}
+
+.calendar-day-free:hover {
+    -fx-background-color: #10B981;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(16,185,129,0.40), 8, 0, 0, 2);
+}
+
+/* Jour occupé : rouge pâle */
+.calendar-day-busy {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #DC2626;
+    -fx-background-radius: 50%;
+}
+
+/* Jour sélectionné : violet */
+.calendar-day-selected {
+    -fx-background-color: #7C3AED;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(124,58,237,0.40), 8, 0, 0, 3);
+}
+
+/* Jour sans disponibilité : neutre */
+.calendar-day-none {
+    -fx-text-fill: #9CA3AF;
+    -fx-background-color: transparent;
+}
+
+/* ── Boutons créneaux horaires ── */
+.time-slot-btn {
+    -fx-background-color: #EFF6FF;
+    -fx-text-fill: #1D4ED8;
+    -fx-border-color: #BFDBFE;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+    -fx-min-width: 70;
+}
+
+.time-slot-btn:hover {
+    -fx-background-color: #3B82F6;
+    -fx-text-fill: white;
+    -fx-border-color: #3B82F6;
+    -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.35), 8, 0, 0, 3);
+}
+
+/* ── Bouton résultat de recherche (rouge) ── */
+.search-result-btn-red {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #DC2626;
+    -fx-border-color: #FECACA;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-size: 12px;
+    -fx-padding: 10 14 10 14;
+    -fx-cursor: hand;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.search-result-btn-red:hover {
+    -fx-background-color: #FCA5A5;
+    -fx-border-color: #DC2626;
+}
