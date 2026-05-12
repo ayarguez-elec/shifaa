@@ -1,0 +1,18 @@
+# ═══════════════════════════════════════════════════════════════
+# SHIFAA – Configuration SMTP (template)
+# Copiez ce fichier en "email.properties" et remplissez vos valeurs
+# ═══════════════════════════════════════════════════════════════
+
+mail.smtp.host=smtp.gmail.com
+mail.smtp.port=587
+mail.smtp.auth=true
+mail.smtp.starttls.enable=true
+
+mail.username=VOTRE_EMAIL@gmail.com
+mail.password=VOTRE_APP_PASSWORD_16_CHARS
+
+mail.from=VOTRE_EMAIL@gmail.com
+mail.from.name=SHIFAA – Gestion Santé
+
+qrcode.output.dir=qrcodes
+qrcode.size.px=300

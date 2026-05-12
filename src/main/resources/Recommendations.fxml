@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controler.RecommendationsController"
+            stylesheets="@shifaa.css"
+            prefWidth="1100" prefHeight="720">
+
+    <!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+    <left>
+        <VBox styleClass="sidebar">
+
+            <VBox styleClass="sidebar-logo-area" spacing="2">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="❤" style="-fx-font-size:26px; -fx-text-fill:#e05a5a;"/>
+                    <VBox spacing="1">
+                        <Label text="SHIFAA"        styleClass="logo-title"/>
+                        <Label text="Gestion Santé" styleClass="logo-subtitle"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <HBox styleClass="sidebar-profile" spacing="10" alignment="CENTER_LEFT">
+                <StackPane>
+                    <ImageView fx:id="imgAvatar" fitWidth="40" fitHeight="40" styleClass="profile-avatar-img">
+                        <image><Image url="@images/default_profile.png"/></image>
+                    </ImageView>
+                    <Label fx:id="lblInitials" text="SG" styleClass="profile-avatar" visible="false"/>
+                </StackPane>
+                <VBox alignment="CENTER_LEFT" spacing="2">
+                    <Label fx:id="lblUserName" text="Utilisateur" styleClass="profile-name"/>
+                    <Label fx:id="lblUserRole" text="Rôle"        styleClass="profile-role"/>
+                </VBox>
+            </HBox>
+
+            <VBox VBox.vgrow="ALWAYS">
+                <Label text="NAVIGATION" styleClass="nav-section-label"/>
+
+                <Button text="  📊  Analytiques"   styleClass="nav-item" maxWidth="Infinity"
+                        onAction="#handleNaviguerAnalytiques"/>
+                <Button text="  📅  Événements"    styleClass="nav-item" maxWidth="Infinity"
+                        onAction="#handleNaviguerEvenements"/>
+                <Button text="  👤  Participants"  styleClass="nav-item" maxWidth="Infinity"
+                        onAction="#handleNaviguerParticipants"/>
+                <Button text="  🎟  Réservations"  styleClass="nav-item" maxWidth="Infinity"
+                        onAction="#handleNaviguerReservations"/>
+
+                <!-- Active -->
+                <Button text="  🧠  Recommandations" maxWidth="Infinity"
+                        style="-fx-background-color:#243045; -fx-text-fill:#ffffff;
+                               -fx-border-color:transparent transparent transparent #9333ea;
+                               -fx-border-width:0 0 0 3; -fx-font-weight:bold;
+                               -fx-padding:11 18 11 18; -fx-alignment:center-left; -fx-cursor:hand;"/>
+
+                <Region VBox.vgrow="ALWAYS"/>
+                <Separator styleClass="nav-divider"/>
+                <Button text="  🚪  Déconnexion" styleClass="nav-logout" maxWidth="Infinity"
+                        onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- ═══════════════════ MAIN CONTENT ═══════════════════ -->
+    <center>
+        <VBox style="-fx-background-color:#f0f4f0;">
+
+            <!-- Page Header -->
+            <HBox styleClass="page-header" alignment="CENTER_LEFT" spacing="16">
+                <StackPane styleClass="page-title-icon">
+                    <Label text="🧠" style="-fx-font-size:20px;"/>
+                </StackPane>
+                <VBox spacing="3">
+                    <Label text="Recommandations Intelligentes" styleClass="page-title"/>
+                    <Label text="Événements personnalisés selon le profil et l'historique de chaque participant"
+                           styleClass="page-subtitle"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnEnvoyerEmail"
+                        text="✉  Envoyer par email"
+                        styleClass="btn, btn-primary, btn-lg"
+                        onAction="#handleEnvoyerEmail"/>
+            </HBox>
+
+            <!-- Stats bar -->
+            <HBox styleClass="stats-bar" spacing="14">
+                <HBox styleClass="stat-chip" spacing="10" alignment="CENTER_LEFT">
+                    <Label text="🧠" styleClass="stat-chip-icon, stat-chip-icon-purple"/>
+                    <VBox spacing="1">
+                        <Label text="Recommandations"  styleClass="stat-chip-label"/>
+                        <Label fx:id="lblStatTotal"  text="0" styleClass="stat-chip-value"/>
+                    </VBox>
+                </HBox>
+                <HBox styleClass="stat-chip" spacing="10" alignment="CENTER_LEFT">
+                    <Label text="👆" styleClass="stat-chip-icon, stat-chip-icon-blue"/>
+                    <VBox spacing="1">
+                        <Label text="Taux de clic"    styleClass="stat-chip-label"/>
+                        <Label fx:id="lblStatCtr"    text="0%" styleClass="stat-chip-value"/>
+                    </VBox>
+                </HBox>
+                <HBox styleClass="stat-chip" spacing="10" alignment="CENTER_LEFT">
+                    <Label text="✅" styleClass="stat-chip-icon, stat-chip-icon-green"/>
+                    <VBox spacing="1">
+                        <Label text="Taux conversion" styleClass="stat-chip-label"/>
+                        <Label fx:id="lblStatConv"   text="0%" styleClass="stat-chip-value"/>
+                    </VBox>
+                </HBox>
+                <HBox styleClass="stat-chip" spacing="10" alignment="CENTER_LEFT">
+                    <Label text="🏆" styleClass="stat-chip-icon, stat-chip-icon-gray"/>
+                    <VBox spacing="1">
+                        <Label text="Top catégorie"   styleClass="stat-chip-label"/>
+                        <Label fx:id="lblStatTopCat" text="—" styleClass="stat-chip-value"/>
+                    </VBox>
+                </HBox>
+            </HBox>
+
+            <!-- Controls bar -->
+            <HBox style="-fx-padding:14 28 10 28; -fx-spacing:12; -fx-alignment:center-left;
+                         -fx-background-color:#f0f4f0;">
+
+                <!-- Participant selector -->
+                <ComboBox fx:id="cbParticipant"
+                          promptText="Sélectionner un participant..."
+                          prefWidth="260"
+                          onAction="#handleParticipantChange"
+                          style="-fx-font-size:13px;"/>
+
+                <Separator orientation="VERTICAL" style="-fx-padding:0 4;"/>
+
+                <!-- Mode toggle buttons -->
+                <Button fx:id="btnModePersonal"  text="👤 Personnalisé"
+                        onAction="#handleModePersonal"
+                        style="-fx-background-color:#9333ea; -fx-text-fill:white;
+                               -fx-background-radius:20; -fx-padding:7 16; -fx-cursor:hand; -fx-font-size:12.5px;"/>
+                <Button fx:id="btnModeTrend"     text="🔥 Tendance"
+                        onAction="#handleModeTrend"
+                        style="-fx-background-color:#e2e8f0; -fx-text-fill:#4a5568;
+                               -fx-background-radius:20; -fx-padding:7 16; -fx-cursor:hand; -fx-font-size:12.5px;"/>
+                <Button fx:id="btnModePopular"   text="⭐ Populaire"
+                        onAction="#handleModePopular"
+                        style="-fx-background-color:#e2e8f0; -fx-text-fill:#4a5568;
+                               -fx-background-radius:20; -fx-padding:7 16; -fx-cursor:hand; -fx-font-size:12.5px;"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Button text="↺  Actualiser" onAction="#handleActualiser"
+                        styleClass="btn, btn-gray, btn-sm"/>
+            </HBox>
+
+            <!-- Info label -->
+            <Label fx:id="lblInfo"
+                   text="Sélectionnez un participant pour voir ses recommandations personnalisées."
+                   style="-fx-padding:0 28 8 28; -fx-text-fill:#718096;
+                          -fx-font-size:13px; -fx-font-style:italic;"/>
+
+            <!-- Cards scroll area -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background-color:#f0f4f0; -fx-background:#f0f4f0;
+                               -fx-border-color:transparent;">
+                <VBox.margin><Insets left="28" right="28" bottom="28"/></VBox.margin>
+                <FlowPane fx:id="cardsPane" hgap="20" vgap="20" prefWrapLength="820"
+                          style="-fx-background-color:transparent;"/>
+            </ScrollPane>
+
+        </VBox>
+    </center>
+
+</BorderPane>

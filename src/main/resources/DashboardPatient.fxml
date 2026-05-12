@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controler.DashboardPatientController"
+            stylesheets="@shifaa.css"
+            prefWidth="1100" prefHeight="720">
+
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-logo-area" spacing="2">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="❤" style="-fx-font-size:26px; -fx-text-fill:#e05a5a;"/>
+                    <VBox spacing="1">
+                        <Label text="SHIFAA"        styleClass="logo-title"/>
+                        <Label text="Gestion Santé" styleClass="logo-subtitle"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <HBox styleClass="sidebar-profile" spacing="10" alignment="CENTER_LEFT">
+                <StackPane>
+                    <ImageView fx:id="imgAvatar" fitWidth="40" fitHeight="40" styleClass="profile-avatar-img">
+                        <image>
+                            <Image url="@images/default_profile.png"/>
+                        </image>
+                    </ImageView>
+                    <Label fx:id="lblInitials" text="U" styleClass="profile-avatar" visible="false"/>
+                </StackPane>
+                <VBox alignment="CENTER_LEFT" spacing="2">
+                    <Label fx:id="lblUserName" text="Utilisateur"    styleClass="profile-name"/>
+                    <Label fx:id="lblUserRole" text="Rôle"           styleClass="profile-role"/>
+                </VBox>
+            </HBox>
+
+            <VBox VBox.vgrow="ALWAYS">
+                <Label text="NAVIGATION" styleClass="nav-section-label"/>
+                <Button text="  🏠  Mon Dashboard" styleClass="nav-item, nav-item-active" maxWidth="Infinity"/>
+                <Button text="  📅  Mes Rendez-vous" styleClass="nav-item" maxWidth="Infinity"/>
+                <Button text="  📁  Mon Dossier Méd." styleClass="nav-item" maxWidth="Infinity"/>
+                <Button text="  💬  Mes Réclamations" styleClass="nav-item" maxWidth="Infinity"/>
+
+                <Region VBox.vgrow="ALWAYS"/>
+                <Separator styleClass="nav-divider"/>
+                <Button text="  🚪  Déconnexion" styleClass="nav-logout" maxWidth="Infinity" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox style="-fx-background-color:#f0f4f0;" spacing="20" alignment="TOP_CENTER">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <VBox spacing="10" alignment="CENTER_LEFT" maxWidth="800">
+                <Label fx:id="lblWelcome" text="Bienvenue, !" style="-fx-font-size:32px; -fx-font-weight:bold; -fx-text-fill:#1a2332;"/>
+                <Label text="C'est un plaisir de vous revoir sur Shifaa." style="-fx-font-size:16px; -fx-text-fill:#718096;"/>
+            </VBox>
+
+            <FlowPane hgap="20" vgap="20" alignment="CENTER">
+                <VBox styleClass="stat-chip" prefWidth="250" prefHeight="120" alignment="CENTER">
+                    <Label text="Prochain Rendez-vous" styleClass="stat-chip-label"/>
+                    <Label text="Aucun prévu" styleClass="stat-chip-value" style="-fx-font-size:18px;"/>
+                </VBox>
+                <VBox styleClass="stat-chip" prefWidth="250" prefHeight="120" alignment="CENTER">
+                    <Label text="Dernière Analyse" styleClass="stat-chip-label"/>
+                    <Label text="12/04/2026" styleClass="stat-chip-value" style="-fx-font-size:18px;"/>
+                </VBox>
+                <VBox styleClass="stat-chip" prefWidth="250" prefHeight="120" alignment="CENTER">
+                    <Label text="Notifications" styleClass="stat-chip-label"/>
+                    <Label text="3 Nouvelles" styleClass="stat-chip-value" style="-fx-font-size:18px;"/>
+                </VBox>
+            </FlowPane>
+        </VBox>
+    </center>
+
+</BorderPane>

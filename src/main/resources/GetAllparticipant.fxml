@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controler.GetAllparticipant" stylesheets="@shifaa.css" prefWidth="1100" prefHeight="720">
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-logo-area">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="❤" style="-fx-font-size:26px; -fx-text-fill:#e05a5a;"/>
+                    <VBox spacing="1">
+                        <Label text="SHIFAA" styleClass="logo-title"/>
+                        <Label text="Gestion Santé" styleClass="logo-subtitle"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+            <HBox styleClass="sidebar-profile" spacing="10" alignment="CENTER_LEFT">
+                <StackPane>
+                    <ImageView fx:id="imgAvatar" fitWidth="40" fitHeight="40" styleClass="profile-avatar-img">
+                        <image>
+                            <Image url="@images/default_profile.png"/>
+                        </image>
+                    </ImageView>
+                    <Label fx:id="lblInitials" text="SG" styleClass="profile-avatar" visible="false"/>
+                </StackPane>
+                <VBox alignment="CENTER_LEFT" spacing="2">
+                    <Label fx:id="lblUserName" text="Utilisateur" styleClass="profile-name"/>
+                    <Label fx:id="lblUserRole" text="Rôle" styleClass="profile-role"/>
+                </VBox>
+            </HBox>
+            <VBox styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
+                <Label text="NAVIGATION" styleClass="nav-section-label"/>
+                <Button text="  👥  Utilisateurs" styleClass="nav-item" maxWidth="Infinity"/>
+                <Button text="  📅  Événements" styleClass="nav-item" onAction="#handleNaviguerEvenements" maxWidth="Infinity"/>
+                <Button text="  👤  Participants" styleClass="nav-item, nav-item-active" maxWidth="Infinity" onAction="#handleNaviguerParticipants"/>
+                <Button text="  📁  Dossiers Méd." styleClass="nav-item" maxWidth="Infinity"/>
+                <Button text="  💬  Réclamations" styleClass="nav-item" maxWidth="Infinity"/>
+                <Region VBox.vgrow="ALWAYS"/>
+                <Separator styleClass="nav-divider"/>
+                <Button text="  🚪  Déconnexion" styleClass="nav-logout" maxWidth="Infinity" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox style="-fx-background-color: #f0f4f0;">
+            <!-- Header -->
+            <HBox styleClass="page-header" alignment="CENTER_LEFT" spacing="16">
+                <StackPane styleClass="page-title-icon">
+                    <Label text="👤" style="-fx-font-size: 20px;"/>
+                </StackPane>
+                <VBox spacing="3">
+                    <Label text="Gestion des Participants" styleClass="page-title"/>
+                    <Label text="Gérez les participants et leurs inscriptions" styleClass="page-subtitle"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="＋ Ajouter un participant" styleClass="btn, btn-primary, btn-lg" onAction="#handleAjouter"/>
+            </HBox>
+
+            <!-- Filters -->
+            <HBox styleClass="filters-bar" alignment="CENTER_LEFT" spacing="10" style="-fx-margin: 0 28 16 28;">
+                <TextField fx:id="tfRecherche" promptText="🔍 Rechercher un participant..." styleClass="search-box" onKeyReleased="#handleRecherche" prefWidth="300"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="↺ Réinitialiser" styleClass="btn, btn-gray, btn-sm" onAction="#handleActualiser"/>
+            </HBox>
+            
+            <VBox VBox.vgrow="ALWAYS">
+                <Label fx:id="lblTotal" text="Total : 0 participant(s)" style="-fx-padding: 0 28 10 28; -fx-text-fill: #718096; -fx-font-size: 13px; -fx-font-style: italic;"/>
+                
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: #f0f4f0; -fx-border-color: transparent;">
+                    <VBox.margin>
+                        <Insets left="28" right="28" bottom="28"/>
+                    </VBox.margin>
+                    <FlowPane fx:id="cardsPane" hgap="20" vgap="20" prefWrapLength="800" style="-fx-background-color: transparent;"/>
+                </ScrollPane>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

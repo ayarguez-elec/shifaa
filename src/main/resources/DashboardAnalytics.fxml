@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controler.DashboardAnalyticsController"
+            stylesheets="@shifaa.css"
+            prefWidth="1100" prefHeight="720">
+
+    <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox styleClass="sidebar-logo-area" spacing="2">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="❤" style="-fx-font-size:26px; -fx-text-fill:#e05a5a;"/>
+                    <VBox spacing="1">
+                        <Label text="SHIFAA"        styleClass="logo-title"/>
+                        <Label text="Gestion Santé" styleClass="logo-subtitle"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <HBox styleClass="sidebar-profile" spacing="10" alignment="CENTER_LEFT">
+                <Label fx:id="lblInitials" text="A" styleClass="profile-avatar"/>
+                <VBox alignment="CENTER_LEFT" spacing="2">
+                    <Label fx:id="lblUserName" text="Admin" styleClass="profile-name"/>
+                    <Label fx:id="lblUserRole" text="Administrateur" styleClass="profile-role"/>
+                </VBox>
+            </HBox>
+
+            <VBox styleClass="sidebar-nav" VBox.vgrow="ALWAYS">
+                <Label text="NAVIGATION" styleClass="nav-section-label"/>
+                <Button text="  📊  Analytiques" maxWidth="Infinity" styleClass="nav-item-active"/>
+                <Button text="  📅  Événements"   styleClass="nav-item" maxWidth="Infinity" onAction="#handleNaviguerEvenements"/>
+                <Button text="  👤  Participants"  styleClass="nav-item" maxWidth="Infinity" onAction="#handleNaviguerParticipants"/>
+                <Button text="  🎟  Réservations"  styleClass="nav-item" maxWidth="Infinity" onAction="#handleNaviguerReservations"/>
+                
+                <Region VBox.vgrow="ALWAYS"/>
+                <Separator styleClass="nav-divider"/>
+                <Button text="  🚪  Déconnexion" styleClass="nav-logout" maxWidth="Infinity" onAction="#handleLogout"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- ═══════════════════════ MAIN CONTENT ═══════════════════════ -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+            <VBox spacing="0" style="-fx-background-color:#f0f4f0;">
+
+                <!-- Header -->
+                <HBox styleClass="page-header" alignment="CENTER_LEFT" spacing="16">
+                    <StackPane styleClass="page-title-icon" style="-fx-background-color: #f3e8ff;">
+                        <Label text="📊" style="-fx-font-size:20px;"/>
+                    </StackPane>
+                    <VBox spacing="3">
+                        <Label text="Tableau de bord décisionnel" styleClass="page-title"/>
+                        <Label text="Analyse en temps réel de la performance et de la participation" styleClass="page-subtitle"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Top Stats Cards -->
+                <HBox spacing="20" style="-fx-padding: 0 28 28 28;">
+                    <VBox styleClass="stat-chip" HBox.hgrow="ALWAYS">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <StackPane styleClass="stat-chip-icon, stat-chip-icon-blue">
+                                <Label text="📅"/>
+                            </StackPane>
+                            <VBox>
+                                <Label text="ÉVÉNEMENTS" styleClass="stat-chip-label"/>
+                                <Label fx:id="lblTotalEvents" text="0" styleClass="stat-chip-value"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <VBox styleClass="stat-chip" HBox.hgrow="ALWAYS">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <StackPane styleClass="stat-chip-icon, stat-chip-icon-green">
+                                <Label text="👥"/>
+                            </StackPane>
+                            <VBox>
+                                <Label text="PARTICIPANTS" styleClass="stat-chip-label"/>
+                                <Label fx:id="lblTotalParticipants" text="0" styleClass="stat-chip-value"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <VBox styleClass="stat-chip" HBox.hgrow="ALWAYS">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <StackPane styleClass="stat-chip-icon, stat-chip-icon-purple">
+                                <Label text="📈"/>
+                            </StackPane>
+                            <VBox>
+                                <Label text="SATURATION" styleClass="stat-chip-label"/>
+                                <Label fx:id="lblSaturation" text="0%" styleClass="stat-chip-value"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <VBox styleClass="stat-chip" HBox.hgrow="ALWAYS">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <StackPane styleClass="stat-chip-icon, stat-chip-icon-gray">
+                                <Label text="🎟"/>
+                            </StackPane>
+                            <VBox>
+                                <Label text="MOY. PLACES" styleClass="stat-chip-label"/>
+                                <Label fx:id="lblAvgPlaces" text="0" styleClass="stat-chip-value"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <VBox styleClass="stat-chip" HBox.hgrow="ALWAYS"
+                          style="-fx-background-color:white; -fx-background-radius:14;
+                                 -fx-border-color:#fde68a; -fx-border-width:1; -fx-border-radius:14;
+                                 -fx-padding:18 20 18 20;
+                                 -fx-effect:dropshadow(gaussian,rgba(0,0,0,0.06),8,0,0,2);">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <StackPane style="-fx-background-color:#fef3c7; -fx-background-radius:10;
+                                              -fx-min-width:40; -fx-min-height:40; -fx-alignment:center;">
+                                <Label text="⏳" style="-fx-font-size:18px;"/>
+                            </StackPane>
+                            <VBox>
+                                <Label text="EN ATTENTE" styleClass="stat-chip-label"/>
+                                <Label fx:id="lblWaitlist" text="0" styleClass="stat-chip-value"
+                                       style="-fx-text-fill:#d97706;"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <!-- Charts Grid -->
+                <GridPane hgap="20" vgap="20" style="-fx-padding: 0 28 28 28;">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="50" />
+                        <ColumnConstraints percentWidth="50" />
+                    </columnConstraints>
+
+                    <!-- Event Status Pie -->
+                    <VBox styleClass="chart-container" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label text="Répartition des événements" styleClass="chart-title"/>
+                        <PieChart fx:id="pieEventStatus" prefHeight="250" legendSide="RIGHT"/>
+                    </VBox>
+
+                    <!-- Popular Events Bar -->
+                    <VBox styleClass="chart-container" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label text="Événements les plus populaires" styleClass="chart-title"/>
+                        <BarChart fx:id="barPopularEvents" prefHeight="250">
+                            <xAxis><CategoryAxis label="Événement" /></xAxis>
+                            <yAxis><NumberAxis label="Places" /></yAxis>
+                        </BarChart>
+                    </VBox>
+
+                    <!-- Temporal Trends Line -->
+                    <VBox styleClass="chart-container" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="Tendance des réservations (7j)" styleClass="chart-title"/>
+                        <LineChart fx:id="lineTemporal" prefHeight="250">
+                            <xAxis><CategoryAxis label="Date" /></xAxis>
+                            <yAxis><NumberAxis label="Volume" /></yAxis>
+                        </LineChart>
+                    </VBox>
+
+                    <!-- Reservation Status Pie -->
+                    <VBox styleClass="chart-container" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="Taux d'acceptation global" styleClass="chart-title"/>
+                        <PieChart fx:id="pieResStatus" prefHeight="250" legendSide="RIGHT"/>
+                    </VBox>
+                </GridPane>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
