@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefWidth="1536.0" prefHeight="900.0"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.UserDashboardController"
+            styleClass="app-root">
+
+    <left>
+        <VBox prefWidth="260.0" spacing="25.0" styleClass="admin-sidebar">
+            <padding>
+                <Insets top="45" right="18" bottom="25" left="18"/>
+            </padding>
+
+            <children>
+                <Label text="💊 SHIFAA" styleClass="admin-logo"/>
+
+                <Button text="Accueil"
+                        styleClass="admin-menu-button-active"
+                        onAction="#goDashboard"/>
+
+                <Button text="Produits"
+                        styleClass="admin-menu-button"
+                        onAction="#goProducts"/>
+
+                <Button text="Pharmacies"
+                        styleClass="admin-menu-button"
+                        onAction="#goPharmacies"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="34.0" styleClass="dashboard-content">
+            <padding>
+                <Insets top="70" right="70" bottom="40" left="90"/>
+            </padding>
+
+            <children>
+
+                <VBox spacing="14">
+                    <children>
+                        <Label text="Bienvenue dans SHIFAA"
+                               styleClass="dashboard-main-title"/>
+
+                        <Label text="Consultez les produits médicaux disponibles et les pharmacies proches."
+                               styleClass="dashboard-main-subtitle"/>
+                    </children>
+                </VBox>
+
+                <HBox spacing="42" alignment="CENTER_LEFT">
+                    <children>
+
+                        <VBox alignment="CENTER" spacing="16" prefWidth="430" prefHeight="170" styleClass="dashboard-home-card">
+                            <children>
+                                <Label text="💊 Produits"
+                                       styleClass="dashboard-card-title"/>
+
+                                <Label text="Voir les médicaments disponibles"
+                                       styleClass="dashboard-card-subtitle"/>
+
+                                <Button text="Voir les produits"
+                                        onAction="#goProducts"
+                                        styleClass="dashboard-card-button"/>
+                            </children>
+                        </VBox>
+
+                        <VBox alignment="CENTER" spacing="16" prefWidth="430" prefHeight="170" styleClass="dashboard-home-card">
+                            <children>
+                                <Label text="🛡 Pharmacies"
+                                       styleClass="dashboard-card-title"/>
+
+                                <Label text="Trouver les pharmacies disponibles"
+                                       styleClass="dashboard-card-subtitle"/>
+
+                                <Button text="Voir les pharmacies"
+                                        onAction="#goPharmacies"
+                                        styleClass="dashboard-card-button"/>
+                            </children>
+                        </VBox>
+
+                    </children>
+                </HBox>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+            </children>
+        </VBox>
+    </center>
+
+</BorderPane>

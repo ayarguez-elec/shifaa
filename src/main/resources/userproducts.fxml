@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="900.0" prefWidth="1536.0"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.UserProductController"
+            styleClass="app-root">
+
+    <left>
+        <VBox prefWidth="260.0"
+              spacing="25.0"
+              styleClass="admin-sidebar">
+
+            <padding>
+                <Insets top="45" right="18" bottom="25" left="18"/>
+            </padding>
+
+            <children>
+                <Label text="💊 SHIFAA"
+                       styleClass="admin-logo"/>
+
+                <Button text="Accueil"
+                        styleClass="admin-menu-button"
+                        onAction="#goDashboard"/>
+
+                <Button text="Produits"
+                        styleClass="admin-menu-button-active"
+                        onAction="#goProducts"/>
+
+                <Button text="Pharmacies"
+                        styleClass="admin-menu-button"
+                        onAction="#goPharmacies"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="22.0"
+              styleClass="page-content">
+
+            <padding>
+                <Insets top="42" right="55" bottom="35" left="55"/>
+            </padding>
+
+            <children>
+
+                <HBox alignment="CENTER_LEFT"
+                      spacing="20.0">
+
+                    <children>
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label text="💊 Produits disponibles"
+                                       styleClass="admin-page-title"/>
+
+                                <Label text="Consultez les médicaments disponibles et ouvrez la fiche détaillée de chaque produit."
+                                       styleClass="admin-subtitle"/>
+                            </children>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Button text="Voir pharmacies"
+                                prefWidth="160.0"
+                                prefHeight="42.0"
+                                styleClass="dark-button"
+                                onAction="#goPharmacies"/>
+                    </children>
+                </HBox>
+
+                <HBox spacing="14.0"
+                      alignment="CENTER_LEFT"
+                      style="-fx-background-color: white;
+                             -fx-background-radius: 18;
+                             -fx-padding: 16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 14, 0, 0, 4);">
+
+                    <children>
+                        <TextField fx:id="searchField"
+                                   promptText="Rechercher un médicament..."
+                                   prefHeight="48.0"
+                                   prefWidth="430.0"
+                                   style="-fx-background-color: white;
+                                          -fx-border-color: #dbe4ef;
+                                          -fx-border-radius: 13;
+                                          -fx-background-radius: 13;
+                                          -fx-padding: 10;"/>
+
+                        <ComboBox fx:id="categoryCombo"
+                                  prefHeight="48.0"
+                                  prefWidth="250.0"
+                                  promptText="Toutes les catégories"
+                                  visibleRowCount="6"
+                                  style="-fx-background-color: white;
+                                         -fx-border-color: #dbe4ef;
+                                         -fx-border-radius: 13;
+                                         -fx-background-radius: 13;"/>
+
+                        <Button text="Réinitialiser"
+                                prefHeight="48.0"
+                                prefWidth="135.0"
+                                styleClass="dark-button"
+                                onAction="#resetFilters"/>
+                    </children>
+                </HBox>
+
+                <ScrollPane fitToWidth="true"
+                            VBox.vgrow="ALWAYS"
+                            styleClass="clean-scroll"
+                            style="-fx-background-color: transparent;
+                                   -fx-border-color: transparent;">
+
+                    <content>
+                        <FlowPane fx:id="productContainer"
+                                  hgap="24.0"
+                                  vgap="24.0"
+                                  prefWrapLength="1120.0"
+                                  style="-fx-background-color: transparent;
+                                         -fx-padding: 6 0 90 0;"/>
+                    </content>
+                </ScrollPane>
+
+                <HBox alignment="CENTER"
+                      spacing="18.0"
+                      prefHeight="66.0"
+                      style="-fx-background-color: white;
+                             -fx-background-radius: 14;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0, 0, 3);">
+
+                    <children>
+                        <Label fx:id="totalLabel"
+                               text="Total : 0 produit"
+                               styleClass="admin-subtitle"/>
+
+                        <Button text="&lt;"
+                                prefWidth="46.0"
+                                prefHeight="42.0"
+                                styleClass="dark-button"
+                                onAction="#previousPage"/>
+
+                        <Label fx:id="pageLabel"
+                               text="Page 0 / 0"
+                               style="-fx-background-color: #fb5a64;
+                                      -fx-text-fill: white;
+                                      -fx-font-weight: bold;
+                                      -fx-padding: 12 22 12 22;
+                                      -fx-background-radius: 10;"/>
+
+                        <Button text="&gt;"
+                                prefWidth="46.0"
+                                prefHeight="42.0"
+                                styleClass="dark-button"
+                                onAction="#nextPage"/>
+                    </children>
+                </HBox>
+
+            </children>
+        </VBox>
+    </center>
+
+</BorderPane>

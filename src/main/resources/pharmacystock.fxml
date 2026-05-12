@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="850.0" prefWidth="1536.0"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.PharmacyStockController"
+            styleClass="app-root"
+            style="-fx-background-color: #F8FAFC;">
+
+    <left>
+        <VBox prefWidth="260.0" spacing="25.0" styleClass="admin-sidebar">
+            <padding>
+                <Insets top="45" right="18" bottom="25" left="18"/>
+            </padding>
+
+            <children>
+                <Label text="SHIFAA PHARMACIE" styleClass="admin-logo"/>
+
+                <Button text="Mon stock"
+                        styleClass="admin-menu-button-active"
+                        onAction="#goStock"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="22.0"
+              styleClass="page-content"
+              style="-fx-background-color: #F8FAFC;">
+            <padding>
+                <Insets top="42" right="55" bottom="35" left="55"/>
+            </padding>
+
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label text="Gestion du stock"
+                                       styleClass="admin-page-title"/>
+
+                                <Label text="Choisissez votre pharmacie pour afficher ses produits et gerer leur disponibilite."
+                                       styleClass="admin-subtitle"/>
+                            </children>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Button text="+ Ajouter stock"
+                                prefWidth="170.0"
+                                prefHeight="46.0"
+                                styleClass="primary-button"
+                                onAction="#goAddStock"/>
+
+                        <Button text="Actualiser"
+                                prefWidth="140.0"
+                                prefHeight="46.0"
+                                styleClass="dark-button"
+                                onAction="#refreshStock"/>
+                    </children>
+                </HBox>
+
+                <VBox spacing="12.0"
+                      maxWidth="720.0"
+                      style="-fx-background-color: #FFFFFF;
+                             -fx-background-radius: 18;
+                             -fx-border-color: #E2E8F0;
+                             -fx-border-radius: 18;
+                             -fx-padding: 22;
+                             -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.07), 18, 0, 0, 5);">
+                    <children>
+                        <Label text="Choisir la pharmacie"
+                               style="-fx-text-fill: #0F172A;
+                                      -fx-font-size: 18px;
+                                      -fx-font-weight: bold;"/>
+
+                        <ComboBox fx:id="pharmacyCombo"
+                                  promptText="Choisir une pharmacie"
+                                  prefWidth="640.0"
+                                  prefHeight="48.0"
+                                  style="-fx-background-color: #FFFFFF;
+                                         -fx-border-color: #DBE4EF;
+                                         -fx-border-radius: 13;
+                                         -fx-background-radius: 13;
+                                         -fx-padding: 6;
+                                         -fx-font-size: 14px;
+                                         -fx-text-fill: #0F172A;"/>
+                    </children>
+                </VBox>
+
+                <Label fx:id="sectionTitleLabel"
+                       text="Produits de la pharmacie"
+                       style="-fx-text-fill: #0F172A;
+                              -fx-font-size: 22px;
+                              -fx-font-weight: bold;"/>
+
+                <ScrollPane fitToWidth="true"
+                            VBox.vgrow="ALWAYS"
+                            styleClass="clean-scroll"
+                            style="-fx-background-color: transparent;
+                                   -fx-background: transparent;
+                                   -fx-border-color: transparent;">
+                    <content>
+                        <FlowPane fx:id="stockContainer"
+                                  hgap="24.0"
+                                  vgap="24.0"
+                                  prefWrapLength="1050.0"
+                                  style="-fx-background-color: transparent;
+                                         -fx-padding: 6 0 90 0;"/>
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

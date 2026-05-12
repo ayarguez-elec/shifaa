@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="900.0" prefWidth="1536.0"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.AdminDashboardController"
+            styleClass="app-root">
+
+    <left>
+        <VBox prefWidth="260.0"
+              spacing="25.0"
+              styleClass="admin-sidebar">
+
+            <padding>
+                <Insets top="45" right="18" bottom="25" left="18"/>
+            </padding>
+
+            <children>
+                <Label text="💊 SHIFAA ADMIN"
+                       styleClass="admin-logo"/>
+
+                <Button text="Produits"
+                        styleClass="admin-menu-button"
+                        onAction="#goProducts"/>
+
+                <Button text="Pharmacies"
+                        styleClass="admin-menu-button"
+                        onAction="#goPharmacies"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="18.0"
+              styleClass="page-content">
+
+            <padding>
+                <Insets top="85" right="45" bottom="30" left="70"/>
+            </padding>
+
+            <children>
+                <Label text="Espace Administration"
+                       styleClass="admin-page-title"/>
+
+                <Label text="Choisissez une gestion à partir du menu à gauche."
+                       styleClass="admin-subtitle"/>
+            </children>
+        </VBox>
+    </center>
+
+</BorderPane>
