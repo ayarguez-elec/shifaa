@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+
+<?import javafx.scene.control.ScrollPane?>
+<ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent; -fx-background: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.SignUpController">
+    <content>
+        <AnchorPane prefHeight="800.0" prefWidth="1400.0" styleClass="root" stylesheets="@theme-medical.css">
+    <HBox alignment="CENTER" spacing="40" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+        <!-- PARTIE GAUCHE : GRAND CŒUR BLEU -->
+        <VBox spacing="25" alignment="CENTER" style="-fx-background-color: #1a202c; -fx-background-radius: 30; -fx-padding: 60 50;" prefWidth="400">
+
+            <!-- GRAND CŒUR -->
+            <ImageView fitHeight="250" fitWidth="250" preserveRatio="true">
+                <Image url="@/heart.png" />
+            </ImageView>
+
+            <Label text="SHIFAA" textFill="#FF5C5C" style="-fx-font-size: 32; -fx-font-weight: bold;" />
+
+            <Label text="Inscription" textFill="#FF5C5C" style="-fx-font-size: 18;" />
+
+        </VBox>
+
+        <!-- PARTIE DROITE : CONTENEUR MULTI-ÉTAPES -->
+        <StackPane prefWidth="550">
+            
+            <!-- ÉTAPE 1 : FORMULAIRE D'INSCRIPTION -->
+            <VBox fx:id="signUpForm" spacing="15" alignment="CENTER" style="-fx-padding: 30 25; -fx-background-color: white; -fx-background-radius: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);">
+
+                <Label text="Créer votre compte" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #1a202c;" />
+
+                <!-- PHOTO DE PROFIL -->
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <ImageView fx:id="profileImageView" fitHeight="70" fitWidth="70">
+                        <clip>
+                            <Circle radius="35" centerX="35" centerY="35" />
+                        </clip>
+                    </ImageView>
+                    <Button onAction="#choosePhoto" style="-fx-background-color: #4A5568; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12; -fx-cursor: hand;" text="📷 Choisir photo" />
+                    <Label fx:id="photoStatus" text="Aucune photo" style="-fx-font-size: 10; -fx-text-fill: #718096;" />
+                </HBox>
+
+                <!-- FORMULAIRE 2 COLONNES -->
+                <HBox spacing="20">
+                    <!-- COLONNE GAUCHE -->
+                    <VBox spacing="15" prefWidth="250">
+                        <StackPane alignment="TOP_LEFT">
+                            <TextField fx:id="firstNameField" promptText="Ex: Jean" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                            <Label text=" Prénom * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                        </StackPane>
+                        
+                        <StackPane alignment="TOP_LEFT">
+                            <TextField fx:id="lastNameField" promptText="Ex: Dupont" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                            <Label text=" Nom * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                        </StackPane>
+                        
+                        <StackPane alignment="TOP_LEFT">
+                            <TextField fx:id="emailField" promptText="Ex: jean.dupont@email.com" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                            <Label text=" Email * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                        </StackPane>
+                        
+                        <StackPane alignment="TOP_LEFT">
+                            <PasswordField fx:id="passwordField" promptText="Au moins 8 caractères" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                            <TextField fx:id="passwordVisible" promptText="Au moins 8 caractères"
+                                       visible="false" managed="false"
+                                       style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                            <Label text=" Mot de passe * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            <Button onAction="#togglePasswordVisibility" text="👁"
+                                    style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 12; -fx-padding: 0 8 0 0;"
+                                    StackPane.alignment="CENTER_RIGHT" />
+                        </StackPane>
+                        
+                        <StackPane alignment="TOP_LEFT">
+                            <PasswordField fx:id="confirmPasswordField" promptText="Retapez le mot de passe" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                            <TextField fx:id="confirmPasswordVisible" promptText="Retapez le mot de passe"
+                                       visible="false" managed="false"
+                                       style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                            <Label text=" Confirmer * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            <Button onAction="#toggleConfirmPasswordVisibility" text="👁"
+                                    style="-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 12; -fx-padding: 0 8 0 0;"
+                                    StackPane.alignment="CENTER_RIGHT" />
+                        </StackPane>
+                        
+                        <StackPane alignment="TOP_LEFT">
+                            <TextField fx:id="phoneField" promptText="Ex: 0612345678" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #E2E8F0; -fx-background-color: white;" />
+                            <Label text=" Téléphone " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #4A5568; -fx-font-size: 11; -fx-font-weight: bold;" />
+                        </StackPane>
+                    </VBox>
+
+                    <!-- COLONNE DROITE -->
+                    <VBox spacing="15" prefWidth="250">
+                        <HBox spacing="10">
+                            <StackPane alignment="TOP_LEFT" HBox.hgrow="ALWAYS">
+                                <TextField fx:id="ageField" promptText="Ex: 30" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #E2E8F0; -fx-background-color: white;" />
+                                <Label text=" Âge " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #4A5568; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                            <StackPane alignment="TOP_LEFT" HBox.hgrow="ALWAYS">
+                                <ComboBox fx:id="genderCombo" promptText="Sélectionner" style="-fx-padding: 8; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #E2E8F0; -fx-background-color: white;" />
+                                <Label text=" Genre " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #4A5568; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                        </HBox>
+                        
+                        <StackPane alignment="TOP_LEFT">
+                            <TextArea fx:id="addressArea" promptText="Ex: 123 Rue de la Santé" prefHeight="50" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #E2E8F0; -fx-background-color: white;" />
+                            <Label text=" Adresse " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #4A5568; -fx-font-size: 11; -fx-font-weight: bold;" />
+                        </StackPane>
+
+                        <StackPane alignment="TOP_LEFT">
+                            <ComboBox fx:id="roleCombo" promptText="Je suis..." prefWidth="250" style="-fx-padding: 8; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                            <Label text=" Rôle * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                        </StackPane>
+
+                        <!-- Champs DOCTEUR -->
+                        <VBox fx:id="doctorFields" spacing="15" visible="false" managed="false">
+                            <StackPane alignment="TOP_LEFT">
+                                <ComboBox fx:id="specialtyField" promptText="Spécialité *" prefWidth="250" style="-fx-padding: 8; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Spécialité * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                            <StackPane alignment="TOP_LEFT">
+                                <TextField fx:id="orderNumberField" promptText="Numéro d'ordre *" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Numéro d'ordre * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                            <StackPane alignment="TOP_LEFT">
+                                <TextField fx:id="consultationFeeField" promptText="Frais de consultation (DT) *" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Frais (DT) * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Button onAction="#chooseDocument" text="📄 Importer Diplôme (PDF) *" style="-fx-background-color: #4A5568; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 15; -fx-cursor: hand; -fx-font-weight: bold;" />
+                                <Label fx:id="documentStatus" text="Aucun fichier" style="-fx-font-size: 11; -fx-text-fill: #718096;" />
+                            </HBox>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Button onAction="#chooseSignature" text="✍ Importer Signature *" style="-fx-background-color: #6B46C1; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 15; -fx-cursor: hand; -fx-font-weight: bold;" />
+                                <Label fx:id="signatureStatus" text="Aucune signature" style="-fx-font-size: 11; -fx-text-fill: #718096;" />
+                            </HBox>
+                        </VBox>
+
+                        <!-- Champs PHARMACIEN -->
+                        <VBox fx:id="pharmacyFields" spacing="15" visible="false" managed="false">
+                            <StackPane alignment="TOP_LEFT">
+                                <TextField fx:id="pharmacyNameField" promptText="Ex: Pharmacie de la Gare" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Nom Pharmacie * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                            <StackPane alignment="TOP_LEFT">
+                                <TextField fx:id="licenceNumberField" promptText="Ex: LIC-123456" style="-fx-padding: 10; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Numéro de Licence * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Button onAction="#chooseDocument" text="📄 Importer Licence (PDF) *" style="-fx-background-color: #4A5568; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 15; -fx-cursor: hand; -fx-font-weight: bold;" />
+                                <Label fx:id="documentStatusPharma" text="Aucun fichier" style="-fx-font-size: 11; -fx-text-fill: #718096;" />
+                            </HBox>
+                        </VBox>
+
+                        <!-- Champs ASSISTANT -->
+                        <VBox fx:id="assistantFields" spacing="15" visible="false" managed="false">
+                            <StackPane alignment="TOP_LEFT">
+                                <ComboBox fx:id="doctorSelectionCombo" promptText="Sélectionner..." prefWidth="250" style="-fx-padding: 8; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #FF5C5C; -fx-background-color: white;" />
+                                <Label text=" Médecin Référent * " translateY="-8" translateX="10" style="-fx-background-color: white; -fx-text-fill: #FF5C5C; -fx-font-size: 11; -fx-font-weight: bold;" />
+                            </StackPane>
+                        </VBox>
+                    </VBox>
+                </HBox>
+
+                <VBox spacing="5" alignment="CENTER" style="-fx-padding: 5; -fx-background-color: #F7FAFC; -fx-background-radius: 8;">
+                    <ImageView fx:id="captchaImageView" fitHeight="40" fitWidth="120" preserveRatio="true" />
+                    <HBox spacing="10" alignment="CENTER">
+                        <TextField fx:id="captchaInputField" promptText="Texte de sécurité" prefWidth="150" />
+                        <Button onAction="#refreshCaptcha" text="↻" />
+                    </HBox>
+                </VBox>
+
+                <Label fx:id="errorLabelSignUp" text="" textFill="#FF5C5C" style="-fx-font-size: 12; -fx-font-weight: bold;" />
+                <Button onAction="#handleSignUp" text="S'INSCRIRE" style="-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10; -fx-cursor: hand;" prefWidth="520" />
+
+                <HBox alignment="CENTER" spacing="5">
+                    <Label text="Déjà un compte ?" textFill="#718096" style="-fx-font-size: 12;" />
+                    <Hyperlink text="Se connecter" onAction="#goToLogin" style="-fx-text-fill: #FF5C5C; -fx-font-weight: bold;" />
+                </HBox>
+            </VBox>
+
+            <!-- ÉTAPE 2 : VÉRIFICATION DU CODE (Masquée au début) -->
+            <VBox fx:id="verificationSection" spacing="25" alignment="CENTER" visible="false" style="-fx-padding: 50 40; -fx-background-color: white; -fx-background-radius: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);">
+                <ImageView fitHeight="100" fitWidth="100" preserveRatio="true">
+                    <Image url="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" />
+                </ImageView>
+                <Label text="Vérification de l'e-mail" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1a202c;" />
+                <Label fx:id="verificationText" text="Un code a été envoyé à votre adresse e-mail." style="-fx-text-fill: #718096; -fx-font-size: 14;" textAlignment="CENTER" wrapText="true" />
+                
+                <TextField fx:id="verificationCodeField" promptText="Entrez le code à 6 chiffres" style="-fx-padding: 15; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #FF5C5C; -fx-font-size: 16; -fx-alignment: center;" maxWidth="250" />
+                
+                <Label fx:id="errorLabel" text="" textFill="#FF5C5C" style="-fx-font-size: 12;" />
+                
+                <Button onAction="#handleVerifyRegistration" text="CONFIRMER L'INSCRIPTION" style="-fx-background-color: #48BB78; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 15; -fx-cursor: hand;" prefWidth="300" />
+                
+                <Hyperlink text="Retour au formulaire" onAction="#backToForm" style="-fx-text-fill: #718096;" />
+            </VBox>
+
+        </StackPane>
+
+    </HBox>
+        </AnchorPane>
+    </content>
+</ScrollPane>

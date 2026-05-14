@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1200.0" 
+            style="-fx-background-color: #f7fafc;" stylesheets="@style.css" 
+            xmlns="http://javafx.com/javafx/17" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="Controler.DashboardAvailability">
+
+    <children>
+        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" 
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            
+            <children>
+                <HBox VBox.vgrow="ALWAYS">
+                    <children>
+                        <!-- Main Display Area -->
+                        <VBox HBox.hgrow="ALWAYS" styleClass="content-area">
+                            <children>
+                                <!-- Header -->
+                                <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: white; -fx-padding: 20 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 1);">
+                                    <VBox>
+                                        <Label text="Gestion des Disponibilités" styleClass="page-title" style="-fx-font-size: 22; -fx-font-weight: bold;"/>
+                                        <Label text="Planification des créneaux médicaux" styleClass="page-subtitle" style="-fx-text-fill: #7f8c9a;"/>
+                                    </VBox>
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="tabAjouter" onAction="#showAjouterPane" text="+ Nouveau Créneau" style="-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 25; -fx-cursor: hand;"/>
+                                </HBox>
+
+                                <VBox spacing="25" style="-fx-padding: 30 40;" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <Label fx:id="messageLabel" style="-fx-font-weight: bold;" visible="false"/>
+                                        
+                                        <StackPane VBox.vgrow="ALWAYS">
+                                            <children>
+                                                <!-- PANE: LISTE -->
+                                                <VBox fx:id="paneListe" spacing="20">
+                                                    <HBox spacing="20">
+                                                        <VBox styleClass="stat-card" style="-fx-pref-width: 200;">
+                                                            <Label text="TOTAL" styleClass="stat-title"/>
+                                                            <Label fx:id="statTotal" text="0" styleClass="stat-value"/>
+                                                        </VBox>
+                                                        <VBox styleClass="stat-card" style="-fx-pref-width: 200;">
+                                                            <Label text="LIBRES" styleClass="stat-title"/>
+                                                            <Label fx:id="statFree" text="0" styleClass="stat-value"/>
+                                                        </VBox>
+                                                    </HBox>
+                                                    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+                                                        <content>
+                                                            <FlowPane fx:id="listContainer" hgap="20" vgap="20" />
+                                                        </content>
+                                                    </ScrollPane>
+                                                </VBox>
+
+                                                <!-- PANE: AJOUTER -->
+                                                <VBox fx:id="paneAjouter" spacing="20" visible="false">
+                                                    <VBox styleClass="form-card" spacing="15" style="-fx-padding: 30;">
+                                                        <Label text="Ajouter une disponibilité" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                                                        <GridPane vgap="15" hgap="15">
+                                                            <Label text="Spécialité :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                                            <ComboBox fx:id="addDoctorSpec" onAction="#handleSpecChangeAdd" prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                                                            
+                                                            <Label text="Médecin :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                                            <ComboBox fx:id="addDoctorName" prefWidth="250" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                                                            
+                                                            <Label text="Date :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                                            <DatePicker fx:id="addDate" prefWidth="250" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                                            
+                                                            <Label text="Heure (HH:mm:ss) :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                                            <TextField fx:id="addTime" prefWidth="250" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                                                            
+                                                            <Label text="Statut :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                                            <ComboBox fx:id="addStatus" prefWidth="250" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                                                        </GridPane>
+                                                        <HBox spacing="10" alignment="CENTER_RIGHT">
+                                                            <Button text="Annuler" onAction="#showListePane" styleClass="btn-secondary"/>
+                                                            <Button text="Valider" onAction="#handleAdd" styleClass="btn-primary"/>
+                                                        </HBox>
+                                                    </VBox>
+                                                </VBox>
+
+                                                <!-- PANE: MODIFIER -->
+                                                <VBox fx:id="paneModifier" spacing="20" visible="false">
+                                                    <VBox styleClass="form-card" spacing="15" style="-fx-padding: 30;">
+                                                        <Label text="Modifier une disponibilité" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                                            <DatePicker fx:id="updDatePicker" promptText="Rechercher par date"/>
+                                                            <Button text="Rechercher" onAction="#handleSearchByDateUpd" styleClass="btn-secondary"/>
+                                                        </HBox>
+                                                        <VBox fx:id="updResultsContainer" spacing="5"/>
+                                                        <Separator/>
+                                                        <VBox fx:id="updFormContainer" spacing="15" visible="false">
+                                                            <GridPane vgap="10" hgap="15">
+                                                                <Label text="Spécialité :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                                                <ComboBox fx:id="updDoctorSpec" onAction="#handleSpecChangeUpd" prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                                                                <Label text="Médecin :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                                                <ComboBox fx:id="updDoctorName" prefWidth="250" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                                                                <Label text="Date :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                                                <DatePicker fx:id="updDate" prefWidth="250" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                                                <Label text="Heure :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                                                <TextField fx:id="updTime" prefWidth="250" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                                                                <Label text="Statut :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                                                                <ComboBox fx:id="updStatus" prefWidth="250" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                                                            </GridPane>
+                                                            <HBox spacing="10" alignment="CENTER_RIGHT">
+                                                                <Button text="Annuler" onAction="#showListePane" styleClass="btn-secondary"/>
+                                                                <Button text="Sauvegarder" onAction="#handleUpdate" styleClass="btn-primary"/>
+                                                            </HBox>
+                                                        </VBox>
+                                                    </VBox>
+                                                </VBox>
+
+                                                <!-- PANE: SUPPRIMER -->
+                                                <VBox fx:id="paneSupprimer" spacing="20" visible="false">
+                                                    <VBox styleClass="form-card" spacing="15" style="-fx-padding: 30;">
+                                                        <Label text="Supprimer une disponibilité" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                                            <DatePicker fx:id="delDatePicker" promptText="Rechercher par date"/>
+                                                            <Button text="Rechercher" onAction="#handleSearchByDateDel" styleClass="btn-secondary"/>
+                                                        </HBox>
+                                                        <VBox fx:id="delResultsContainer" spacing="5"/>
+                                                        <VBox fx:id="delInfoContainer" spacing="15" visible="false" style="-fx-background-color: #fff5f5; -fx-padding: 15; -fx-background-radius: 8;">
+                                                            <Label fx:id="delDetailsLabel" wrapText="true"/>
+                                                            <HBox spacing="10" alignment="CENTER_RIGHT">
+                                                                <Button text="Garder" onAction="#showListePane" styleClass="btn-secondary"/>
+                                                                <Button text="Supprimer définitivement" onAction="#handleDelete" style="-fx-background-color: #e53e3e; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                                            </HBox>
+                                                        </VBox>
+                                                    </VBox>
+                                                </VBox>
+                                            </children>
+                                        </StackPane>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

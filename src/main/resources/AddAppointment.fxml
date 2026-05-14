@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1000.0"
+            styleClass="root"
+            stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controler.AddAppointment">
+    <children>
+        <!-- Sidebar -->
+        <AnchorPane prefHeight="650.0" prefWidth="220.0" styleClass="sidebar">
+            <children>
+                <Label layoutX="30.0" layoutY="40.0" text="SHIFAA" textFill="WHITE">
+                    <font><Font name="System Bold" size="24.0"/></font>
+                </Label>
+                <Button layoutY="120.0" prefHeight="50.0" prefWidth="220.0" styleClass="menu-button" text="Tableau de bord"/>
+                <Button layoutY="170.0" prefHeight="50.0" prefWidth="220.0" styleClass="menu-button-active" text="Rendez-vous"/>
+                <Button layoutY="220.0" prefHeight="50.0" prefWidth="220.0" styleClass="menu-button" text="Disponibilités"/>
+            </children>
+        </AnchorPane>
+
+        <!-- Title -->
+        <Label layoutX="260.0" layoutY="30.0"
+               style="-fx-font-size: 22; -fx-font-weight: bold;"
+               text="Ajouter un Rendez-vous" textFill="#2d3748"/>
+
+        <!-- Identification -->
+        <Label layoutX="260.0" layoutY="80.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Identification"/>
+
+        <Label layoutX="260.0" layoutY="110.0" text="ID Patient :"/>
+        <TextField fx:id="patientId" layoutX="260.0" layoutY="130.0" prefWidth="160.0"/>
+
+        <Label layoutX="450.0" layoutY="110.0" text="ID Médecin :"/>
+        <TextField fx:id="doctorId" layoutX="450.0" layoutY="130.0" prefWidth="160.0"/>
+
+        <!-- Détails RDV -->
+        <Label layoutX="260.0" layoutY="185.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Détails du Rendez-vous"/>
+
+        <Label layoutX="260.0" layoutY="215.0" text="Date :"/>
+        <DatePicker fx:id="appointmentDate" layoutX="260.0" layoutY="235.0" prefWidth="160.0"/>
+
+        <Label layoutX="450.0" layoutY="215.0" text="Heure :"/>
+        <TextField fx:id="appointmentTime" layoutX="450.0" layoutY="235.0"
+                   prefWidth="160.0" promptText="HH:mm:ss"/>
+
+        <Label layoutX="640.0" layoutY="215.0" text="Type :"/>
+        <ComboBox fx:id="type" layoutX="640.0" layoutY="235.0" prefWidth="160.0"/>
+
+        <!-- Paiement -->
+        <Label layoutX="260.0" layoutY="290.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Paiement"/>
+
+        <Label layoutX="260.0" layoutY="320.0" text="Méthode de paiement :"/>
+        <ComboBox fx:id="paymentMethod" layoutX="260.0" layoutY="340.0" prefWidth="200.0"/>
+
+        <!-- Raison -->
+        <Label layoutX="260.0" layoutY="395.0"
+               style="-fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Informations complémentaires"/>
+        <Label layoutX="260.0" layoutY="425.0" text="Raison :"/>
+        <TextArea fx:id="reason" layoutX="260.0" layoutY="445.0"
+                  prefHeight="100.0" prefWidth="540.0"/>
+
+        <!-- Message -->
+        <Label fx:id="messageLabel" layoutX="260.0" layoutY="560.0"
+               style="-fx-text-fill: #38A169;"/>
+
+        <!-- Buttons -->
+        <Button layoutX="690.0" layoutY="590.0"
+                prefHeight="40.0" prefWidth="120.0"
+                styleClass="btn-primary" text="Ajouter"
+                onAction="#ajouterRdv"/>
+        <Button layoutX="830.0" layoutY="590.0"
+                prefHeight="40.0" prefWidth="100.0"
+                style="-fx-background-color: #A0AEC0; -fx-text-fill: white; -fx-background-radius: 8; -fx-cursor: hand;"
+                text="Annuler" onAction="#annuler"/>
+    </children>
+</AnchorPane>

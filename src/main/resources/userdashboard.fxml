@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+
+<!--
+  userdashboard.fxml
+
+  CHANGES vs original:
+  - ROW 4 (TableView + all colXxx) REMOVED entirely
+  - "Dernières Réponses Reçues" panel renamed → "Activité Récente"
+    (now shows both admin responses + status-change notifications)
+-->
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controler.UserDashboardController"
+            maxWidth="Infinity"
+            maxHeight="Infinity"
+            stylesheets="@style.css"
+            styleClass="app-root">
+
+
+
+    <!-- ══ MAIN CONTENT ══════════════════════════════════════════════════════ -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="clean-scroll">
+            <VBox spacing="20" styleClass="page-container">
+
+                <!-- ── TOP BAR ────────────────────────────────────────────── -->
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Label text="Tableau de Bord" styleClass="page-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="lblNewResponsesBadge"
+                           text="● 0 réponse(s)"
+                           styleClass="badge-danger-label"
+                           visible="false"/>
+                    <Button fx:id="btnRefresh"
+                            text="🔄 Actualiser"
+                            onAction="#refreshDashboard"
+                            styleClass="btn-reset"/>
+                </HBox>
+
+                <!-- ── ROW 1 : 4 KPI CARDS ────────────────────────────────── -->
+                <HBox spacing="16">
+
+                    <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                        <Label text="📊 Mes Réclamations" styleClass="kpi-label"/>
+                        <Label fx:id="lblTotalReclamations" text="0" styleClass="kpi-value"/>
+                        <Label fx:id="lblTotalTrend" text="" styleClass="kpi-trend-up"/>
+                    </VBox>
+
+                    <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                        <Label text="⏳ En Attente" styleClass="kpi-label"/>
+                        <Label fx:id="lblEnAttente" text="0" styleClass="kpi-value"/>
+                        <Label fx:id="lblEnAttentePct" text="" styleClass="kpi-trend-down"/>
+                    </VBox>
+
+                    <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                        <Label text="✅ Résolues" styleClass="kpi-label"/>
+                        <Label fx:id="lblResolues" text="0" styleClass="kpi-value"/>
+                        <Label fx:id="lblResoluesTrend" text="" styleClass="kpi-trend-up"/>
+                    </VBox>
+
+                    <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS">
+                        <Label text="🔔 Réponses Reçues" styleClass="kpi-label"/>
+                        <Label fx:id="lblNouvellesReponses" text="0" styleClass="kpi-value-danger"/>
+                        <Label fx:id="lblReponsesInfo" text="" styleClass="kpi-trend-down"/>
+                    </VBox>
+
+                </HBox>
+
+                <!-- ── ROW 2 : PIE CHART + BAR CHART ──────────────────────── -->
+                <HBox spacing="16">
+
+                    <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS" prefWidth="390" spacing="10">
+                        <Label text="Mes Réclamations par Statut" styleClass="section-title"/>
+                        <PieChart fx:id="statusPieChart"
+                                  prefHeight="220"
+                                  labelsVisible="true"
+                                  legendVisible="true"/>
+                        <HBox spacing="0" styleClass="priority-row">
+                            <VBox styleClass="priority-cell-red"
+                                  HBox.hgrow="ALWAYS" alignment="CENTER" spacing="2">
+                                <Label text="Urgente" styleClass="prio-lbl"/>
+                                <Label fx:id="lblUrgente" text="0" styleClass="prio-val"/>
+                            </VBox>
+                            <VBox styleClass="priority-cell-amber"
+                                  HBox.hgrow="ALWAYS" alignment="CENTER" spacing="2">
+                                <Label text="Moyenne" styleClass="prio-lbl"/>
+                                <Label fx:id="lblMoyenne" text="0" styleClass="prio-val"/>
+                            </VBox>
+                            <VBox styleClass="priority-cell-green"
+                                  HBox.hgrow="ALWAYS" alignment="CENTER" spacing="2">
+                                <Label text="Faible" styleClass="prio-lbl"/>
+                                <Label fx:id="lblFaible" text="0" styleClass="prio-val"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS" spacing="10">
+                        <Label text="Mes Réclamations par Catégorie" styleClass="section-title"/>
+                        <BarChart fx:id="categoryBarChart"
+                                  prefHeight="300"
+                                  legendVisible="false"
+                                  VBox.vgrow="ALWAYS">
+                            <xAxis>
+                                <CategoryAxis fx:id="categoryXAxis" label="" tickLabelsVisible="true" tickLabelRotation="45"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="categoryYAxis"
+                                            label=""
+                                            minorTickVisible="false"
+                                            tickUnit="1"/>
+                            </yAxis>
+                        </BarChart>
+                    </VBox>
+
+                </HBox>
+
+                <!-- ── ROW 3 : PENDING ALERTS + ACTIVITY FEED ────────────── -->
+                <HBox spacing="16">
+
+                    <!-- Pending reclamations -->
+                    <VBox styleClass="dashboard-card" prefWidth="380" spacing="8">
+                        <Label text="⏳ Réclamations en Attente" styleClass="section-title"/>
+                        <ScrollPane fitToWidth="true"
+                                    prefHeight="320"
+                                    styleClass="clean-scroll">
+                            <VBox fx:id="pendingBox" spacing="8" style="-fx-padding:4;"/>
+                        </ScrollPane>
+                    </VBox>
+
+                    <!-- Activity feed: responses + status-change notifications -->
+                    <VBox styleClass="dashboard-card" HBox.hgrow="ALWAYS" spacing="8">
+                        <Label text="🔔 Activité Récente" styleClass="section-title"/>
+                        <Label text="Réponses reçues et changements de statut"
+                               style="-fx-font-size:11px; -fx-text-fill:#9aabb5;"/>
+                        <ScrollPane fitToWidth="true"
+                                    prefHeight="320"
+                                    styleClass="clean-scroll">
+                            <VBox fx:id="responsesBox" spacing="4" style="-fx-padding:4;"/>
+                        </ScrollPane>
+                    </VBox>
+
+                </HBox>
+
+                <!-- ROW 4 (recent reclamations table) has been removed -->
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

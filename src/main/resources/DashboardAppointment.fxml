@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.chart.PieChart?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1300.0" 
+            style="-fx-background-color: #f7fafc;" stylesheets="@style.css" 
+            xmlns="http://javafx.com/javafx/17" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="Controler.DashboardAppointment">
+
+    <children>
+        <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" 
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            
+            <!-- LEFT SIDEBAR -->
+
+            <!-- MAIN CONTENT AREA -->
+            <VBox HBox.hgrow="ALWAYS" styleClass="content-area">
+                <children>
+                    <!-- Header -->
+                    <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: white; -fx-padding: 20 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 1);">
+                        <VBox>
+                            <Label text="Gestion des Rendez-vous" styleClass="page-title"/>
+                            <Label text="Tableau de bord de l'assistant" styleClass="page-subtitle"/>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <HBox spacing="10">
+                            <Button onAction="#showStatsPane" text="📊 Statistiques" styleClass="btn-secondary" style="-fx-background-radius: 20; -fx-padding: 10 25;"/>
+                            <Button fx:id="tabAjouter" onAction="#showAjouterPane" text="+ Nouveau Rendez-vous" style="-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 25; -fx-cursor: hand;"/>
+                        </HBox>
+                    </HBox>
+
+                    <VBox spacing="25" style="-fx-padding: 30 40;" VBox.vgrow="ALWAYS">
+                        <Label fx:id="messageLabel" style="-fx-font-weight: bold;" visible="false"/>
+                        
+                        <StackPane VBox.vgrow="ALWAYS">
+                            
+                            <!-- PANE: LISTE (CARDS) -->
+                            <VBox fx:id="paneListe" spacing="20">
+                                <HBox spacing="20">
+                                    <VBox styleClass="stat-card" style="-fx-pref-width: 250;">
+                                        <Label text="TOTAL RDV" styleClass="stat-title"/>
+                                        <Label fx:id="statTotal" text="0" styleClass="stat-value"/>
+                                    </VBox>
+                                    <VBox styleClass="stat-card" style="-fx-pref-width: 250; -fx-border-color: #48BB78; -fx-border-width: 0 0 0 4;">
+                                        <Label text="CONFIRMÉS" styleClass="stat-title"/>
+                                        <Label fx:id="statToday" text="0" styleClass="stat-value" style="-fx-text-fill: #48BB78;"/>
+                                    </VBox>
+                                    <Region HBox.hgrow="ALWAYS" />
+                                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                                        <Button onAction="#showModifierPane" text="✏️ Modifier" styleClass="btn-secondary"/>
+                                        <Button onAction="#showSupprimerPane" text="🗑️ Supprimer" styleClass="btn-secondary"/>
+                                    </HBox>
+                                </HBox>
+
+                                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <FlowPane fx:id="listContainer" hgap="25" vgap="25" style="-fx-padding: 10;" />
+                                    </content>
+                                </ScrollPane>
+                            </VBox>
+
+                            <!-- PANE: STATS -->
+                            <VBox fx:id="paneStats" spacing="30" visible="false">
+                                <HBox spacing="30">
+                                    <VBox styleClass="form-card" prefWidth="500" style="-fx-padding: 25;">
+                                        <Label text="Performance des Médecins" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-padding: 0 0 15 0;"/>
+                                        <VBox fx:id="doctorPerformanceVBox" spacing="15"/>
+                                    </VBox>
+                                    
+                                    <VBox spacing="20" HBox.hgrow="ALWAYS">
+                                        <VBox styleClass="form-card" style="-fx-padding: 25;">
+                                            <Label text="Analyses &amp; Insights" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-padding: 0 0 10 0;"/>
+                                            <VBox spacing="10">
+                                                <Label fx:id="insightFillRate" text="Chargement..." wrapText="true"/>
+                                                <Label fx:id="insightOptimalSlots" text="Chargement..." wrapText="true"/>
+                                            </VBox>
+                                        </VBox>
+                                        
+                                        <VBox styleClass="form-card" VBox.vgrow="ALWAYS" style="-fx-padding: 25;">
+                                            <Label text="Répartition par Type" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+                                            <PieChart fx:id="typePieChart" prefHeight="300"/>
+                                        </VBox>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+
+                            <!-- PANE: AJOUTER -->
+                            <VBox fx:id="paneAjouter" spacing="20" visible="false">
+                                <VBox styleClass="form-card" spacing="20" style="-fx-padding: 35; -fx-max-width: 800;">
+                                    <Label text="Créer un nouveau rendez-vous" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+                                    
+                                    <GridPane hgap="20" vgap="15">
+                                        <columnConstraints>
+                                            <ColumnConstraints prefWidth="150" />
+                                            <ColumnConstraints hgrow="ALWAYS" />
+                                        </columnConstraints>
+                                        
+                                        <Label text="Spécialité :" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                        <ComboBox fx:id="addDoctorSpec" onAction="#handleSpecChangeAdd" maxWidth="Infinity" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                                        
+                                        <Label text="Médecin :" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                        <ComboBox fx:id="addDoctorName" maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                                        
+                                        <Label text="Patient :" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                        <ComboBox fx:id="addPatientId" maxWidth="Infinity" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                        
+                                        <Label text="Mode :" styleClass="form-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                        <ComboBox fx:id="addMode" maxWidth="Infinity" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                                    </GridPane>
+                                    
+                                    <Separator/>
+
+                                    <HBox spacing="20">
+                                        <VBox spacing="8" HBox.hgrow="ALWAYS">
+                                            <Label text="Date" styleClass="form-label"/>
+                                            <DatePicker fx:id="addDate" maxWidth="Infinity"/>
+                                        </VBox>
+                                        <VBox spacing="8" prefWidth="150">
+                                            <Label text="Heure" styleClass="form-label"/>
+                                            <TextField fx:id="addTime" promptText="HH:mm:ss"/>
+                                        </VBox>
+                                        <VBox spacing="8" prefWidth="180">
+                                            <Label text="Type" styleClass="form-label"/>
+                                            <ComboBox fx:id="addType" maxWidth="Infinity"/>
+                                        </VBox>
+                                        <VBox spacing="8" prefWidth="180">
+                                            <Label text="Paiement" styleClass="form-label"/>
+                                            <ComboBox fx:id="addPayment" maxWidth="Infinity"/>
+                                        </VBox>
+                                    </HBox>
+
+                                    <VBox spacing="8">
+                                        <Label text="Motif / Observations" styleClass="form-label"/>
+                                        <TextArea fx:id="addReason" prefHeight="80" wrapText="true"/>
+                                    </VBox>
+
+                                    <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                                        <Button text="Annuler" onAction="#showListePane" styleClass="btn-secondary"/>
+                                        <Button text="Enregistrer le RDV" onAction="#handleAdd" styleClass="btn-primary" prefWidth="200"/>
+                                    </HBox>
+                                </VBox>
+                            </VBox>
+
+                            <!-- PANE: MODIFIER -->
+                            <VBox fx:id="paneModifier" visible="false" spacing="20">
+                                <VBox styleClass="form-card" style="-fx-padding: 30;">
+                                    <Label text="Modifier un rendez-vous" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                                    <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 20 0;">
+                                        <DatePicker fx:id="updDatePicker" promptText="Date du RDV"/>
+                                        <Button text="Rechercher" onAction="#handleSearchByDateUpd" styleClass="btn-secondary"/>
+                                    </HBox>
+                                    <VBox fx:id="updResultsContainer" spacing="8" style="-fx-padding: 0 0 20 0;"/>
+                                    
+                                    <VBox fx:id="updFormContainer" visible="false" spacing="15">
+                                        <Separator/>
+                                        <GridPane hgap="20" vgap="10">
+                                            <Label text="Spécialité :" styleClass="form-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                            <ComboBox fx:id="updDoctorSpec" onAction="#handleSpecChangeUpd" maxWidth="Infinity" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                                            
+                                            <Label text="Médecin :" styleClass="form-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                                            <ComboBox fx:id="updDoctorName" maxWidth="Infinity" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                                            
+                                            <Label text="Patient :" styleClass="form-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                                            <ComboBox fx:id="updPatientId" maxWidth="Infinity" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                                            
+                                            <Label text="Mode :" styleClass="form-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                                            <ComboBox fx:id="updMode" maxWidth="Infinity" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                                        </GridPane>
+                                        
+                                        <HBox spacing="10">
+                                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                                <Label text="Date" styleClass="form-label"/>
+                                                <DatePicker fx:id="updDate" maxWidth="Infinity"/>
+                                            </VBox>
+                                            <VBox spacing="5" prefWidth="100">
+                                                <Label text="Heure" styleClass="form-label"/>
+                                                <TextField fx:id="updTime"/>
+                                            </VBox>
+                                            <VBox spacing="5" prefWidth="150">
+                                                <Label text="Type" styleClass="form-label"/>
+                                                <ComboBox fx:id="updType" maxWidth="Infinity"/>
+                                            </VBox>
+                                            <VBox spacing="5" prefWidth="150">
+                                                <Label text="Paiement" styleClass="form-label"/>
+                                                <ComboBox fx:id="updPayment" maxWidth="Infinity"/>
+                                            </VBox>
+                                        </HBox>
+
+                                        <VBox spacing="5">
+                                            <Label text="Motif" styleClass="form-label"/>
+                                            <TextArea fx:id="updReason" prefHeight="60" wrapText="true"/>
+                                        </VBox>
+
+                                        <HBox spacing="10" alignment="CENTER_RIGHT">
+                                            <Button text="Annuler" onAction="#showListePane" styleClass="btn-secondary"/>
+                                            <Button text="Confirmer" onAction="#handleUpdate" styleClass="btn-primary"/>
+                                        </HBox>
+                                    </VBox>
+                                </VBox>
+                            </VBox>
+
+                            <!-- PANE: SUPPRIMER -->
+                            <VBox fx:id="paneSupprimer" visible="false" spacing="20">
+                                <VBox styleClass="form-card" style="-fx-padding: 30;">
+                                    <Label text="Annuler un rendez-vous" style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+                                    <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 20 0;">
+                                        <DatePicker fx:id="delDatePicker" promptText="Sélectionner la date"/>
+                                        <Button text="Filtrer" onAction="#handleSearchByDate" styleClass="btn-secondary"/>
+                                    </HBox>
+                                    <VBox fx:id="delResultsContainer" spacing="8" style="-fx-padding: 0 0 20 0;"/>
+                                    
+                                    <VBox fx:id="delInfoContainer" visible="false" spacing="20" style="-fx-background-color: #fff5f5; -fx-padding: 20; -fx-background-radius: 10;">
+                                        <Label fx:id="delDetailsLabel" wrapText="true" style="-fx-text-fill: #c53030; -fx-font-weight: bold;"/>
+                                        <HBox spacing="15" alignment="CENTER_RIGHT">
+                                            <Button text="Garder le RDV" onAction="#showListePane" styleClass="btn-secondary"/>
+                                            <Button text="Confirmer l'annulation" onAction="#handleDelete" style="-fx-background-color: #e53e3e; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                        </HBox>
+                                    </VBox>
+                                </VBox>
+                            </VBox>
+
+                        </StackPane>
+                    </VBox>
+                </children>
+            </VBox>
+        </HBox>
+    </children>
+</AnchorPane>

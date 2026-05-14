@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controler.SmartBookingController"
+            stylesheets="@shifaa.css"
+            prefWidth="1100" prefHeight="720">
+
+    <!-- ═══════════════════════ MAIN CONTENT ═══════════════════════ -->
+    <center>
+        <VBox style="-fx-background-color:#f0f4f0;">
+
+            <!-- Header -->
+            <HBox styleClass="page-header" alignment="CENTER_LEFT" spacing="16">
+                <StackPane styleClass="page-title-icon">
+                    <Label text="🎟" style="-fx-font-size:20px;"/>
+                </StackPane>
+                <VBox spacing="3">
+                    <Label text="Smart Booking Engine" styleClass="page-title"/>
+                    <Label text="Réservation automatique — décision immédiate, règles métier intelligentes" styleClass="page-subtitle"/>
+                </VBox>
+            </HBox>
+
+            <SplitPane dividerPositions="0.38" VBox.vgrow="ALWAYS"
+                       style="-fx-background-color:#f0f4f0; -fx-padding:0 28 28 28;">
+
+                <!-- ═══ LEFT: BOOKING FORM ═══ -->
+                <ScrollPane fitToWidth="true" style="-fx-background-color:transparent; -fx-border-color:transparent;">
+                    <VBox spacing="18" style="-fx-background-color:transparent;" maxWidth="380">
+
+                        <!-- Engine status card -->
+                        <VBox style="-fx-background-color:linear-gradient(to bottom right,#1e3a5f,#2563eb);
+                                     -fx-background-radius:14; -fx-padding:18 20 18 20; -fx-spacing:6;">
+                            <Label text="⚡ MOTEUR ACTIF" style="-fx-text-fill:rgba(255,255,255,0.7); -fx-font-size:11px; -fx-font-weight:bold;"/>
+                            <Label text="Décision automatique" style="-fx-text-fill:#ffffff; -fx-font-size:16px; -fx-font-weight:bold;"/>
+                            <Label text="FIFO · Multi-places · Anti-surbooking" style="-fx-text-fill:rgba(255,255,255,0.6); -fx-font-size:11px;"/>
+                        </VBox>
+
+                        <!-- Form card -->
+                        <VBox styleClass="form-card" spacing="14">
+                            <Label text="NOUVELLE DEMANDE" styleClass="form-label"
+                                   style="-fx-font-size:13px; -fx-font-weight:bold; -fx-text-fill:#1a2332;"/>
+
+                            <VBox spacing="4">
+                                <Label text="ÉVÉNEMENT *" styleClass="form-label"/>
+                                <ComboBox fx:id="cbEvent" maxWidth="Infinity" styleClass="form-combo"
+                                          promptText="Sélectionnez un événement"/>
+                            </VBox>
+
+                            <!-- Places restantes indicator -->
+                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                <Label text="Disponibilité :" style="-fx-text-fill:#718096; -fx-font-size:12px;"/>
+                                <Label fx:id="lblPlacesRestantes" text="—"
+                                       style="-fx-font-size:12px; -fx-font-weight:bold; -fx-text-fill:#16a34a;"/>
+                            </HBox>
+
+                            <VBox spacing="4">
+                                <Label text="PARTICIPANT *" styleClass="form-label"/>
+                                <ComboBox fx:id="cbParticipant" maxWidth="Infinity" styleClass="form-combo"
+                                          promptText="Sélectionnez un participant"/>
+                            </VBox>
+
+                            <VBox spacing="4">
+                                <Label text="NOMBRE DE PLACES" styleClass="form-label"/>
+                                <Spinner fx:id="spPlaces" min="1" max="20" initialValue="1"
+                                         editable="true" maxWidth="Infinity"
+                                         style="-fx-background-color:white; -fx-border-color:#e2e8f0;
+                                                -fx-border-radius:8; -fx-background-radius:8;"/>
+                            </VBox>
+
+                            <!-- Result label -->
+                            <Label fx:id="lblResultat" text="" wrapText="true" maxWidth="340"
+                                   style="-fx-font-size:13px; -fx-padding:4 0 0 0;"/>
+
+                            <Button text="⚡  Soumettre la demande"
+                                    onAction="#handleReserver"
+                                    maxWidth="Infinity"
+                                    style="-fx-background-color:linear-gradient(to right,#1e3a5f,#2563eb);
+                                           -fx-text-fill:white; -fx-font-weight:bold; -fx-font-size:14px;
+                                           -fx-padding:12 0 12 0; -fx-background-radius:10; -fx-cursor:hand;"/>
+
+                            <!-- Rules summary -->
+                            <VBox spacing="5" style="-fx-background-color:#f8fafc; -fx-background-radius:10; -fx-padding:12;">
+                                <Label text="📋 Règles automatiques" style="-fx-font-weight:bold; -fx-text-fill:#1a2332; -fx-font-size:12px;"/>
+                                <Label text="✓ FIFO – premier arrivé, premier servi"    style="-fx-font-size:11px; -fx-text-fill:#4a5568;"/>
+                                <Label text="✓ Vérification de capacité instantanée"    style="-fx-font-size:11px; -fx-text-fill:#4a5568;"/>
+                                <Label text="✓ Multi-places par participant"             style="-fx-font-size:11px; -fx-text-fill:#4a5568;"/>
+                                <Label text="✓ Détection des doublons automatique"      style="-fx-font-size:11px; -fx-text-fill:#4a5568;"/>
+                                <Label text="✓ Blocage événements annulés/terminés"     style="-fx-font-size:11px; -fx-text-fill:#4a5568;"/>
+                            </VBox>
+                        </VBox>
+                    </VBox>
+                </ScrollPane>
+
+                <!-- ═══ RIGHT: RESERVATION LOG ═══ -->
+                <VBox spacing="12" style="-fx-background-color:transparent;">
+
+                    <!-- Filters -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Journal des réservations"
+                               style="-fx-font-size:15px; -fx-font-weight:bold; -fx-text-fill:#1a2332;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <ComboBox fx:id="cbFiltreStatut" styleClass="filter-select" prefWidth="160"/>
+                    </HBox>
+                    <Label fx:id="lblTotalRes" text="Total : 0 réservation(s)"
+                           style="-fx-text-fill:#718096; -fx-font-size:12px; -fx-font-style:italic;"/>
+
+                    <!-- Reservation rows scroll area -->
+                    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                                style="-fx-background-color:transparent; -fx-border-color:transparent;">
+                        <VBox fx:id="reservationsPane" spacing="10"
+                              style="-fx-background-color:transparent;"/>
+                    </ScrollPane>
+                </VBox>
+
+            </SplitPane>
+        </VBox>
+    </center>
+
+</BorderPane>

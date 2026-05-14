@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controler.Suppevent" stylesheets="@shifaa.css">
+    <center>
+        <VBox style="-fx-background-color: #f0f4f0;">
+            <!-- Header -->
+            <HBox styleClass="page-header" alignment="CENTER_LEFT">
+                <HBox spacing="15" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                    <StackPane styleClass="page-title-icon" style="-fx-background-color: #ffe4d4;">
+                        <Label text="🗑️" style="-fx-text-fill: #7a2c10; -fx-font-size: 20px;"/>
+                    </StackPane>
+                    <VBox>
+                        <Label text="Supprimer un événement" styleClass="page-title"/>
+                        <Label text="Sélectionnez un événement à supprimer" styleClass="page-subtitle"/>
+                    </VBox>
+                </HBox>
+                <Button text="Retour à la liste" styleClass="btn, btn-outline" onAction="#handleRetour"/>
+            </HBox>
+
+            <VBox style="-fx-padding: 28 28 28 28;" VBox.vgrow="ALWAYS" spacing="15">
+                <Label fx:id="lblMessage" text="" style="-fx-font-weight: bold;"/>
+                
+                <TableView fx:id="tableView" styleClass="shifaa-table" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="colTitre" text="Titre" prefWidth="200"/>
+                        <TableColumn fx:id="colType" text="Type" prefWidth="150"/>
+                        <TableColumn fx:id="colDate" text="Date" prefWidth="120"/>
+                        <TableColumn fx:id="colLieu" text="Lieu" prefWidth="150"/>
+                        <TableColumn fx:id="colStatus" text="Statut" prefWidth="120"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10" alignment="CENTER_RIGHT">
+                    <Button text="Supprimer la sélection" styleClass="btn, btn-danger, btn-lg" onAction="#handleSupprimer"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

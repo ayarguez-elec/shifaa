@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  userescalade.fxml
+  Modal dialog opened by UserReclamationController.openEscaladeDialog()
+
+  fx:id contract (must match UserEscaladeController @FXML fields):
+    lblSubject      → reclamation subject
+    lblMeta         → "REC #X · Priorité · Date"
+    txtReason       → TextArea for escalation reason
+    sliderUrgence   → Slider 0–10 (integer)
+    lblUrgenceValue → live display of slider value
+    lblError        → validation error message
+    btnSubmit       → triggers #handleSubmit
+    btnCancel       → triggers #handleCancel
+-->
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controler.UserEscaladeController"
+      prefWidth="520"
+      prefHeight="460"
+      spacing="0"
+      stylesheets="@style.css"
+      styleClass="app-root"
+      style="-fx-background-color:#f4f8fc; -fx-padding:32;">
+
+    <!-- Title -->
+    <HBox alignment="CENTER_LEFT" style="-fx-padding:0 0 20 0;">
+        <Label text="⚠ Demander une Escalade"
+               styleClass="page-title"/>
+    </HBox>
+
+    <!-- Card -->
+    <VBox styleClass="form-card" spacing="18">
+
+        <Label text="Réclamation concernée"
+               styleClass="form-section-title"/>
+
+        <!-- Reclamation info (injected by setData()) -->
+        <VBox spacing="4"
+              style="-fx-background-color:#fff5f5;
+                     -fx-border-color:#E24B4A;
+                     -fx-border-radius:8;
+                     -fx-background-radius:8;
+                     -fx-padding:10 14 10 14;">
+            <Label fx:id="lblSubject"
+                   text="—"
+                   style="-fx-font-size:14px; -fx-font-weight:bold; -fx-text-fill:#0b1f44;"/>
+            <Label fx:id="lblMeta"
+                   text="REC #? · — · —"
+                   style="-fx-font-size:11px; -fx-text-fill:#5d6f91;"/>
+        </VBox>
+
+        <!-- Reason textarea -->
+        <VBox spacing="6">
+            <Label text="Raison de l'escalade (min. 10 caractères)"
+                   style="-fx-font-size:13px; -fx-font-weight:bold; -fx-text-fill:#0b1f44;"/>
+            <TextArea fx:id="txtReason"
+                      promptText="Décrivez pourquoi cette réclamation nécessite une escalade…"
+                      prefRowCount="4"
+                      wrapText="true"
+                      styleClass="text-area"/>
+        </VBox>
+
+        <!-- Urgency slider 0–10 -->
+        <VBox spacing="8">
+            <Label text="Niveau d'urgence"
+                   style="-fx-font-size:13px; -fx-font-weight:bold; -fx-text-fill:#0b1f44;"/>
+
+            <Slider fx:id="sliderUrgence"
+                    min="0" max="10" value="5"
+                    majorTickUnit="1"
+                    minorTickCount="0"
+                    snapToTicks="true"
+                    showTickMarks="true"
+                    showTickLabels="true"
+                    blockIncrement="1"
+                    style="-fx-pref-width:420;"/>
+
+            <Label fx:id="lblUrgenceValue"
+                   text="5/10  🟠 Élevé"
+                   style="-fx-font-size:13px; -fx-font-weight:bold; -fx-text-fill:#854F0B;"/>
+        </VBox>
+
+        <!-- Error message -->
+        <Label fx:id="lblError"
+               text=""
+               visible="false"
+               managed="false"
+               style="-fx-text-fill:#A32D2D; -fx-font-size:12px;"/>
+
+        <!-- Buttons -->
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button fx:id="btnSubmit"
+                    text="Envoyer la demande"
+                    onAction="#handleSubmit"
+                    styleClass="btn-red"/>
+            <Button fx:id="btnCancel"
+                    text="Annuler"
+                    onAction="#handleCancel"
+                    styleClass="btn-dark"/>
+        </HBox>
+
+    </VBox>
+</VBox>

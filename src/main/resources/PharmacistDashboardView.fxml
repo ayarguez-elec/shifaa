@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1150.0"
+            style="-fx-background-color: #F0F4F8;"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controler.PharmacistDashboardController">
+
+    <ScrollPane fitToWidth="true"
+                AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                style="-fx-background-color: transparent; -fx-background: transparent;">
+        <VBox spacing="22" style="-fx-padding: 28;">
+
+            <!-- ══════════════ HERO BANNER ══════════════ -->
+            <HBox style="-fx-background-color: linear-gradient(to right, #38A169, #276749);
+                         -fx-background-radius: 20; -fx-padding: 28 40;
+                         -fx-effect: dropshadow(gaussian, rgba(56,161,105,0.35), 20, 0, 0, 8);"
+                  alignment="CENTER_LEFT" spacing="0">
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label fx:id="dateLabel" text="Jeudi, 14 Mai 2026"
+                           style="-fx-font-size: 12; -fx-text-fill: rgba(255,255,255,0.75);
+                                  -fx-background-color: rgba(255,255,255,0.15);
+                                  -fx-background-radius: 20; -fx-padding: 4 12;" />
+                    <Label fx:id="greetingLabel" text="Bonjour, Pharmacien ! 👋"
+                           style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: white;" />
+                    <Label text="Voici l'état de votre stock aujourd'hui."
+                           style="-fx-font-size: 12; -fx-text-fill: rgba(255,255,255,0.80);" />
+                    <HBox spacing="12" style="-fx-padding: 8 0 0 0;">
+                        <Button onAction="#goToStock" text="📦 Voir le stock"
+                                style="-fx-background-color: white; -fx-text-fill: #276749;
+                                       -fx-font-weight: bold; -fx-background-radius: 10;
+                                       -fx-padding: 7 16; -fx-cursor: hand; -fx-font-size: 12;" />
+                        <Button onAction="#goToAddStock" text="➕ Ajouter un produit"
+                                style="-fx-background-color: rgba(255,255,255,0.2); -fx-text-fill: white;
+                                       -fx-font-weight: bold; -fx-background-radius: 10;
+                                       -fx-padding: 7 16; -fx-cursor: hand; -fx-font-size: 12;
+                                       -fx-border-color: rgba(255,255,255,0.5); -fx-border-radius: 10;" />
+                    </HBox>
+                </VBox>
+
+                <!-- Pharmacy Info Card -->
+                <VBox alignment="CENTER" spacing="6" prefWidth="220"
+                      style="-fx-background-color: rgba(255,255,255,0.15); -fx-background-radius: 14; -fx-padding: 16 20;">
+                    <Label text="🏥" style="-fx-font-size: 28;" />
+                    <Label fx:id="pharmacyNameLabel" text="Ma Pharmacie"
+                           style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white; -fx-wrap-text: true;" />
+                    <Label fx:id="pharmacyStatusLabel" text="Ouvert"
+                           style="-fx-font-size: 12; -fx-text-fill: #C6F6D5; -fx-font-weight: bold;" />
+                    <Label fx:id="pharmacyHoursLabel" text=""
+                           style="-fx-font-size: 11; -fx-text-fill: rgba(255,255,255,0.75);" />
+                </VBox>
+            </HBox>
+
+            <!-- ══════════════ KPI CARDS ══════════════ -->
+            <HBox spacing="15">
+
+                <!-- Total Products -->
+                <VBox spacing="10" alignment="CENTER_LEFT"
+                      style="-fx-background-color: white; -fx-background-radius: 14;
+                             -fx-border-color: #90CDF4; -fx-border-width: 0 0 0 4; -fx-border-radius: 14;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 3); -fx-padding: 18;"
+                      HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <StackPane style="-fx-background-color: #EBF8FF; -fx-background-radius: 10; -fx-padding: 9;">
+                            <Label text="💊" style="-fx-font-size: 18;" />
+                        </StackPane>
+                        <VBox spacing="1">
+                            <Label text="TOTAL" style="-fx-font-size: 9; -fx-text-fill: #2B6CB0; -fx-font-weight: bold;" />
+                            <Label fx:id="totalProductsLabel" text="0"
+                                   style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #2B6CB0;" />
+                        </VBox>
+                    </HBox>
+                    <Label text="Produits en stock" style="-fx-font-size: 10; -fx-text-fill: #718096;" />
+                </VBox>
+
+                <!-- Available -->
+                <VBox spacing="10" alignment="CENTER_LEFT"
+                      style="-fx-background-color: white; -fx-background-radius: 14;
+                             -fx-border-color: #68D391; -fx-border-width: 0 0 0 4; -fx-border-radius: 14;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 3); -fx-padding: 18;"
+                      HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <StackPane style="-fx-background-color: #F0FFF4; -fx-background-radius: 10; -fx-padding: 9;">
+                            <Label text="✅" style="-fx-font-size: 18;" />
+                        </StackPane>
+                        <VBox spacing="1">
+                            <Label text="DISPONIBLES" style="-fx-font-size: 9; -fx-text-fill: #276749; -fx-font-weight: bold;" />
+                            <Label fx:id="availableLabel" text="0"
+                                   style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #276749;" />
+                        </VBox>
+                    </HBox>
+                    <Label text="Bien approvisionnés" style="-fx-font-size: 10; -fx-text-fill: #276749;" />
+                </VBox>
+
+                <!-- Low Stock -->
+                <VBox spacing="10" alignment="CENTER_LEFT"
+                      style="-fx-background-color: white; -fx-background-radius: 14;
+                             -fx-border-color: #F6AD55; -fx-border-width: 0 0 0 4; -fx-border-radius: 14;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 3); -fx-padding: 18;"
+                      HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <StackPane style="-fx-background-color: #FFFAF0; -fx-background-radius: 10; -fx-padding: 9;">
+                            <Label text="⚠️" style="-fx-font-size: 18;" />
+                        </StackPane>
+                        <VBox spacing="1">
+                            <Label text="STOCK FAIBLE" style="-fx-font-size: 9; -fx-text-fill: #C05621; -fx-font-weight: bold;" />
+                            <Label fx:id="lowStockLabel" text="0"
+                                   style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #C05621;" />
+                        </VBox>
+                    </HBox>
+                    <Label text="À réapprovisionner" style="-fx-font-size: 10; -fx-text-fill: #C05621;" />
+                </VBox>
+
+                <!-- Out of Stock -->
+                <VBox spacing="10" alignment="CENTER_LEFT"
+                      style="-fx-background-color: white; -fx-background-radius: 14;
+                             -fx-border-color: #FC8181; -fx-border-width: 0 0 0 4; -fx-border-radius: 14;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 3); -fx-padding: 18;"
+                      HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <StackPane style="-fx-background-color: #FFF5F5; -fx-background-radius: 10; -fx-padding: 9;">
+                            <Label text="🚫" style="-fx-font-size: 18;" />
+                        </StackPane>
+                        <VBox spacing="1">
+                            <Label text="RUPTURE" style="-fx-font-size: 9; -fx-text-fill: #C53030; -fx-font-weight: bold;" />
+                            <Label fx:id="outOfStockLabel" text="0"
+                                   style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #C53030;" />
+                        </VBox>
+                    </HBox>
+                    <Label text="En rupture de stock" style="-fx-font-size: 10; -fx-text-fill: #C53030;" />
+                </VBox>
+
+            </HBox>
+
+            <!-- ══════════════ ROW 2: Alerts + Recent Updates ══════════════ -->
+            <HBox spacing="20">
+
+                <!-- Low Stock Alerts -->
+                <VBox spacing="13" HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white; -fx-background-radius: 16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 12, 0, 0, 4); -fx-padding: 22;">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="🚨 Alertes stock"
+                               style="-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: #2D3748;" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button onAction="#goToStock" text="Voir tout →"
+                                style="-fx-background-color: transparent; -fx-text-fill: #38A169;
+                                       -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 12;" />
+                    </HBox>
+                    <Separator />
+                    <ScrollPane fitToWidth="true" prefHeight="260" maxHeight="260"
+                                style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+                        <VBox fx:id="lowStockContainer" spacing="8">
+                            <Label text="Chargement..." style="-fx-text-fill: #A0AEC0; -fx-font-size: 13;" />
+                        </VBox>
+                    </ScrollPane>
+                </VBox>
+
+                <!-- Recent Updates -->
+                <VBox spacing="13" prefWidth="360"
+                      style="-fx-background-color: white; -fx-background-radius: 16;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 12, 0, 0, 4); -fx-padding: 22;">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="🕐 Dernières mises à jour"
+                               style="-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: #2D3748;" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button onAction="#goToStock" text="Voir tout →"
+                                style="-fx-background-color: transparent; -fx-text-fill: #38A169;
+                                       -fx-cursor: hand; -fx-font-weight: bold; -fx-font-size: 12;" />
+                    </HBox>
+                    <Separator />
+                    <VBox fx:id="recentUpdatesContainer" spacing="0">
+                        <Label text="Chargement..." style="-fx-text-fill: #A0AEC0; -fx-font-size: 13;" />
+                    </VBox>
+                </VBox>
+
+            </HBox>
+
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

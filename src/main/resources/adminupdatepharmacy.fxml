@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="850.0" prefWidth="1536.0"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controler.AdminUpdatePharmacyController"
+            styleClass="app-root" stylesheets="@pharmacy_style.css">
+
+    
+
+    <center>
+        <VBox spacing="28.0" styleClass="page-content">
+            <padding>
+                <Insets top="42" right="70" bottom="45" left="70"/>
+            </padding>
+
+            <children>
+
+                <HBox alignment="CENTER_LEFT" spacing="18.0">
+                    <children>
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label text="Modifier une pharmacie"
+                                       styleClass="admin-page-title"/>
+
+                                <Label text="Modifier les informations principales de la pharmacie."
+                                       styleClass="admin-subtitle"/>
+                            </children>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Button text="Retour"
+                                prefWidth="150.0"
+                                prefHeight="48.0"
+                                styleClass="dark-button"
+                                onAction="#goBack"/>
+                    </children>
+                </HBox>
+
+                <HBox spacing="16.0" alignment="CENTER_LEFT">
+                    <children>
+                        <TextField fx:id="pharmacyIdField"
+                                   promptText="ID de la pharmacie"
+                                   prefHeight="44.0"
+                                   prefWidth="280.0"
+                                   styleClass="modern-input"/>
+
+                        <Button text="Charger"
+                                prefWidth="150.0"
+                                prefHeight="44.0"
+                                styleClass="dark-button"
+                                onAction="#loadPharmacy"/>
+                    </children>
+                </HBox>
+
+                <HBox spacing="34.0" alignment="TOP_LEFT">
+                    <children>
+
+                        <VBox spacing="16.0"
+                              prefWidth="300.0"
+                              style="-fx-background-color: white;
+                                     -fx-background-radius: 18;
+                                     -fx-padding: 22;
+                                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0, 0, 4);">
+
+                            <children>
+                                <Label text="Image de la pharmacie"
+                                       style="-fx-font-size: 18px;
+                                              -fx-font-weight: bold;
+                                              -fx-text-fill: #0F172A;"/>
+
+                                <VBox alignment="CENTER"
+                                      prefHeight="180.0"
+                                      style="-fx-background-color: #EFF6FF;
+                                             -fx-background-radius: 16;
+                                             -fx-border-color: #DBEAFE;
+                                             -fx-border-radius: 16;">
+
+                                    <children>
+                                        <ImageView fx:id="imagePreview"
+                                                   fitWidth="240.0"
+                                                   fitHeight="150.0"
+                                                   preserveRatio="true"/>
+                                    </children>
+                                </VBox>
+
+                                <Button text="📷 Changer image"
+                                        prefWidth="220.0"
+                                        prefHeight="42.0"
+                                        styleClass="dark-button"
+                                        onAction="#chooseImage"/>
+
+                                <Button text="Supprimer image"
+                                        prefWidth="180.0"
+                                        prefHeight="38.0"
+                                        style="-fx-background-color: #FEE2E2;
+                                               -fx-text-fill: #B91C1C;
+                                               -fx-font-weight: bold;
+                                               -fx-background-radius: 10;"
+                                        onAction="#removeImage"/>
+
+                                <Label fx:id="imageLabel"
+                                       text="Aucune image sélectionnée"
+                                       wrapText="true"
+                                       style="-fx-text-fill: #64748B;
+                                              -fx-font-size: 13px;"/>
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="20.0"
+                              prefWidth="900.0"
+                              style="-fx-background-color: white;
+                                     -fx-background-radius: 18;
+                                     -fx-padding: 28;
+                                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 14, 0, 0, 4);">
+
+                            <children>
+                                <Label text="Informations de la pharmacie"
+                                       style="-fx-font-size: 20px;
+                                              -fx-font-weight: bold;
+                                              -fx-text-fill: #0F172A;"/>
+
+                                <GridPane hgap="22.0" vgap="16.0">
+
+                                    <children>
+                                        <VBox spacing="8.0" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                                            <children>
+                                                <Label text="Nom de la pharmacie"
+                                                       style="-fx-font-weight: bold; -fx-text-fill: #0F172A;"/>
+
+                                                <TextField fx:id="pharmacyNameField"
+                                                           promptText="Ex : Pharmacie Centrale"
+                                                           prefHeight="44.0"
+                                                           prefWidth="420.0"
+                                                           styleClass="modern-input"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="8.0" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                                            <children>
+                                                <Label text="Téléphone"
+                                                       style="-fx-font-weight: bold; -fx-text-fill: #0F172A;"/>
+
+                                                <TextField fx:id="phoneField"
+                                                           promptText="Ex : 22123456"
+                                                           prefHeight="44.0"
+                                                           prefWidth="420.0"
+                                                           styleClass="modern-input"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="8.0" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                                            <children>
+                                                <Label text="Email"
+                                                       style="-fx-font-weight: bold; -fx-text-fill: #0F172A;"/>
+
+                                                <TextField fx:id="emailField"
+                                                           promptText="Ex : pharmacie@gmail.com"
+                                                           prefHeight="44.0"
+                                                           prefWidth="420.0"
+                                                           styleClass="modern-input"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="8.0" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                                            <children>
+                                                <Label text="Horaires"
+                                                       style="-fx-font-weight: bold; -fx-text-fill: #0F172A;"/>
+
+                                                <TextField fx:id="openingHoursField"
+                                                           promptText="Ex : 08:00-20:00"
+                                                           prefHeight="44.0"
+                                                           prefWidth="420.0"
+                                                           styleClass="modern-input"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="8.0" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                                            <children>
+                                                <Label text="Type de pharmacie"
+                                                       style="-fx-font-weight: bold; -fx-text-fill: #0F172A;"/>
+
+                                                <ComboBox fx:id="pharmacyStatusCombo"
+                                                          prefHeight="48.0"
+                                                          prefWidth="420.0"
+                                                          style="-fx-background-color: white;
+                                                                 -fx-border-color: #dbe4ef;
+                                                                 -fx-border-radius: 13;
+                                                                 -fx-background-radius: 13;"/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </GridPane>
+
+                                <VBox spacing="8.0">
+                                    <children>
+                                        <Label text="Adresse"
+                                               style="-fx-font-weight: bold; -fx-text-fill: #0F172A;"/>
+
+                                        <TextField fx:id="addressField"
+                                                   promptText="Ex : Avenue Habib Bourguiba, Tunis, Tunisie"
+                                                   prefHeight="44.0"
+                                                   maxWidth="862.0"
+                                                   styleClass="modern-input"/>
+                                    </children>
+                                </VBox>
+
+                                <HBox alignment="CENTER_RIGHT" spacing="14.0">
+                                    <children>
+                                        <Button text="Annuler"
+                                                prefWidth="150.0"
+                                                prefHeight="48.0"
+                                                styleClass="dark-button"
+                                                onAction="#goBack"/>
+
+                                        <Button text="Modifier"
+                                                prefWidth="170.0"
+                                                prefHeight="48.0"
+                                                style="-fx-background-color: #fb5a64;
+                                                       -fx-text-fill: white;
+                                                       -fx-font-weight: bold;
+                                                       -fx-background-radius: 10;
+                                                       -fx-cursor: hand;"
+                                                onAction="#updatePharmacy"/>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

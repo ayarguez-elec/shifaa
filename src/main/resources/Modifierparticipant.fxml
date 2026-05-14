@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controler.Modifierparticipant" stylesheets="@shifaa.css" prefWidth="1100" prefHeight="720">
+    <center>
+        <VBox style="-fx-background-color: #f0f4f0;">
+            <!-- Header -->
+            <HBox styleClass="page-header" alignment="CENTER_LEFT" spacing="16">
+                <StackPane styleClass="page-title-icon">
+                    <Label text="✏️" style="-fx-font-size: 20px;"/>
+                </StackPane>
+                <VBox spacing="3">
+                    <Label text="Modifier le participant" styleClass="page-title"/>
+                    <Label text="Mettez à jour les informations du participant" styleClass="page-subtitle"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Retour à la liste" styleClass="btn, btn-outline" onAction="#handleRetour"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-padding: 0 28 28 28;" VBox.vgrow="ALWAYS">
+                <VBox alignment="TOP_CENTER">
+                    <VBox styleClass="form-card" spacing="15" maxWidth="700">
+                        
+                        <HBox spacing="14">
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="NOM *" styleClass="form-label"/>
+                                <TextField fx:id="tfNom" promptText="Nom" styleClass="form-field"/>
+                            </VBox>
+                            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                <Label text="PRÉNOM *" styleClass="form-label"/>
+                                <TextField fx:id="tfPrenom" promptText="Prénom" styleClass="form-field"/>
+                            </VBox>
+                        </HBox>
+
+                        <VBox spacing="5">
+                            <Label text="EMAIL *" styleClass="form-label"/>
+                            <TextField fx:id="tfEmail" promptText="exemple@email.com" styleClass="form-field"/>
+                        </VBox>
+
+                        <VBox spacing="5">
+                            <Label text="TÉLÉPHONE *" styleClass="form-label"/>
+                            <TextField fx:id="tfTelephone" promptText="+216 XX XXX XXX" styleClass="form-field"/>
+                        </VBox>
+
+                        <Label fx:id="lblMessage" text="" style="-fx-font-weight: bold; -fx-padding: 10 0 0 0;"/>
+
+                        <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                            <Button text="Enregistrer les modifications" styleClass="btn, btn-primary" onAction="#handleModifier"/>
+                        </HBox>
+                        
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

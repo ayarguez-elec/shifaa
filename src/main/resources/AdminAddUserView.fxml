@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane prefWidth="1150.0" prefHeight="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.AdminAddUserController">
+
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+        <content>
+            <VBox spacing="20" style="-fx-padding: 30;">
+
+                <!-- En-tête -->
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Button onAction="#goBack" style="-fx-background-color: #4A5568; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 8 15; -fx-cursor: hand;" text="← Retour" />
+                    <Label style="-fx-font-size: 24; -fx-font-weight: bold;" text="➕ Ajouter un utilisateur" textFill="#2d3748" />
+                </HBox>
+
+                <Separator />
+
+                <!-- Photo -->
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <ImageView fx:id="profileImageView" fitHeight="100" fitWidth="100">
+                        <clip>
+                            <Circle radius="50" centerX="50" centerY="50" />
+                        </clip>
+                    </ImageView>
+                    <VBox spacing="5">
+                        <Button onAction="#choosePhoto" style="-fx-background-color: #4A5568; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 15; -fx-cursor: hand;" text="📷 Choisir une photo" />
+                        <Label fx:id="photoStatus" text="Aucune photo" style="-fx-font-size: 11; -fx-text-fill: #718096;" />
+                    </VBox>
+                </HBox>
+
+                <Separator />
+
+                <!-- Formulaire 2 colonnes -->
+                <HBox spacing="30">
+
+                    <!-- Colonne gauche -->
+                    <VBox spacing="12" HBox.hgrow="ALWAYS">
+                        <Label text="Informations personnelles" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #FF5C5C;" />
+                        <TextField fx:id="firstNameField" promptText="Prénom *" />
+                        <TextField fx:id="lastNameField" promptText="Nom *" />
+                        <TextField fx:id="emailField" promptText="Email *" />
+                        <TextField fx:id="passwordField" promptText="Mot de passe *" />
+                        <TextField fx:id="phoneField" promptText="Téléphone" />
+                        <TextField fx:id="ageField" promptText="Âge" />
+                        <ComboBox fx:id="genderCombo" promptText="Genre" />
+                    </VBox>
+
+                    <!-- Colonne droite -->
+                    <VBox spacing="12" HBox.hgrow="ALWAYS">
+                        <Label text="Informations du compte" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #FF5C5C;" />
+                        <TextArea fx:id="addressArea" promptText="Adresse" prefHeight="80" />
+                        <ComboBox fx:id="roleCombo" promptText="Rôle" />
+                        <ComboBox fx:id="statusCombo" promptText="Statut" />
+
+                        <!-- Champs Docteur -->
+                        <VBox fx:id="doctorFields" spacing="8" visible="false" managed="false">
+                            <Label text="Informations médicales" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #48BB78;" />
+                            <ComboBox fx:id="specialtyCombo" promptText="Spécialité" />
+                            <TextField fx:id="orderNumberField" promptText="Numéro d'ordre" />
+                            <TextField fx:id="consultationFeeField" promptText="Frais de consultation" />
+                        </VBox>
+
+                        <!-- Champs Pharmacien -->
+                        <VBox fx:id="pharmacyFields" spacing="8" visible="false" managed="false">
+                            <Label text="Informations professionnelles" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #ED8936;" />
+                            <TextField fx:id="pharmacyNameField" promptText="Nom de la pharmacie" />
+                            <TextField fx:id="licenceNumberField" promptText="Numéro de licence" />
+                        </VBox>
+
+                        <!-- Champs Assistant -->
+                        <VBox fx:id="assistantFields" spacing="8" visible="false" managed="false">
+                            <Label text="Lien avec le médecin" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #9F7AEA;" />
+                            <ComboBox fx:id="doctorSelectionCombo" promptText="Choisir un médecin" />
+                        </VBox>
+                    </VBox>
+
+                </HBox>
+
+                <HBox spacing="15">
+                    <Button onAction="#saveUser" style="-fx-background-color: #FF5C5C; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 25;" text="💾 Enregistrer" />
+                    <Button onAction="#goBack" style="-fx-background-color: #E2E8F0; -fx-text-fill: #4A5568; -fx-background-radius: 8; -fx-padding: 10 25;" text="Annuler" />
+                </HBox>
+
+            </VBox>
+        </content>
+    </ScrollPane>
+</AnchorPane>
