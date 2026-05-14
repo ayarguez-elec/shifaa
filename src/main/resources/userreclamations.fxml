@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controler.UserReclamationController"
+            maxWidth="Infinity"
+            maxHeight="Infinity"
+            stylesheets="@style.css"
+            styleClass="app-root">
+
+
+
+    <center>
+        <VBox spacing="22" styleClass="page-container" VBox.vgrow="ALWAYS">
+
+            <!-- Bannière de notification (cachée par défaut) -->
+            <Label fx:id="notificationBanner"
+                   styleClass="notification-banner"
+                   wrapText="true"
+                   maxWidth="Infinity"
+                   visible="false"
+                   managed="false"/>
+
+            <!-- Titre + bouton ajouter -->
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="📩 Mes Réclamations" styleClass="page-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="+ Nouvelle Réclamation"
+                        onAction="#ouvrirAjouterReclamation"
+                        styleClass="btn-red"/>
+            </HBox>
+
+            <!-- Bloc filtres -->
+            <VBox styleClass="form-card" spacing="14">
+                <Label text="Rechercher une réclamation" styleClass="form-section-title"/>
+
+                <TextField fx:id="searchField"
+                           promptText="Rechercher par sujet, description, statut ou priorité..."
+                           styleClass="search-field"
+                           onKeyReleased="#applyFilters"/>
+
+                <HBox spacing="16" alignment="CENTER_LEFT">
+                    <VBox spacing="6">
+                        <Label text="Statut" styleClass="label-title"/>
+                        <ComboBox fx:id="filterStatut"
+                                  prefWidth="200"
+                                  styleClass="combo-box"
+                                  onAction="#applyFilters"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Priorité" styleClass="label-title"/>
+                        <ComboBox fx:id="filterPriorite"
+                                  prefWidth="200"
+                                  styleClass="combo-box"
+                                  onAction="#applyFilters"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="↺ Réinitialiser"
+                            onAction="#reinitialiserFiltres"
+                            styleClass="btn-dark"/>
+                </HBox>
+            </VBox>
+
+            <!-- En-tête liste -->
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Liste de mes réclamations" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="totalLabel" text="Total : 0 réclamations" styleClass="total-label"/>
+            </HBox>
+
+            <!-- Cartes -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="clean-scroll">
+                <FlowPane fx:id="cardsContainer" hgap="24" vgap="24" styleClass="cards-zone"/>
+            </ScrollPane>
+
+            <Label fx:id="messageLabel" styleClass="message-label"/>
+
+        </VBox>
+    </center>
+
+</BorderPane>

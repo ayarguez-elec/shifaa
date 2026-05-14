@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane prefHeight="800.0" prefWidth="1400.0"
+            styleClass="root" stylesheets="@theme-medical.css"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controler.PatientMainController">
+    <left>
+        <BorderPane prefWidth="260.0"
+                    style="-fx-background-color: linear-gradient(to bottom, #1A202C, #2D3748);">
+
+            <top>
+                <VBox>
+                    <HBox alignment="CENTER_LEFT" spacing="10"
+                          style="-fx-padding: 22 18 18 18; -fx-background-color: rgba(0,0,0,0.2);">
+                        <ImageView fx:id="logoView" fitHeight="32" fitWidth="32" />
+                        <VBox spacing="1">
+                            <Label text="SHIFAA"
+                                   style="-fx-text-fill: white; -fx-font-size: 15; -fx-font-weight: bold;" />
+                            <Label text="Espace Patient"
+                                   style="-fx-text-fill: rgba(255,255,255,0.5); -fx-font-size: 10;" />
+                        </VBox>
+                    </HBox>
+                    <VBox alignment="CENTER" spacing="8"
+                          style="-fx-padding: 16 18 16 18;
+                                 -fx-background-color: rgba(255,255,255,0.04);
+                                 -fx-border-color: transparent transparent rgba(255,255,255,0.08) transparent;
+                                 -fx-border-width: 0 0 1 0;">
+                        <StackPane prefWidth="68" prefHeight="68">
+                            <Circle fx:id="avatarCircle" radius="34" style="-fx-fill: #9F7AEA;" />
+                            <Label fx:id="initialsLabel" text="P"
+                                   style="-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: bold;" />
+                            <ImageView fx:id="profileImageView" fitHeight="68" fitWidth="68"
+                                       style="-fx-effect: dropshadow(gaussian,rgba(0,0,0,0.2),8,0,0,2);">
+                                <clip><Circle radius="34" centerX="34" centerY="34" /></clip>
+                            </ImageView>
+                        </StackPane>
+                        <Label fx:id="userNameLabel" text="Patient"
+                               style="-fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold;" />
+                        <Label text="Patient"
+                               style="-fx-text-fill: rgba(255,255,255,0.45); -fx-font-size: 10;" />
+                    </VBox>
+                </VBox>
+            </top>
+
+            <!-- Scrollable nav — patient has many items -->
+            <center>
+                <ScrollPane hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                            style="-fx-background-color: transparent; -fx-background: transparent;
+                                   -fx-border-color: transparent;">
+                    <VBox spacing="2" style="-fx-padding: 10 10 10 10;">
+
+                        <Label text="GÉNÉRAL" styleClass="sidebar-category" />
+                        <Button onAction="#goToDashboard"           text="🏠  Tableau de bord"    styleClass="sidebar-nav-btn-active" />
+
+                        <Label text="MÉDECINS &amp; RDV" styleClass="sidebar-category" />
+                        <Button onAction="#goToDoctors"             text="👨‍⚕️  Docteurs"            styleClass="sidebar-nav-btn" />
+                        <Button onAction="#goToAppointments"        text="📋  Mes RDV"              styleClass="sidebar-nav-btn" />
+                        <Button onAction="#goToRequestAppointment"  text="➕  Demander un RDV"      styleClass="sidebar-nav-btn" />
+
+                        <Label text="SANTÉ" styleClass="sidebar-category" />
+                        <Button onAction="#goToMedicalFiles"        text="📋  Dossiers médicaux"    styleClass="sidebar-nav-btn" />
+                        <Button onAction="#goToPrescriptions"       text="💊  Ordonnances"           styleClass="sidebar-nav-btn" />
+                        <Button onAction="#goToHealthStats"         text="📊  Ma Santé"              styleClass="sidebar-nav-btn" />
+
+                        <Label text="PHARMACIE" styleClass="sidebar-category" />
+                        <Button onAction="#goToPharmacies"          text="🏥  Pharmacies"            styleClass="sidebar-nav-btn" />
+                        <Button onAction="#goToProducts"            text="📦  Produits"               styleClass="sidebar-nav-btn" />
+
+                        <Label text="COMMUNAUTÉ" styleClass="sidebar-category" />
+                        <Button onAction="#goToEvents"              text="📅  Événements"             styleClass="sidebar-nav-btn" />
+
+                        <Label text="RÉCLAMATIONS" styleClass="sidebar-category" />
+                        <Button onAction="#goToUserDashboard"       text="📊  Dashboard Réc."        styleClass="sidebar-nav-btn" />
+                        <Button onAction="#goToReclamation"         text="📝  Mes Réclamations"       styleClass="sidebar-nav-btn" />
+                        <Button onAction="#goToUserNotifications"   text="🔔  Notifications"          styleClass="sidebar-nav-btn" />
+
+                        <Label text="COMPTE" styleClass="sidebar-category" />
+                        <Button onAction="#goToProfile"             text="👤  Mon Profil"             styleClass="sidebar-nav-btn" />
+
+                    </VBox>
+                </ScrollPane>
+            </center>
+
+            <bottom>
+                <VBox style="-fx-padding: 10 10 16 10;
+                             -fx-border-color: rgba(255,255,255,0.08) transparent transparent transparent;
+                             -fx-border-width: 1 0 0 0;">
+                    <Button onAction="#logout" text="🚪  Déconnexion"
+                            styleClass="sidebar-logout-btn" />
+                </VBox>
+            </bottom>
+
+        </BorderPane>
+    </left>
+
+    <center>
+        <AnchorPane fx:id="mainAnchor">
+            <AnchorPane fx:id="contentContainer"
+                        AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                        AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                        style="-fx-background-color: #F7FAFC;" />
+            <Button onAction="#toggleChatbot"
+                    style="-fx-background-color: #1a202c; -fx-background-radius: 50;
+                           -fx-min-width: 60; -fx-min-height: 60; -fx-max-width: 60; -fx-max-height: 60;
+                           -fx-text-fill: white; -fx-font-size: 24;
+                           -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.3),10,0,0,4);
+                           -fx-cursor: hand;"
+                    text="💬"
+                    AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0" />
+        </AnchorPane>
+    </center>
+</BorderPane>

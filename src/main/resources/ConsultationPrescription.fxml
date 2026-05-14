@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="800.0" prefWidth="1300.0" styleClass="root" stylesheets="@style.css" 
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="Controler.ConsultationPrescriptionController">
+
+    <!-- ================= MAIN CONTENT AREA ================= -->
+    <center>
+        <VBox spacing="25.0" style="-fx-background-color: #F7FAFC; -fx-padding: 30;">
+            <children>
+                <!-- Header -->
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <Button onAction="#retourner" styleClass="btn-secondary" text="← Retour à la liste" />
+                        <Label style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Consultation Prescription" />
+                    </children>
+                </HBox>
+
+                <VBox spacing="30.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 40; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);" VBox.vgrow="ALWAYS">
+                    <children>
+                        <HBox alignment="CENTER_LEFT">
+                            <children>
+                                <VBox spacing="5.0">
+                                    <children>
+                                        <Label fx:id="lblPrescriptionId" style="-fx-font-size: 24; -fx-text-fill: #009929; -fx-font-weight: bold;" text="Prescription #000" />
+                                        <Label fx:id="lblDate" style="-fx-font-size: 16; -fx-text-fill: #718096;" text="Date de prescription" />
+                                    </children>
+                                </VBox>
+                                <Region HBox.hgrow="ALWAYS" />
+                                <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <!-- Icône générique de pharmacie/santé -->
+                                        <Image url="https://cdn-icons-png.flaticon.com/512/3022/3022221.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                        
+                        <Separator />
+                        
+                        <VBox spacing="15.0" style="-fx-background-color: #F8FAFC; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #E2E8F0; -fx-border-radius: 10;">
+                            <children>
+                                <HBox alignment="CENTER_LEFT" spacing="100.0">
+                                    <children>
+                                        <VBox spacing="8.0">
+                                            <children>
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #718096; -fx-font-size: 12;" text="PATIENT CONCERNÉ" />
+                                                <Label fx:id="lblPatientName" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Chargement..." />
+                                            </children>
+                                        </VBox>
+                                        <VBox spacing="8.0">
+                                            <children>
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #718096; -fx-font-size: 12;" text="DURÉE DU TRAITEMENT" />
+                                                <Label fx:id="lblDuration" style="-fx-font-size: 18; -fx-text-fill: #FF5C5C; -fx-font-weight: bold;" text="--" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        
+                        <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #2D3748; -fx-font-size: 18;" text="Ordonnance / Médicaments" />
+                                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+                                    <content>
+                                        <Label fx:id="lblDetails" style="-fx-padding: 25; -fx-font-size: 16; -fx-line-spacing: 8; -fx-text-fill: #4A5568; -fx-background-color: #FFFFFF; -fx-border-color: #EDF2F7; -fx-border-radius: 10; -fx-background-radius: 10;" text="Contenu de la prescription..." wrapText="true" maxWidth="Infinity" />
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </VBox>
+                        
+                        <HBox alignment="CENTER_RIGHT" spacing="15.0" style="-fx-padding: 20 0 0 0;">
+                            <children>
+                                <Button onAction="#envoyerSMS" prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: #4A5568;" styleClass="btn-primary" text="📱 Envoyer par SMS" />
+                                <Button prefHeight="50.0" prefWidth="180.0" style="-fx-background-color: #2D3748;" styleClass="btn-primary" text="🖨 Imprimer" />
+                                <Button onAction="#retourner" prefHeight="50.0" prefWidth="150.0" styleClass="btn-secondary" text="Fermer" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20.0" style="-fx-padding: 30; -fx-background-color: #F7FAFC;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.MesOrdonnancesPatientController">
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="15.0">
+            <children>
+                <Label style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Mes Ordonnances" />
+                <Region HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+        
+        <Label style="-fx-text-fill: #718096; -fx-font-size: 16;" text="Consultez l'historique de vos ordonnances prescrites par vos médecins." />
+        
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+            <content>
+                <VBox fx:id="ordonnancesList" spacing="15.0" style="-fx-padding: 10 5 10 5;">
+                    <!-- Les cartes des ordonnances seront ajoutées ici dynamiquement -->
+                </VBox>
+            </content>
+        </ScrollPane>
+    </children>
+</VBox>

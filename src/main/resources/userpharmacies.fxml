@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="900.0" prefWidth="1536.0"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controler.UserPharmacyController"
+            styleClass="app-root" stylesheets="@pharmacy_style.css">
+
+    
+
+    <center>
+        <VBox spacing="22.0"
+              styleClass="page-content">
+
+            <padding>
+                <Insets top="42" right="55" bottom="35" left="55"/>
+            </padding>
+
+            <children>
+
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <VBox spacing="6.0">
+                            <children>
+                                <Label text="⚕ Pharmacies"
+                                       styleClass="admin-page-title"/>
+
+                                <Label text="Recherchez une pharmacie par ville, service ou nom."
+                                       styleClass="admin-subtitle"/>
+                            </children>
+                        </VBox>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Button text="🤖 Assistant proximité"
+                                prefWidth="190.0"
+                                prefHeight="48.0"
+                                style="-fx-background-color: #fb5a64;
+                                       -fx-text-fill: white;
+                                       -fx-font-weight: bold;
+                                       -fx-background-radius: 10;
+                                       -fx-cursor: hand;"
+                                onAction="#goAssistant"/>
+                    </children>
+                </HBox>
+
+                <HBox spacing="24.0" VBox.vgrow="ALWAYS">
+                    <children>
+
+                        <VBox spacing="14.0"
+                              prefWidth="230.0"
+                              minWidth="230.0"
+                              maxWidth="230.0">
+
+                            <children>
+                                <Label text="Filtrer par"
+                                       style="-fx-text-fill: #0F172A;
+                                              -fx-font-size: 18px;
+                                              -fx-font-weight: bold;"/>
+
+                                <TextField fx:id="searchField"
+                                           promptText="Nom de la pharmacie"
+                                           prefHeight="48.0"
+                                           prefWidth="220.0"
+                                           style="-fx-background-color: white;
+                                                  -fx-border-color: #dbe4ef;
+                                                  -fx-border-radius: 13;
+                                                  -fx-background-radius: 13;
+                                                  -fx-padding: 10;"/>
+
+                                <ComboBox fx:id="serviceCombo"
+                                          prefHeight="48.0"
+                                          prefWidth="220.0"
+                                          visibleRowCount="8"
+                                          promptText="Tous les services"
+                                          style="-fx-background-color: white;
+                                                 -fx-border-color: #dbe4ef;
+                                                 -fx-border-radius: 13;
+                                                 -fx-background-radius: 13;"/>
+
+                                <ComboBox fx:id="cityCombo"
+                                          prefHeight="48.0"
+                                          prefWidth="220.0"
+                                          visibleRowCount="4"
+                                          promptText="Toutes les villes"
+                                          style="-fx-background-color: white;
+                                                 -fx-border-color: #dbe4ef;
+                                                 -fx-border-radius: 13;
+                                                 -fx-background-radius: 13;"/>
+
+                                <Label text="Pays : Tunisie"
+                                       styleClass="admin-subtitle"/>
+
+                                <Button text="Réinitialiser"
+                                        prefWidth="220.0"
+                                        prefHeight="48.0"
+                                        styleClass="dark-button"
+                                        onAction="#resetFilters"/>
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="18.0" HBox.hgrow="ALWAYS">
+                            <children>
+
+                                <ScrollPane fitToWidth="true"
+                                            pannable="true"
+                                            VBox.vgrow="ALWAYS"
+                                            styleClass="clean-scroll"
+                                            style="-fx-background-color: transparent;
+                                                   -fx-border-color: transparent;">
+
+                                    <content>
+                                        <FlowPane fx:id="pharmacyContainer"
+                                                  hgap="28.0"
+                                                  vgap="28.0"
+                                                  prefWrapLength="980.0"
+                                                  style="-fx-background-color: transparent;
+                                                         -fx-padding: 0 0 95 0;"/>
+                                    </content>
+                                </ScrollPane>
+
+                                <HBox alignment="CENTER"
+                                      spacing="18.0"
+                                      prefHeight="66.0"
+                                      style="-fx-background-color: white;
+                                             -fx-background-radius: 14;
+                                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 12, 0, 0, 3);">
+
+                                    <children>
+                                        <Label fx:id="totalLabel"
+                                               text="Total : 0 pharmacie"
+                                               styleClass="admin-subtitle"/>
+
+                                        <Button text="&lt;"
+                                                prefWidth="46.0"
+                                                prefHeight="42.0"
+                                                styleClass="dark-button"
+                                                onAction="#previousPage"/>
+
+                                        <Label fx:id="pageLabel"
+                                               text="Page 0 / 0"
+                                               style="-fx-background-color: #fb5a64;
+                                                      -fx-text-fill: white;
+                                                      -fx-font-weight: bold;
+                                                      -fx-padding: 12 22 12 22;
+                                                      -fx-background-radius: 10;"/>
+
+                                        <Button text="&gt;"
+                                                prefWidth="46.0"
+                                                prefHeight="42.0"
+                                                styleClass="dark-button"
+                                                onAction="#nextPage"/>
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

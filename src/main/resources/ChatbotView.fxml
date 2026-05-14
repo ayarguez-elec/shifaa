@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox fx:id="chatRoot" prefHeight="480.0" prefWidth="320.0" spacing="0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 5); -fx-border-color: #F1F5F9; -fx-border-radius: 20; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controler.ChatbotController">
+    
+    <!-- HEADER FRIENDLY & COMPACT -->
+    <HBox alignment="CENTER_LEFT" spacing="12" style="-fx-background-color: #F8FAFC; -fx-padding: 15; -fx-background-radius: 20 20 0 0; -fx-border-color: #EDF2F7; -fx-border-width: 0 0 1 0;">
+        <StackPane>
+            <Circle radius="18" fill="#EDF2F7" />
+            <ImageView fitHeight="20" fitWidth="20" preserveRatio="true">
+                <Image url="https://cdn-icons-png.flaticon.com/512/387/387561.png" />
+            </ImageView>
+            <Circle radius="5" fill="#48BB78" stroke="white" strokeWidth="1.5" StackPane.alignment="BOTTOM_RIGHT" />
+        </StackPane>
+        <VBox>
+            <Label text="Assistant Shifaa" textFill="#1E293B" style="-fx-font-weight: bold; -fx-font-size: 13;" />
+            <Label text="À votre écoute" textFill="#64748B" style="-fx-font-size: 10;" />
+        </VBox>
+        <Pane HBox.hgrow="ALWAYS" />
+        <Button onAction="#closeChat" text="✕" style="-fx-background-color: transparent; -fx-text-fill: #94A3B8; -fx-font-size: 14; -fx-cursor: hand;" />
+    </HBox>
+
+    <!-- MESSAGE AREA -->
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-padding: 10;" VBox.vgrow="ALWAYS">
+        <VBox fx:id="messageContainer" spacing="12" style="-fx-padding: 5;">
+            <!-- Messages -->
+        </VBox>
+    </ScrollPane>
+
+    <!-- OPTIONS AREA -->
+    <VBox fx:id="optionsContainer" alignment="CENTER" spacing="8" style="-fx-padding: 15; -fx-background-color: white; -fx-background-radius: 0 0 20 20; -fx-border-color: #F1F5F9; -fx-border-width: 1 0 0 0;">
+        <!-- Buttons -->
+    </VBox>
+</VBox>

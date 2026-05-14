@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1100.0"
+            style="-fx-background-color: #F7FAFC;"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controler.PatientEventsController"
+            stylesheets="@theme-medical.css">
+
+    <ScrollPane fitToWidth="true"
+                AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                style="-fx-background-color: transparent; -fx-background: transparent;">
+
+        <VBox spacing="28" style="-fx-padding: 35 40 40 40;">
+
+            <!-- ══════════════ HERO BANNER ══════════════ -->
+            <HBox style="-fx-background-color: linear-gradient(to right, #4A6CF7, #3182CE);
+                         -fx-background-radius: 20; -fx-padding: 30 40;
+                         -fx-effect: dropshadow(gaussian, rgba(74,108,247,0.3), 20, 0, 0, 8);"
+                  alignment="CENTER_LEFT" spacing="20">
+                <VBox spacing="8" HBox.hgrow="ALWAYS">
+                    <Label text="📅 Événements de Santé"
+                           style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: white;" />
+                    <Label text="Consultez les événements disponibles et participez en un clic"
+                           style="-fx-font-size: 13; -fx-text-fill: rgba(255,255,255,0.85);" />
+                </VBox>
+                <StackPane prefWidth="100" prefHeight="100">
+                    <Circle radius="48"
+                            style="-fx-fill: rgba(255,255,255,0.12);" />
+                    <Label text="🏥"
+                           style="-fx-font-size: 52; -fx-opacity: 0.35;" />
+                </StackPane>
+            </HBox>
+
+            <!-- ══════════════ STATS ══════════════ -->
+            <HBox spacing="18">
+                <!-- Total événements -->
+                <VBox HBox.hgrow="ALWAYS" spacing="6"
+                      style="-fx-background-color: white; -fx-background-radius: 14;
+                             -fx-padding: 18 22; -fx-effect: dropshadow(three-pass-box,rgba(0,0,0,0.05),10,0,0,4);">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="📅" style="-fx-font-size: 15;" />
+                        <Label text="ÉVÉNEMENTS" style="-fx-font-size: 10; -fx-font-weight: bold; -fx-text-fill: #718096;" />
+                    </HBox>
+                    <Label fx:id="lblStatTotal" text="0"
+                           style="-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: #4A6CF7;" />
+                    <Label text="au total" style="-fx-font-size: 12; -fx-text-fill: #A0AEC0;" />
+                </VBox>
+                <!-- Mes participations -->
+                <VBox HBox.hgrow="ALWAYS" spacing="6"
+                      style="-fx-background-color: white; -fx-background-radius: 14;
+                             -fx-padding: 18 22; -fx-effect: dropshadow(three-pass-box,rgba(0,0,0,0.05),10,0,0,4);">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="✅" style="-fx-font-size: 15;" />
+                        <Label text="MES PARTICIPATIONS" style="-fx-font-size: 10; -fx-font-weight: bold; -fx-text-fill: #718096;" />
+                    </HBox>
+                    <Label fx:id="lblStatMes" text="0"
+                           style="-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: #48BB78;" />
+                    <Label text="événements inscrits" style="-fx-font-size: 12; -fx-text-fill: #A0AEC0;" />
+                </VBox>
+                <!-- Disponibles -->
+                <VBox HBox.hgrow="ALWAYS" spacing="6"
+                      style="-fx-background-color: white; -fx-background-radius: 14;
+                             -fx-padding: 18 22; -fx-effect: dropshadow(three-pass-box,rgba(0,0,0,0.05),10,0,0,4);">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="🟢" style="-fx-font-size: 15;" />
+                        <Label text="PLACES DISPO" style="-fx-font-size: 10; -fx-font-weight: bold; -fx-text-fill: #718096;" />
+                    </HBox>
+                    <Label fx:id="lblStatDispo" text="0"
+                           style="-fx-font-size: 30; -fx-font-weight: bold; -fx-text-fill: #ED8936;" />
+                    <Label text="événements ouverts" style="-fx-font-size: 12; -fx-text-fill: #A0AEC0;" />
+                </VBox>
+            </HBox>
+
+            <!-- ══════════════ BARRE FILTRES + TABS ══════════════ -->
+            <VBox spacing="14"
+                  style="-fx-background-color: white; -fx-background-radius: 14;
+                         -fx-padding: 20 24; -fx-effect: dropshadow(three-pass-box,rgba(0,0,0,0.05),10,0,0,4);">
+
+                <!-- Ligne 1 : recherche + filtre type + filtre statut -->
+                <HBox spacing="12" alignment="CENTER_LEFT">
+                    <TextField fx:id="tfRecherche"
+                               promptText="🔍  Rechercher un événement…"
+                               onKeyReleased="#handleRecherche"
+                               HBox.hgrow="ALWAYS"
+                               style="-fx-padding: 10 14; -fx-background-radius: 9;
+                                      -fx-border-color: #E2E8F0; -fx-border-radius: 9;
+                                      -fx-font-size: 13;" />
+
+                    <ComboBox fx:id="cbType"
+                              promptText="Type"
+                              onAction="#handleFiltre"
+                              prefWidth="160"
+                              style="-fx-background-radius: 9; -fx-border-color: #E2E8F0;
+                                     -fx-border-radius: 9; -fx-font-size: 13;" />
+
+                    <ComboBox fx:id="cbStatut"
+                              promptText="Statut"
+                              onAction="#handleFiltre"
+                              prefWidth="140"
+                              style="-fx-background-radius: 9; -fx-border-color: #E2E8F0;
+                                     -fx-border-radius: 9; -fx-font-size: 13;" />
+
+                    <Button text="↺  Réinitialiser"
+                            onAction="#handleReset"
+                            style="-fx-background-color: #F7FAFC; -fx-text-fill: #4A5568;
+                                   -fx-background-radius: 9; -fx-border-color: #E2E8F0;
+                                   -fx-border-radius: 9; -fx-padding: 9 18; -fx-cursor: hand;
+                                   -fx-font-size: 13;" />
+                </HBox>
+
+                <!-- Ligne 2 : onglets vue -->
+                <HBox spacing="0">
+                    <Button fx:id="btnTabTous" text="📋  Tous les événements"
+                            onAction="#showTousLesEvenements"
+                            style="-fx-background-color: #4A6CF7; -fx-text-fill: white;
+                                   -fx-font-weight: bold; -fx-font-size: 13;
+                                   -fx-background-radius: 9 0 0 9; -fx-padding: 9 20;
+                                   -fx-cursor: hand;" />
+                    <Button fx:id="btnTabMes" text="✅  Mes participations"
+                            onAction="#showMesParticipations"
+                            style="-fx-background-color: #EBF8FF; -fx-text-fill: #2B6CB0;
+                                   -fx-font-size: 13;
+                                   -fx-background-radius: 0 9 9 0; -fx-padding: 9 20;
+                                   -fx-cursor: hand;" />
+                </HBox>
+
+            </VBox>
+
+            <!-- ══════════════ LABEL TOTAL ══════════════ -->
+            <Label fx:id="lblTotal" text="Chargement…"
+                   style="-fx-font-size: 13; -fx-text-fill: #718096; -fx-font-style: italic;" />
+
+            <!-- ══════════════ GRILLE DES CARTES ══════════════ -->
+            <FlowPane fx:id="cardsPane"
+                      hgap="22" vgap="22"
+                      prefWrapLength="900"
+                      style="-fx-background-color: transparent;" />
+
+        </VBox>
+    </ScrollPane>
+
+</AnchorPane>

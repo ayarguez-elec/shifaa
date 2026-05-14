@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1100.0" style="-fx-background-color: #F7FAFC;"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controler.PatientDashboardController">
+
+    <ScrollPane fitToWidth="true" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                style="-fx-background-color: transparent; -fx-background: transparent;">
+        <VBox spacing="30" style="-fx-padding: 40;">
+
+            <!-- ══════════════ HERO BANNER ══════════════ -->
+            <HBox style="-fx-background-color: linear-gradient(to right, #4A6CF7, #3182CE);
+                         -fx-background-radius: 20; -fx-padding: 35 45;
+                         -fx-effect: dropshadow(gaussian, rgba(74,108,247,0.25), 20, 0, 0, 10);"
+                  alignment="CENTER_LEFT" spacing="20">
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label fx:id="lblDate" text="Mardi, 12 mai 2026"
+                           style="-fx-font-size: 13; -fx-text-fill: rgba(255,255,255,0.8);
+                                  -fx-background-color: rgba(255,255,255,0.15);
+                                  -fx-background-radius: 20; -fx-padding: 5 15;" />
+                    <Label fx:id="lblWelcome" text="Bonjour, mariem !"
+                           style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: white;" />
+                    <Label text="Heureux de vous revoir. Voici un aperçu de votre santé aujourd'hui."
+                           style="-fx-font-size: 14; -fx-text-fill: rgba(255,255,255,0.9);" />
+                </VBox>
+                <StackPane prefWidth="120" prefHeight="120">
+                    <Circle radius="55" style="-fx-fill: rgba(255,255,255,0.1); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 0);" />
+                    <Label text="🛡️" style="-fx-font-size: 60; -fx-opacity: 0.3;" />
+                </StackPane>
+            </HBox>
+
+            <!-- ══════════════ STATS CARDS ══════════════ -->
+            <GridPane hgap="20" vgap="20">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25"/>
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25"/>
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25"/>
+                    <ColumnConstraints hgrow="SOMETIMES" percentWidth="25"/>
+                </columnConstraints>
+                
+                <!-- Card: Prochain RDV -->
+                <VBox styleClass="stat-card" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);" GridPane.columnIndex="0">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="🗓️" style="-fx-font-size: 16;" />
+                        <Label text="PROCHAIN RDV" style="-fx-font-size: 11; -fx-font-weight: bold; -fx-text-fill: #718096;" />
+                    </HBox>
+                    <Label fx:id="lblNextAppointment" text="Aucun RDV" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748; -fx-padding: 10 0 5 0;" />
+                    <Label fx:id="lblNextDoctor" text="Prévoyez une consultation" style="-fx-font-size: 13; -fx-text-fill: #A0AEC0;" />
+                </VBox>
+
+                <!-- Card: Traitements Actifs -->
+                <VBox styleClass="stat-card" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);" GridPane.columnIndex="1">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="💊" style="-fx-font-size: 16;" />
+                        <Label text="TRAITEMENTS ACTIFS" style="-fx-font-size: 11; -fx-font-weight: bold; -fx-text-fill: #718096;" />
+                    </HBox>
+                    <Label fx:id="lblActivePrescriptions" text="0" style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #48BB78; -fx-padding: 5 0 5 0;" />
+                    <Label text="ordonnances en cours" style="-fx-font-size: 13; -fx-text-fill: #A0AEC0;" />
+                </VBox>
+
+                <!-- Card: Dernière Visite -->
+                <VBox styleClass="stat-card" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);" GridPane.columnIndex="2">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="🩺" style="-fx-font-size: 16;" />
+                        <Label text="DERNIÈRE VISITE" style="-fx-font-size: 11; -fx-font-weight: bold; -fx-text-fill: #718096;" />
+                    </HBox>
+                    <Label fx:id="lblLastVisit" text="N/A" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748; -fx-padding: 10 0 5 0;" />
+                    <Label text="Consultation Générale" style="-fx-font-size: 13; -fx-text-fill: #A0AEC0;" />
+                </VBox>
+
+                <!-- Card: Documents -->
+                <VBox styleClass="stat-card" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);" GridPane.columnIndex="3">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="📁" style="-fx-font-size: 16;" />
+                        <Label text="DOCUMENTS" style="-fx-font-size: 11; -fx-font-weight: bold; -fx-text-fill: #718096;" />
+                    </HBox>
+                    <Label fx:id="lblTotalDocuments" text="0" style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #4A6CF7; -fx-padding: 5 0 5 0;" />
+                    <Label text="fichiers dans votre dossier" style="-fx-font-size: 13; -fx-text-fill: #A0AEC0;" />
+                </VBox>
+            </GridPane>
+
+            <HBox spacing="30">
+                <!-- Actions Rapides -->
+                <VBox spacing="20" prefWidth="400" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                    <Label text="⚡ Actions Rapides" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748;" />
+                    <VBox spacing="15">
+                        <Button onAction="#prendreRDV" maxWidth="Infinity" style="-fx-background-color: #EBF8FF; -fx-text-fill: #2B6CB0; -fx-font-weight: bold; -fx-alignment: CENTER_LEFT; -fx-padding: 15; -fx-background-radius: 10;" text="🗓️ Prendre un Rendez-vous" />
+                        <Button onAction="#consulterDossier" maxWidth="Infinity" style="-fx-background-color: #F0FFF4; -fx-text-fill: #276749; -fx-font-weight: bold; -fx-alignment: CENTER_LEFT; -fx-padding: 15; -fx-background-radius: 10;" text="📁 Consulter mon Dossier Médical" />
+                        <Button onAction="#voirOrdonnances" maxWidth="Infinity" style="-fx-background-color: #FFF5F5; -fx-text-fill: #C53030; -fx-font-weight: bold; -fx-alignment: CENTER_LEFT; -fx-padding: 15; -fx-background-radius: 10;" text="💊 Voir mes Ordonnances" />
+                        <Button onAction="#goToHealthStats" maxWidth="Infinity" style="-fx-background-color: #FFFFF0; -fx-text-fill: #B7791F; -fx-font-weight: bold; -fx-alignment: CENTER_LEFT; -fx-padding: 15; -fx-background-radius: 10;" text="📊 Ma Santé (Statistiques)" />
+                    </VBox>
+                </VBox>
+
+                <!-- Rappels & Notifications -->
+                <VBox spacing="20" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                    <Label text="🔔 Rappels &amp; Notifications" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748;" />
+                    
+                    <VBox fx:id="vboxRappels" spacing="12">
+                        <!-- Les rappels de traitement seront injectés ici -->
+                    </VBox>
+
+                    <VBox spacing="15" style="-fx-background-color: #EBF8FF; -fx-background-radius: 10; -fx-padding: 20; -fx-border-color: #BEE3F8; -fx-border-radius: 10;">
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Label text="💡" style="-fx-font-size: 24;" />
+                            <VBox spacing="5">
+                                <Label text="Conseil du Jour" style="-fx-font-weight: bold; -fx-text-fill: #2C5282;" />
+                                <Label fx:id="lblHealthTip" text="..." wrapText="true" style="-fx-text-fill: #2B6CB0; -fx-font-size: 13;" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </HBox>
+
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

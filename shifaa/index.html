@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHIFAA - Gestion Santé</title>
+  <link rel="stylesheet" href="src/styles/global.css" />
+  <link rel="stylesheet" href="src/styles/sidebar.css" />
+  <link rel="stylesheet" href="src/styles/events.css" />
+  <link rel="stylesheet" href="src/styles/participants.css" />
+  <link rel="stylesheet" href="src/styles/modal.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo-area">
+        <!-- LOGO SVG SHIFAA -->
+        <div class="logo-wrapper">
+          <svg class="logo-icon" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#e05a5a"/>
+                <stop offset="100%" style="stop-color:#c0392b"/>
+              </linearGradient>
+            </defs>
+            <!-- Heart shape -->
+            <path d="M25 42 C25 42 6 28 6 17 C6 11 11 7 17 7 C20.5 7 23.5 8.8 25 11.5 C26.5 8.8 29.5 7 33 7 C39 7 44 11 44 17 C44 28 25 42 25 42Z"
+                  fill="url(#heartGrad)" stroke="none"/>
+            <!-- Cross symbol on heart -->
+            <rect x="22" y="14" width="6" height="16" rx="2" fill="white" opacity="0.9"/>
+            <rect x="16" y="20" width="18" height="6" rx="2" fill="white" opacity="0.9"/>
+            <!-- Small sparkles -->
+            <circle cx="38" cy="10" r="2" fill="#e05a5a" opacity="0.6"/>
+            <circle cx="42" cy="15" r="1.5" fill="#e05a5a" opacity="0.4"/>
+            <circle cx="36" cy="7" r="1" fill="#e05a5a" opacity="0.5"/>
+          </svg>
+          <div class="logo-text">
+            <span class="logo-title">SHIFAA</span>
+            <span class="logo-subtitle">Gestion Santé</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin profile -->
+      <div class="sidebar-profile">
+        <div class="profile-avatar">SG</div>
+        <div class="profile-info">
+          <span class="profile-name">Saif Gharbi</span>
+          <span class="profile-role">Administrateur</span>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">NAVIGATION</div>
+
+        <a class="nav-item" href="#" data-page="users">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          <span>Utilisateurs</span>
+        </a>
+
+        <a class="nav-item active" href="#" data-page="evenements">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+          <span>Événements</span>
+        </a>
+
+        <a class="nav-item" href="#" data-page="participants">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>Participants</span>
+        </a>
+
+        <a class="nav-item" href="#" data-page="dossiers">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+          <span>Dossiers Médicaux</span>
+        </a>
+
+        <a class="nav-item" href="#" data-page="reclamations">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/></svg>
+          <span>Réclamations</span>
+        </a>
+
+        <div class="nav-divider"></div>
+
+        <a class="nav-item nav-logout" href="#">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+          <span>Déconnexion</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <!-- PAGE: EVENEMENTS -->
+      <div class="page active" id="page-evenements">
+        <div id="evenements-root"></div>
+      </div>
+
+      <!-- PAGE: PARTICIPANTS -->
+      <div class="page" id="page-participants">
+        <div id="participants-root"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODALS CONTAINER -->
+  <div id="modals-container"></div>
+
+  <!-- TOAST -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="src/data/mockData.js"></script>
+  <script src="src/components/Toast.js"></script>
+  <script src="src/components/Modal.js"></script>
+  <script src="src/components/EventCard.js"></script>
+  <script src="src/components/ParticipantCard.js"></script>
+  <script src="src/pages/EventsPage.js"></script>
+  <script src="src/pages/ParticipantsPage.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>

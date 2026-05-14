@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="800.0" prefWidth="1300.0" styleClass="root" stylesheets="@style.css" 
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="Controler.StatistiquesController">
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <center>
+    <VBox spacing="30.0" style="-fx-background-color: #F7FAFC; -fx-padding: 40;" BorderPane.alignment="CENTER">
+        <children>
+            <Label style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Mes Statistiques" />
+            
+            <!-- Stats Cards -->
+            <HBox spacing="25.0">
+                <children>
+                    <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5); -fx-padding: 20;">
+                        <children>
+                            <Label style="-fx-text-fill: #718096; -fx-font-size: 14;" text="Nombre total des dossiers" />
+                            <Label fx:id="lblTotalDossiers" style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="0" />
+                        </children>
+                    </VBox>
+                    
+                    <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5); -fx-padding: 20;">
+                        <children>
+                            <Label style="-fx-text-fill: #718096; -fx-font-size: 14;" text="Nombre de patients" />
+                            <Label fx:id="lblTotalPatients" style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #4A5568;" text="0" />
+                        </children>
+                    </VBox>
+                    
+                    <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5); -fx-padding: 20;">
+                        <children>
+                            <Label style="-fx-text-fill: #718096; -fx-font-size: 14;" text="Nouveaux ce mois" />
+                            <Label fx:id="lblNouveauxCeMois" style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #009929;" text="0" />
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+
+            <!-- Chart Area -->
+            <VBox spacing="15.0" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 20; -fx-padding: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                <children>
+                    <Label style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Activité médicale par période" />
+                    <LineChart fx:id="lineChartActivite" animated="true" createSymbols="true" legendVisible="false" prefHeight="300.0" maxHeight="300.0">
+                        <xAxis>
+                            <CategoryAxis fx:id="xAxis" label="Mois" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="yAxis" label="Nouveaux dossiers" />
+                        </yAxis>
+                    </LineChart>
+                    <Label style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Répartition par état des patients" />
+                    <PieChart fx:id="pieChartStatus" labelsVisible="true" legendVisible="true" prefHeight="260.0" maxHeight="260.0" />
+                </children>
+            </VBox>
+        </children>
+    </VBox>
+    </center>
+</BorderPane>

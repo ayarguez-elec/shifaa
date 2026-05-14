@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  STEP 5a — Create this NEW file at: src/main/resources/adminmodifierreponse.fxml
+
+  This replaces the old AdminUpdateReponseController/FXML.
+  Like adminajouterreponse.fxml, it opens as a MODAL DIALOG.
+
+  The controller AdminModifierReponseController injects:
+  - Response ID (shown in subtitle)
+  - User name + avatar
+  - Reclamation subject
+  - Existing response content (pre-filled in textarea)
+-->
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controler.AdminModifierReponseController"
+      prefWidth="560"
+      prefHeight="500"
+      spacing="0"
+      stylesheets="@style.css"
+      styleClass="app-root"
+      style="-fx-background-color:#f4f8fc; -fx-padding:32;">
+
+    <!-- Title row -->
+    <HBox alignment="CENTER_LEFT" spacing="14" style="-fx-padding:0 0 6 0;">
+        <Label text="Modifier la réponse" styleClass="page-title"/>
+    </HBox>
+
+    <!-- Subtitle: Response ID + date -->
+    <Label fx:id="lblResponseMeta"
+           text="Response #? · Répondu le ?"
+           styleClass="page-subtitle"
+           style="-fx-padding:0 0 20 0;"/>
+
+    <!-- Main form card -->
+    <VBox styleClass="form-card" spacing="18">
+
+        <Label text="Informations de la réponse" styleClass="form-section-title"/>
+
+        <!-- Reclamation + user info block -->
+        <VBox styleClass="rec-info-block" spacing="6">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label fx:id="lblAvatar"
+                       text="?"
+                       styleClass="dialog-avatar"/>
+                <VBox spacing="2">
+                    <Label fx:id="lblUserName"
+                           text="Utilisateur"
+                           styleClass="dialog-user-name"/>
+                    <Label fx:id="lblRecInfo"
+                           text="REC #? · date · Priorité · Statut"
+                           styleClass="dialog-rec-meta"/>
+                </VBox>
+            </HBox>
+            <Label fx:id="lblRecSubject"
+                   text="Sujet..."
+                   styleClass="dialog-rec-subject"
+                   wrapText="true"/>
+        </VBox>
+
+        <!-- Response textarea (pre-filled with existing content) -->
+        <VBox spacing="6">
+            <Label text="Modifier le contenu de la réponse" styleClass="label-title"/>
+            <TextArea fx:id="taContent"
+                      promptText="Modifier la réponse..."
+                      prefRowCount="5"
+                      wrapText="true"
+                      styleClass="text-area"/>
+        </VBox>
+
+        <!-- Action buttons -->
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Button text="Enregistrer les modifications"
+                    onAction="#enregistrerModification"
+                    styleClass="btn-red"/>
+            <Button text="Annuler"
+                    onAction="#annuler"
+                    styleClass="btn-dark"/>
+        </HBox>
+
+        <!-- Feedback message -->
+        <Label fx:id="lblMessage"
+               text=""
+               styleClass="message-label"
+               wrapText="true"/>
+
+    </VBox>
+</VBox>

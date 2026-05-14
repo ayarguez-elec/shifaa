@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="800.0" prefWidth="1200.0" styleClass="root" stylesheets="@style.css" 
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="Controler.MonDossierMedicalController">
+
+    <!-- ================= SIDEBAR ================= -->
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <center>
+        <VBox spacing="30.0" style="-fx-padding: 30;">
+            <children>
+                <!-- Header with Back Button -->
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <Button onAction="#retourDashboard" styleClass="btn-secondary" text="← Retour" />
+                        <Label style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Mon Dossier Médical" />
+                    </children>
+                </HBox>
+
+                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #F7FAFC;" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="25.0" style="-fx-padding: 10;">
+                            <children>
+                                <!-- Section: Info Générale -->
+                                <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                                    <children>
+                                        <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Informations Générales" />
+                                        <Separator />
+                                        <GridPane hgap="20.0" vgap="15.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints prefWidth="200" />
+                                                <ColumnConstraints hgrow="ALWAYS" />
+                                            </columnConstraints>
+                                            <children>
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #718096;" text="Médecin Traitant :" />
+                                                <Label fx:id="lblDoctorName" style="-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: #009929;" GridPane.columnIndex="1" text="Chargement..." />
+                                                
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #718096;" text="Spécialité :" GridPane.rowIndex="1" />
+                                                <Label fx:id="lblDoctorSpeciality" style="-fx-font-size: 15; -fx-text-fill: #4A5568;" GridPane.rowIndex="1" GridPane.columnIndex="1" text="..." />
+
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #718096;" text="Statut actuel :" GridPane.rowIndex="2" />
+                                                <Label fx:id="lblStatus" style="-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: #2D3748;" GridPane.rowIndex="2" GridPane.columnIndex="1" text="N/A" />
+                                                
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #718096;" text="Dernière visite :" GridPane.rowIndex="3" />
+                                                <Label fx:id="lblLastVisit" style="-fx-font-size: 15; -fx-text-fill: #2D3748;" GridPane.rowIndex="3" GridPane.columnIndex="1" text="N/A" />
+
+                                                <Label style="-fx-font-weight: bold; -fx-text-fill: #718096;" text="Date de création :" GridPane.rowIndex="4" />
+                                                <Label fx:id="lblCreationDate" style="-fx-font-size: 15; -fx-text-fill: #2D3748;" GridPane.rowIndex="4" GridPane.columnIndex="1" text="N/A" />
+                                            </children>
+                                            <rowConstraints>
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                                <RowConstraints />
+                                            </rowConstraints>
+                                        </GridPane>
+                                    </children>
+                                </VBox>
+
+                                <!-- Section: Histoire & Antécédents -->
+                                <HBox spacing="25.0">
+                                    <children>
+                                        <VBox spacing="15.0" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                                            <children>
+                                                <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Histoire Générale" />
+                                                <Separator />
+                                                <Label fx:id="lblHistory" wrapText="true" style="-fx-font-size: 14; -fx-text-fill: #4A5568;" text="..." />
+                                            </children>
+                                        </VBox>
+                                        <VBox spacing="15.0" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                                            <children>
+                                                <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Antécédents" />
+                                                <Separator />
+                                                <Label fx:id="lblAntecedents" wrapText="true" style="-fx-font-size: 14; -fx-text-fill: #4A5568;" text="..." />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <!-- Section: Allergies & Suivi -->
+                                <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 5);">
+                                    <children>
+                                        <Label style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #FF5C5C;" text="Allergies et Suivi Médical" />
+                                        <Separator />
+                                        <VBox spacing="10">
+                                            <children>
+                                                <Label text="ALLERGIES :" style="-fx-font-weight: bold; -fx-text-fill: #718096; -fx-font-size: 11;" />
+                                                <Label fx:id="lblAllergies" wrapText="true" style="-fx-font-size: 14; -fx-text-fill: #E53E3E; -fx-font-weight: bold;" text="Aucune allergie signalée" />
+                                                
+                                                <Region prefHeight="10" />
+                                                
+                                                <Label text="SUIVI MÉDICAL :" style="-fx-font-weight: bold; -fx-text-fill: #718096; -fx-font-size: 11;" />
+                                                <Label fx:id="lblFollowup" wrapText="true" style="-fx-font-size: 14; -fx-text-fill: #4A5568;" text="..." />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
