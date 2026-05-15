@@ -357,7 +357,7 @@ shifaa/
 
 ## 🤝 Contributeurs
 
-> Projet réalisé dans le cadre d'un projet académique / professionnel.
+> Projet réalisé dans le cadre d'un projet académique.
  *prospera* 
 
 ---
